@@ -1,27 +1,39 @@
 import React from "react";
 import { Card, ListGroup, ListGroupItem } from "react-bootstrap";
+import './BourbonCard.css'
 
-const BourbonCard = () => {
+const BourbonCard = ({ whisky }) => {
+  const {
+    _id,
+    Name,
+    Bottler,
+    ABV,
+    Age,
+    Rating,
+    ImageURL
+  } = whisky
+
+
   return (
-    <Card className="mx-auto mb-5" style={{ width: "18rem"}}>
-      <a href="#item">
-        <Card.Img variant="top" src="https://via.placeholder.com/500x300" />
+    <Card className="mx-auto mb-5" style={{ width: "24rem" }}>
+      <a href={_id}>
+        <Card.Img variant="top" src={ImageURL} alt={Name} className="card-image"/>
       </a>
       <Card.Body>
-        <Card.Title>Title</Card.Title>
+        <Card.Title>{Name}</Card.Title>
       </Card.Body>
       <ListGroup variant="flush">
         <ListGroupItem>
-          <strong>Bottler:</strong>
+          <strong>Bottler:</strong> {Bottler}
         </ListGroupItem>
         <ListGroupItem>
-          <strong>Age:</strong>
+          <strong>Age:</strong> {Age}
         </ListGroupItem>
         <ListGroupItem>
-          <strong>APV:</strong>
+          <strong>APV:</strong> {ABV}
         </ListGroupItem>
         <ListGroupItem>
-          <strong>Rating:</strong>
+          <strong>Rating:</strong> {Rating}
         </ListGroupItem>
       </ListGroup>
     </Card>

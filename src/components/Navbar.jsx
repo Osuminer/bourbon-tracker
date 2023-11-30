@@ -32,7 +32,7 @@ const MyNavbar = () => {
           </NavDropdown>
         </Nav>
 
-        <Form inline>
+        <Form>
           <InputGroup>
             <InputGroup.Text>
               <i className="bi bi-search"></i>
