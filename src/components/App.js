@@ -1,6 +1,7 @@
 import React from "react";
 import MyNavbar from "./Navbar";
 import BourbonCard from "./BourbonCard";
+import './App.scss'
 
 const App = () => {
   return (
