@@ -7,7 +7,7 @@ import {
 	//   Button,
 	//   InputGroup,
 } from "react-bootstrap";
-import "./Navbar.css";
+// import "./Navbar.css";
 import { useParams } from "react-router-dom";
 
 const BourbonView = () => {
