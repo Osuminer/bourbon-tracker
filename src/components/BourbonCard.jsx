@@ -1,5 +1,6 @@
 import React from "react";
 import { Card, ListGroup, ListGroupItem } from "react-bootstrap";
+import {Link} from 'react-router-dom'
 import './BourbonCard.css'
 
 const BourbonCard = ({ whisky }) => {
@@ -16,9 +17,9 @@ const BourbonCard = ({ whisky }) => {
 
   return (
     <Card className="mx-auto mb-5" style={{ width: "24rem" }} bg="body">
-      <a href={_id}>
+      <Link to={_id}>
         <Card.Img variant="top" src={ImageURL} alt={Name} className="card-image"/>
-      </a>
+      </Link>
       <Card.Body>
         <Card.Title>{Name}</Card.Title>
       </Card.Body>

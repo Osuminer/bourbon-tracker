@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import MyNavbar from "./Navbar";
-import BourbonCard from "./BourbonCard";
+import MyNavbar from "../components/Navbar";
+import BourbonCard from "../components/BourbonCard";
 import { Row, Col } from "react-bootstrap";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import './App.scss'
 
 const App = () => {
@@ -39,18 +40,20 @@ const App = () => {
   };
 
   return (
-    <div className="body">
-      <MyNavbar onSearch={onSearch} />
-      <div className="container mt-5">
-        <Row>
-          {whiskies.map((whisky) => (
-            <Col key={whisky._id}>
-              <BourbonCard whisky={whisky} />
-            </Col>
-          ))}
-        </Row>
+    <Router>
+      <div className="body">
+        <MyNavbar onSearch={onSearch} />
+        <div className="container mt-5">
+          <Row>
+            {whiskies.map((whisky) => (
+              <Col key={whisky._id}>
+                <BourbonCard whisky={whisky} />
+              </Col>
+            ))}
+          </Row>
+        </div>
       </div>
-    </div>
+    </Router>
   );
 };
 
