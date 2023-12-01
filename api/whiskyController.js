@@ -1,25 +1,36 @@
-const Whisky = require('./whiskySchema'); // Adjust the path as needed
+const Whisky = require("./whiskySchema"); // Adjust the path as needed
 
 // Function to get all bourbons
 const getAllWhiskies = async (limit = 10) => {
   try {
     return await Whisky.find().limit(limit);
   } catch (error) {
-    console.error('Error fetching whiskies:', error);
+    console.error("Error fetching whiskies:", error);
     throw error;
   }
 };
 
+// Function to search the database from a query
 const searchWhiskies = async (query, limit = 10) => {
-  const regex = new RegExp(query, 'i');
+  const regex = new RegExp(query, "i");
 
   try {
     return await Whisky.find({ Name: regex }).limit(limit);
   } catch (error) {
-    console.error('Error fetching whiskies:', error);
+    console.error("Error fetching whiskies:", error);
     throw error;
   }
-}
+};
+
+// Function to get whisky by _id
+const getWhiskyById = async (id) => {
+  try {
+    return await Whisky.findOne({ _id: id });
+  } catch (error) {
+    console.error("Error fetching whiskies:", error);
+    throw error;
+  }
+};
 
 // Function to create a new bourbon
 const createWhisky = async (data) => {
@@ -27,7 +38,7 @@ const createWhisky = async (data) => {
     const whisky = new Whisky(data);
     return await whisky.save();
   } catch (error) {
-    console.error('Error creating whisky:', error);
+    console.error("Error creating whisky:", error);
     throw error;
   }
 };
@@ -35,5 +46,6 @@ const createWhisky = async (data) => {
 module.exports = {
   getAllWhiskies,
   createWhisky,
-  searchWhiskies
+  searchWhiskies,
+  getWhiskyById
 };

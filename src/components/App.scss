@@ -1,7 +1,17 @@
-$primary: #ac58f5;
-$secondary: #0F172A;
-$tertiary: #222c42;
-$body: #f8fbfe;
+// Your custom color palette
+$brand-color: #AC58F5;
+$darkest-color: #0F172A;
+$dark-color: #222C42;
+$mid-color: #64748B;
+$light-color: #B1BED1;
+$lightest-color: #F8FBFE;
+
+$primary: $brand-color;
+$secondary: $darkest-color;
+$tertiary: $mid-color;
+$body: $lightest-color;
+$light: $light-color;
+$dark: $dark-color;
 
 .body {
 	background-color: $body

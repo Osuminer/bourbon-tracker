@@ -6,7 +6,7 @@ const BourbonCard = ({ whisky }) => {
   const {
     _id,
     Name,
-    Bottler,
+    // Bottler,
     ABV,
     Age,
     Rating,
@@ -15,7 +15,7 @@ const BourbonCard = ({ whisky }) => {
 
 
   return (
-    <Card className="mx-auto mb-5" style={{ width: "24rem" }}>
+    <Card className="mx-auto mb-5" style={{ width: "24rem" }} bg="body">
       <a href={_id}>
         <Card.Img variant="top" src={ImageURL} alt={Name} className="card-image"/>
       </a>
@@ -23,9 +23,9 @@ const BourbonCard = ({ whisky }) => {
         <Card.Title>{Name}</Card.Title>
       </Card.Body>
       <ListGroup variant="flush">
-        <ListGroupItem>
+        {/* <ListGroupItem>
           <strong>Bottler:</strong> {Bottler}
-        </ListGroupItem>
+        </ListGroupItem> */}
         <ListGroupItem>
           <strong>Age:</strong> {Age}
         </ListGroupItem>
