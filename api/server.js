@@ -4,6 +4,10 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const whiskyController = require("./whiskyController");
 
+const dbUser = process.env.DB_USER;
+const dbPass = process.env.DB_PASS;
+const dbUrl = process.env.DB_URL;
+
 const app = express();
 const port = process.env.PORT || 5000;
 
@@ -14,9 +18,7 @@ app.use(bodyParser.json());
 
 // MongoDB connection
 mongoose
-  .connect(
-    "mongodb+srv://cstas:c2Gm6lqThbUx11R0@cluster0.voywkmb.mongodb.net/Bourbons?retryWrites=true&w=majority"
-  )
+  .connect(`mongodb+srv://${dbUser}:${dbPass}@${dbUrl}`)
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.log(err));
 
