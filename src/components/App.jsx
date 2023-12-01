@@ -15,6 +15,8 @@ const App = () => {
         const response = await fetch("http://localhost:5000/api/whiskies");
         const data = await response.json();
         setWhiskies(data);
+
+        // onSearch("angel")
       } catch (error) {
         console.error("Error fetching whiskies:", error);
       }
@@ -25,11 +27,20 @@ const App = () => {
   }, []);
 
 
-
+  const onSearch = async (searchTerm) => {
+    try {
+      searchTerm = encodeURIComponent(searchTerm);
+      const response = await fetch(`http://localhost:5000/api/whiskies?q=${searchTerm}`);
+      const data = await response.json();
+      setWhiskies(data);
+    } catch (error) {
+      console.error('Error fetching whiskies:', error);
+    }
+  };
 
   return (
     <div className="body">
-      <MyNavbar />
+      <MyNavbar onSearch={onSearch} />
       <div className="container mt-5">
         <Row>
           {whiskies.map((whisky) => (

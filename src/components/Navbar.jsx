@@ -1,15 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Navbar,
   Nav,
   NavDropdown,
   Form,
-  Button,
+  // Button,
   InputGroup,
 } from "react-bootstrap";
 import "./Navbar.css";
 
-const MyNavbar = () => {
+const MyNavbar = ({ onSearch }) => {
+
+  const [searchTerm, setSearchTerm] = useState('')
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      onSearch(searchTerm);
+    }
+  };
+
   return (
     <Navbar
       bg="secondary"
@@ -41,8 +51,11 @@ const MyNavbar = () => {
               type="text"
               placeholder="Search"
               className=" mr-sm-2"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              onKeyDown={handleKeyDown}
             />
-            <Button type="submit">Search</Button>
+            {/* <Button type="submit">Search</Button> */}
           </InputGroup>
         </Form>
       </Navbar.Collapse>

@@ -10,6 +10,17 @@ const getAllWhiskies = async (limit = 10) => {
   }
 };
 
+const searchWhiskies = async (query, limit = 10) => {
+  const regex = new RegExp(query, 'i');
+
+  try {
+    return await Whisky.find({ Name: regex }).limit(limit);
+  } catch (error) {
+    console.error('Error fetching whiskies:', error);
+    throw error;
+  }
+}
+
 // Function to create a new bourbon
 const createWhisky = async (data) => {
   try {
@@ -24,4 +35,5 @@ const createWhisky = async (data) => {
 module.exports = {
   getAllWhiskies,
   createWhisky,
+  searchWhiskies
 };

@@ -2,12 +2,14 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors')
-const whiskyController = require('./whiskyController'); // Adjust the path as needed
+const whiskyController = require('./whiskyController');
 
 const app = express();
 const port = process.env.PORT || 5000;
 
-app.use(cors())
+app.use(cors());
+
+// app.options('/api/whiskies', cors());
 
 
 // Body parser middleware
@@ -18,15 +20,26 @@ mongoose.connect('mongodb+srv://cstas:c2Gm6lqThbUx11R0@cluster0.voywkmb.mongodb.
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.log(err));
 
-// Route to get all whiskies
+// Route to get all whiskies or search whiskies
 app.get('/api/whiskies', async (req, res) => {
   try {
-    const whiskies = await whiskyController.getAllWhiskies(20);
-    res.json(whiskies);
+    const searchQuery = req.query.q;
+
+    if (searchQuery) {
+      // If 'q' query parameter is present, perform a search
+      const whiskies = await whiskyController.searchWhiskies(searchQuery, 20);
+      // console.log(whiskies)
+      res.json(whiskies);
+    } else {
+      // If 'q' query parameter is not present, get all whiskies
+      const whiskies = await whiskyController.getAllWhiskies(20);
+      res.json(whiskies);
+    }
   } catch (err) {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
 
 // Rroute to create a new whisky
 app.post('/api/whiskies', async (req, res) => {
