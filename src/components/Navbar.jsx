@@ -1,22 +1,22 @@
 import React, { useState } from "react";
+import {useNavigate } from 'react-router-dom';
 import {
   Navbar,
   Nav,
   NavDropdown,
   Form,
-  // Button,
   InputGroup,
 } from "react-bootstrap";
 import "./Navbar.css";
 
-const MyNavbar = ({ onSearch }) => {
-
+const MyNavbar = () => {
   const [searchTerm, setSearchTerm] = useState('')
+  const navigate = useNavigate()
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
       e.preventDefault();
-      onSearch(searchTerm);
+      navigate(`/?q=${encodeURIComponent(searchTerm)}`);
     }
   };
 
