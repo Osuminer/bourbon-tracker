@@ -12,10 +12,15 @@ const getAllWhiskies = async (limit = 10) => {
 
 // Function to search the database from a query
 const searchWhiskies = async (query, limit = 10) => {
-  const regex = new RegExp(query, "i");
+  // const regex = new RegExp(query, "i");
 
   try {
-    return await Whisky.find({ Name: regex }).limit(limit);
+    return await Whisky.find({
+      $or: [
+    { Name: { $regex: query, $options: 'i' } }, // Case-insensitive search for Name
+    { Tags: { $regex: query, $options: 'i' } }  // Case-insensitive search for Tags
+  ]
+    }).limit(limit);
   } catch (error) {
     console.error("Error fetching whiskies:", error);
     throw error;

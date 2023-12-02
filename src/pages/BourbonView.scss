@@ -1,0 +1,33 @@
+$brand-color: #AC58F5;
+$darkest-color: #0F172A;
+$dark-color: #222C42;
+$mid-color: #64748B;
+$light-color: #B1BED1;
+$lightest-color: #F8FBFE;
+
+$primary: $brand-color;
+$secondary: $darkest-color;
+$tertiary: $mid-color;
+$body: $lightest-color;
+$light: $light-color;
+$dark: $dark-color;
+
+.main-card {
+	height: auto;
+	object-fit: cover;
+	width: 75vw;
+	max-width: 850px;
+}
+
+.whisky-name {
+	text-align: center;
+	margin-bottom: 2rem;
+}
+
+.tag {
+	margin-right: 6px;
+}
+
+.tasting {
+	margin-top: 70px;
+}

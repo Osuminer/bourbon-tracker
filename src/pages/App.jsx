@@ -45,7 +45,7 @@ const App = () => {
         <div className="container mt-5">
           <Routes>
             <Route path="/" element={<BourbonList whiskies={whiskies} />} />
-            <Route path="/id" element={<BourbonView />} />
+            <Route path="/:id" element={<BourbonView />} />
           </Routes>
         </div>
       </div>

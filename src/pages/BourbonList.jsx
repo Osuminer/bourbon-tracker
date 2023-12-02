@@ -3,6 +3,7 @@ import { Row, Col } from 'react-bootstrap';
 import BourbonCard from '../components/BourbonCard';
 
 const BourbonList = ({ whiskies }) => {
+  console.log(whiskies)
   return (
     <Row>
       {whiskies.map((whisky) => (
