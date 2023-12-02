@@ -7,7 +7,6 @@ const BourbonCard = ({ whisky }) => {
   const {
     _id,
     Name,
-    // Bottler,
     ABV,
     Age,
     Rating,
@@ -24,9 +23,6 @@ const BourbonCard = ({ whisky }) => {
         <Card.Title>{Name}</Card.Title>
       </Card.Body>
       <ListGroup variant="flush">
-        {/* <ListGroupItem>
-          <strong>Bottler:</strong> {Bottler}
-        </ListGroupItem> */}
         <ListGroupItem>
           <strong>Age:</strong> {Age}
         </ListGroupItem>

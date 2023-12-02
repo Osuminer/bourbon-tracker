@@ -3,7 +3,6 @@ import {useNavigate } from 'react-router-dom';
 import {
   Navbar,
   Nav,
-  NavDropdown,
   Form,
   InputGroup,
 } from "react-bootstrap";
@@ -29,17 +28,13 @@ const MyNavbar = () => {
       collapseOnSelect
       expand="sm"
     >
-      <Navbar.Brand href="#home">Bourbon Tracker</Navbar.Brand>
+      <Navbar.Brand className="logo" onClick={() => {navigate('/')}}>Bourbon Tracker</Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="me-auto">
-          <Nav.Link href="/">Home</Nav.Link>
-          <NavDropdown title="More" id="basic-nav-dropdown">
-            <NavDropdown.Item href="#collection">
-              My Collection
-            </NavDropdown.Item>
-            <NavDropdown.Item href="#wishlist">My Wishlist</NavDropdown.Item>
-          </NavDropdown>
+          <Nav.Link onClick={() => {navigate('/')}}>Home</Nav.Link>
+          <Nav.Link onClick={() => {navigate('/')}}>My Wishlist</Nav.Link>
+          <Nav.Link onClick={() => {navigate('/')}}>My Collection</Nav.Link>
         </Nav>
 
         <Form>
@@ -55,7 +50,6 @@ const MyNavbar = () => {
               onChange={(e) => setSearchTerm(e.target.value)}
               onKeyDown={handleKeyDown}
             />
-            {/* <Button type="submit">Search</Button> */}
           </InputGroup>
         </Form>
       </Navbar.Collapse>

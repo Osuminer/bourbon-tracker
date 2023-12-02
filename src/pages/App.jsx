@@ -19,15 +19,12 @@ const App = () => {
         const response = await fetch('http://localhost:5000/api/whiskies');
         const data = await response.json();
         setWhiskies(data);
-
-        // searchQuery = null;
       } catch (error) {
         console.error('Error fetching whiskies:', error);
       }
     };
 
     if (searchQuery) {
-      // console.log(searchQuery)
       onSearch(searchQuery)
     } else {
       fetchWhiskies();
