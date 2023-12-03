@@ -36,7 +36,7 @@ app.get("/api/whiskies", async (req, res) => {
       res.json(whiskies);
     } else {
       // If 'q' query parameter is not present, get all whiskies
-      const whiskies = await whiskyController.getAllWhiskies(20);
+      const whiskies = await whiskyController.getAllWhiskies(30);
       res.json(whiskies);
     }
   } catch (err) {

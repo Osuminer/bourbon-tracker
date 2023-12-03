@@ -12,7 +12,6 @@ const getAllWhiskies = async (limit = 10) => {
 
 // Function to search the database from a query
 const searchWhiskies = async (query, limit = 10) => {
-  // const regex = new RegExp(query, "i");
 
   try {
     return await Whisky.find({
