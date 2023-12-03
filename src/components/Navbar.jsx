@@ -33,8 +33,8 @@ const MyNavbar = () => {
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="me-auto">
           <Nav.Link onClick={() => {navigate('/')}}>Home</Nav.Link>
-          <Nav.Link onClick={() => {navigate('/')}}>My Wishlist</Nav.Link>
-          <Nav.Link onClick={() => {navigate('/')}}>My Collection</Nav.Link>
+          <Nav.Link onClick={() => {navigate('/wishlist')}}>My Wishlist</Nav.Link>
+          <Nav.Link onClick={() => {navigate('/collection')}}>My Collection</Nav.Link>
         </Nav>
 
         <Form>

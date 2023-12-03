@@ -1,9 +1,13 @@
 // App.jsx
 import React, { useState, useEffect } from 'react';
-import MyNavbar from '../components/Navbar';
-import BourbonList from './BourbonList';
 import {Route, Routes, useLocation } from 'react-router-dom';
+
+import MyNavbar from '../components/Navbar';
 import BourbonView from './BourbonView';
+import BourbonList from './BourbonList';
+import MyCollection from './MyCollection';
+import MyWishlist from './MyWishlist';
+
 import './App.scss';
 
 const App = () => {
@@ -33,8 +37,6 @@ const App = () => {
 
   const onSearch = async (searchTerm) => {
     try {
-      // searchTerm = encodeURIComponent(searchTerm);
-      // console.log(searchTerm)
       const response = await fetch(`http://localhost:5000/api/whiskies?q=${searchTerm}`);
       const data = await response.json();
       setWhiskies(data);
@@ -50,6 +52,8 @@ const App = () => {
           <Routes>
             <Route path="/" element={<BourbonList whiskies={whiskies} />} />
             <Route path="/:id" element={<BourbonView />} />
+            <Route path='/wishlist' element={<MyWishlist />} />
+            <Route path='/collection' element={<MyCollection />} />
           </Routes>
         </div>
       </div>
