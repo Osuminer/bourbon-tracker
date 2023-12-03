@@ -29,14 +29,17 @@ app.get("/api/whiskies", async (req, res) => {
   try {
     const searchQuery = req.query.q;
 
+    const page = req.query.p || 0
+    const itemsPerPage = 24
+
+
     if (searchQuery) {
       // If 'q' query parameter is present, perform a search
-      const whiskies = await whiskyController.searchWhiskies(searchQuery, 20);
-      // console.log(whiskies)
+      const whiskies = await whiskyController.searchWhiskies(searchQuery, page, itemsPerPage);
       res.json(whiskies);
     } else {
       // If 'q' query parameter is not present, get all whiskies
-      const whiskies = await whiskyController.getAllWhiskies(30);
+      const whiskies = await whiskyController.getAllWhiskies(page, itemsPerPage);
       res.json(whiskies);
     }
   } catch (err) {

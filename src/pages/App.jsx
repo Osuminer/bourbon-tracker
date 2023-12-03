@@ -15,12 +15,14 @@ const App = () => {
   const [whiskies, setWhiskies] = useState([]);
   const location = useLocation();
   const searchQuery = new URLSearchParams(location.search).get('q');
+  const pageNum = new URLSearchParams(location.search).get('p');
+
 
   useEffect(() => {
     // Function to fetch whiskies from backend
-    const fetchWhiskies = async () => {
+    const fetchWhiskies = async (pageNum) => {
       try {
-        const response = await fetch('http://localhost:5000/api/whiskies');
+        const response = await fetch(`http://localhost:5000/api/whiskies?p=${pageNum}`);
         const data = await response.json();
         setWhiskies(data);
       } catch (error) {
@@ -29,15 +31,15 @@ const App = () => {
     };
 
     if (searchQuery) {
-      onSearch(searchQuery)
+      onSearch(searchQuery, pageNum)
     } else {
-      fetchWhiskies();
+      fetchWhiskies(pageNum);
     }
-  }, [searchQuery]);
+  }, [searchQuery, pageNum]);
 
-  const onSearch = async (searchTerm) => {
+  const onSearch = async (searchTerm, pageNum) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/whiskies?q=${searchTerm}`);
+      const response = await fetch(`http://localhost:5000/api/whiskies?q=${searchTerm}&p=${pageNum}`);
       const data = await response.json();
       setWhiskies(data);
     } catch (error) {
