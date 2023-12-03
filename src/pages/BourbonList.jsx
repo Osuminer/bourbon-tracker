@@ -9,7 +9,8 @@ const BourbonList = ({ whiskies }) => {
   const queryParams = new URLSearchParams(location.search)
 
   const searchParam = queryParams.get('q')
-  const currentPage = queryParams.get('p')
+  let currentPage = queryParams.get('p')
+  currentPage = currentPage ? parseInt(currentPage) : 0;
 
   const handlePageClick = (action) => {
     if (action === 0) {
@@ -30,12 +31,7 @@ const BourbonList = ({ whiskies }) => {
       } else {
         navigate(`/?p=${parseInt(currentPage) + 1}`)
       }
-    } else {
-
     }
-
-
-    
   }
 
   return (
