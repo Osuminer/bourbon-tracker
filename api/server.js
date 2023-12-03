@@ -6,10 +6,6 @@ const whiskyController = require("./whiskyController");
 
 require('dotenv').config();
 
-// const dbUser = 'cstas';
-// const dbPass = 'c2Gm6lqThbUx11R0';
-// const dbUrl = 'cluster0.voywkmb.mongodb.net/Bourbons?retryWrites=true&w=majority';
-
 const dbUser = process.env.DB_USER;
 const dbPass = process.env.DB_PASS;
 const dbUrl = process.env.DB_URL;
