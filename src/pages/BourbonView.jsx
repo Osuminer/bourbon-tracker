@@ -22,7 +22,7 @@ const BourbonView = () => {
 		// Function to fetch whisky by id
 		const fetchWhisky = async () => {
 			try {
-				const response = await fetch(`http://localhost:5000/api/whiskies/${id}`);
+				const response = await fetch(`https://api.cstasnet.com/api/whiskies/${id}`);
 				const data = await response.json();
 				setWhisky(data)
 			} catch (error) {

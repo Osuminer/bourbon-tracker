@@ -22,7 +22,7 @@ const App = () => {
     // Function to fetch whiskies from backend
     const fetchWhiskies = async (pageNum) => {
       try {
-        const response = await fetch(`http://localhost:5000/api/whiskies?p=${pageNum}`);
+        const response = await fetch(`https://api.cstasnet.com/api/whiskies?p=${pageNum}`);
         const data = await response.json();
         setWhiskies(data);
       } catch (error) {
@@ -39,7 +39,7 @@ const App = () => {
 
   const onSearch = async (searchTerm, pageNum) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/whiskies?q=${searchTerm}&p=${pageNum}`);
+      const response = await fetch(`https://api.cstasnet.com/api/whiskies?q=${searchTerm}&p=${pageNum}`);
       const data = await response.json();
       setWhiskies(data);
     } catch (error) {

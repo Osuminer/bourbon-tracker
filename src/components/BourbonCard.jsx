@@ -15,7 +15,7 @@ const BourbonCard = ({ whisky }) => {
 
 
   return (
-    <Card className="mx-auto mb-5" style={{ width: "24rem" }} bg="body">
+    <Card className="mx-auto mb-5" style={{ maxWidth: "24rem", minWidth: '20rem'}} bg="body">
       <Link to={_id}>
         <Card.Img variant="top" src={ImageURL} alt={Name} className="card-image"/>
       </Link>

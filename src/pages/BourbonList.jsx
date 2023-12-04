@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Row, Col, Pagination, Container } from 'react-bootstrap';
+import { Row, Col, Container } from 'react-bootstrap';
 import { useNavigate, useLocation } from 'react-router-dom';
 import BourbonCard from '../components/BourbonCard';
 import PaginationComponent from '../components/PaginationComponent'
@@ -16,6 +16,8 @@ const BourbonList = ({ whiskies }) => {
 
   const [totalPages, setTotalPages] = useState(0)
 
+  const apiURL = 'https://api.cstasnet.com'
+
 
   useEffect(() => {
     // Function to fetch total pages from your API
@@ -24,9 +26,9 @@ const BourbonList = ({ whiskies }) => {
         let url
 
         if (searchParam) {
-          url = `http://localhost:5000/api/whiskies/count?q=${searchParam}`;
+          url = `${apiURL}/api/whiskies/count?q=${searchParam}`;
         } else {
-          url = `http://localhost:5000/api/whiskies/count`;
+          url = `${apiURL}/api/whiskies/count`;
         }
 
         const response = await fetch(url)
