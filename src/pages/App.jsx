@@ -17,12 +17,14 @@ const App = () => {
   const searchQuery = new URLSearchParams(location.search).get('q');
   const pageNum = new URLSearchParams(location.search).get('p');
 
+  const baseURL = "https://api.cstasnet.com"
+
 
   useEffect(() => {
     // Function to fetch whiskies from backend
     const fetchWhiskies = async (pageNum) => {
       try {
-        const response = await fetch(`https://api.cstasnet.com/api/whiskies?p=${pageNum}`);
+        const response = await fetch(`${baseURL}/api/whiskies?p=${pageNum}`);
         const data = await response.json();
         setWhiskies(data);
       } catch (error) {
@@ -39,7 +41,7 @@ const App = () => {
 
   const onSearch = async (searchTerm, pageNum) => {
     try {
-      const response = await fetch(`https://api.cstasnet.com/api/whiskies?q=${searchTerm}&p=${pageNum}`);
+      const response = await fetch(`${baseURL}/api/whiskies?q=${searchTerm}&p=${pageNum}`);
       const data = await response.json();
       setWhiskies(data);
     } catch (error) {

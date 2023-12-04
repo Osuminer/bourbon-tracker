@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
-import { Container, Spinner } from "react-bootstrap";
+import { Container, Spinner} from "react-bootstrap";
 import { useParams } from "react-router-dom";
 
 import BourbonReviewComponent from "../components/BourbonViewComponents/BourbonReviewComponent";
+import BourbonCardComponent from "../components/BourbonViewComponents/BourbonCardComponent";
 
 import "./BourbonView.scss"
-import BourbonCardComponent from "../components/BourbonViewComponents/BourbonCardComponent";
 
 
 const BourbonView = () => {
