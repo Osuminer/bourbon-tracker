@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import {Route, Routes, useLocation } from 'react-router-dom';
 
-import MyNavbar from '../components/Navbar';
+import MyNavbar from '../components/Navbar/Navbar';
 import BourbonView from './BourbonView';
 import BourbonList from './BourbonList';
 import MyCollection from './MyCollection';

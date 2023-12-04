@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Row, Col, Container } from 'react-bootstrap';
 import { useNavigate, useLocation } from 'react-router-dom';
-import BourbonCard from '../components/BourbonCard';
-import PaginationComponent from '../components/PaginationComponent'
+import BourbonCard from '../components/BourbonCard/BourbonCard';
+import PaginationComponent from '../components/PaginationComponent/PaginationComponent'
 
 const BourbonList = ({ whiskies }) => {
   const navigate = useNavigate()

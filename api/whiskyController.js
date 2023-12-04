@@ -1,4 +1,6 @@
-const Whisky = require("./whiskySchema"); // Adjust the path as needed
+const Whisky = require("./schemas/whiskySchema");
+const User = require("./schemas/userSchema")
+
 
 // Function to get all bourbons
 const getAllWhiskies = async (page, limit = 10) => {
