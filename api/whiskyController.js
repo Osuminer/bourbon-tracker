@@ -1,9 +1,9 @@
 const Whisky = require("./whiskySchema"); // Adjust the path as needed
 
 // Function to get all bourbons
-const getAllWhiskies = async (limit = 10) => {
+const getAllWhiskies = async (page, limit = 10) => {
   try {
-    return await Whisky.find().limit(limit);
+    return await Whisky.find().skip(page * limit).limit(limit);
   } catch (error) {
     console.error("Error fetching whiskies:", error);
     throw error;
@@ -11,7 +11,7 @@ const getAllWhiskies = async (limit = 10) => {
 };
 
 // Function to search the database from a query
-const searchWhiskies = async (query, limit = 10) => {
+const searchWhiskies = async (query, page, limit = 10) => {
 
   try {
     return await Whisky.find({
@@ -19,12 +19,27 @@ const searchWhiskies = async (query, limit = 10) => {
     { Name: { $regex: query, $options: 'i' } }, // Case-insensitive search for Name
     { Tags: { $regex: query, $options: 'i' } }  // Case-insensitive search for Tags
   ]
-    }).limit(limit);
+    }).skip(page * limit).limit(limit);
   } catch (error) {
     console.error("Error fetching whiskies:", error);
     throw error;
   }
 };
+
+// Function to take a search query and get the total amount of documents
+const whiskiesCount = async (query = "") => {
+  try {
+    return await Whisky.countDocuments({
+      $or: [
+    { Name: { $regex: query, $options: 'i' } }, // Case-insensitive search for Name
+    { Tags: { $regex: query, $options: 'i' } }  // Case-insensitive search for Tags
+  ]
+    })
+  } catch (error) {
+    console.error("Error fetching count:", error);
+    throw error;
+  }
+}
 
 // Function to get whisky by _id
 const getWhiskyById = async (id) => {
@@ -51,5 +66,6 @@ module.exports = {
   getAllWhiskies,
   createWhisky,
   searchWhiskies,
-  getWhiskyById
+  getWhiskyById,
+  whiskiesCount
 };

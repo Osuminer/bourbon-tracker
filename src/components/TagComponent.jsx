@@ -6,7 +6,7 @@ const TagComponent = ({ tag }) => {
   const navigate = useNavigate();
 
   const handleTagClick = () => {
-    navigate(`/?q=${encodeURIComponent(tag)}`);
+    navigate(`/?q=${encodeURIComponent(tag)}&p=0`);
   };
 
   return (

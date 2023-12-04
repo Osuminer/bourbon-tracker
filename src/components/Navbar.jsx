@@ -28,11 +28,11 @@ const MyNavbar = () => {
       collapseOnSelect
       expand="sm"
     >
-      <Navbar.Brand className="logo" onClick={() => {navigate('/')}}>Bourbon Tracker</Navbar.Brand>
+      <Navbar.Brand className="logo" onClick={() => {navigate('/?p=0')}}>Bourbon Tracker</Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="me-auto">
-          <Nav.Link onClick={() => {navigate('/')}}>Home</Nav.Link>
+          <Nav.Link onClick={() => {navigate('/?p=0')}}>Home</Nav.Link>
           <Nav.Link onClick={() => {navigate('/wishlist')}}>My Wishlist</Nav.Link>
           <Nav.Link onClick={() => {navigate('/collection')}}>My Collection</Nav.Link>
         </Nav>

@@ -14,7 +14,8 @@ $light: $light-color;
 $dark: $dark-color;
 
 .body {
-	background-color: $body
+	background-color: $body;
+	min-height: 100vh
 }
 
 @import '~bootstrap/scss/bootstrap';
