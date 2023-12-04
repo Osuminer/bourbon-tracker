@@ -47,6 +47,25 @@ app.get("/api/whiskies", async (req, res) => {
   }
 });
 
+// Route to get all whiskies or search whiskies
+app.get("/api/whiskies/count", async (req, res) => {
+  try {
+    const searchQuery = req.query.q;
+
+    if (searchQuery) {
+      // If 'q' query parameter is present, perform a search
+      const whiskies = await whiskyController.whiskiesCount(searchQuery);
+      res.json(whiskies);
+    } else {
+      // If 'q' query parameter is not present, get all whiskies
+      const whiskies = await whiskyController.whiskiesCount();
+      res.json(whiskies);
+    }
+  } catch (err) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 // Route to get whisky by id
 app.get("/api/whiskies/:id", async (req, res) => {
   try {

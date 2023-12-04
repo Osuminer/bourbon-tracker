@@ -26,6 +26,21 @@ const searchWhiskies = async (query, page, limit = 10) => {
   }
 };
 
+// Function to take a search query and get the total amount of documents
+const whiskiesCount = async (query = "") => {
+  try {
+    return await Whisky.countDocuments({
+      $or: [
+    { Name: { $regex: query, $options: 'i' } }, // Case-insensitive search for Name
+    { Tags: { $regex: query, $options: 'i' } }  // Case-insensitive search for Tags
+  ]
+    })
+  } catch (error) {
+    console.error("Error fetching count:", error);
+    throw error;
+  }
+}
+
 // Function to get whisky by _id
 const getWhiskyById = async (id) => {
   try {
@@ -51,5 +66,6 @@ module.exports = {
   getAllWhiskies,
   createWhisky,
   searchWhiskies,
-  getWhiskyById
+  getWhiskyById,
+  whiskiesCount
 };
