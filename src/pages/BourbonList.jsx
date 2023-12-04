@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Row, Col, Pagination, Container } from 'react-bootstrap';
-import BourbonCard from '../components/BourbonCard';
 import { useNavigate, useLocation } from 'react-router-dom';
+import BourbonCard from '../components/BourbonCard';
+import PaginationComponent from '../components/PaginationComponent'
 
 const BourbonList = ({ whiskies }) => {
   const navigate = useNavigate()
@@ -23,17 +24,14 @@ const BourbonList = ({ whiskies }) => {
         let url
 
         if (searchParam) {
-          url = `localhost:5000/api/whiskies/count?q=${searchParam}`;
+          url = `http://localhost:5000/api/whiskies/count?q=${searchParam}`;
         } else {
-          url = `localhost:5000/api/whiskies/count`;
+          url = `http://localhost:5000/api/whiskies/count`;
         }
-        
-        console.log(url)
 
         const response = await fetch(url)
         const data = await response.json();
-        setTotalPages(data / itemsPerPage);
-        console.log(totalPages)
+        setTotalPages(Math.ceil(data / itemsPerPage));
       } catch (error) {
         console.error('Error fetching total pages:', error);
       }
@@ -75,13 +73,11 @@ const BourbonList = ({ whiskies }) => {
 
   return (
     <Container>
-      <Pagination style={{justifyContent: "center", marginTop: "40px"}}>
-        <Pagination.First onClick={() => handlePageClick(0)} />
-        <Pagination.Prev onClick={() => handlePageClick(1)} />
-        <Pagination.Item active>{parseInt(currentPage) + 1}</Pagination.Item>
-        <Pagination.Next onClick={() => handlePageClick(2)} />
-        <Pagination.Last />
-      </Pagination>
+      <PaginationComponent 
+        currentPage={currentPage} 
+        totalPages={totalPages} 
+        handlePageClick={handlePageClick} 
+        style={{ justifyContent: "center", marginTop: "40px" }} />
 
       <Row>
         {whiskies.map((whisky) => (
@@ -91,13 +87,12 @@ const BourbonList = ({ whiskies }) => {
         ))}
       </Row>
 
-      <Pagination style={{justifyContent: "center", marginBottom: "40px"}}>
-        <Pagination.First onClick={() => handlePageClick(0)} />
-        <Pagination.Prev onClick={() => handlePageClick(1)} />
-        <Pagination.Item active>{parseInt(currentPage) + 1}</Pagination.Item>
-        <Pagination.Next onClick={() => handlePageClick(2)} />
-        <Pagination.Last />
-      </Pagination>
+      <PaginationComponent 
+        currentPage={currentPage} 
+        totalPages={totalPages} 
+        handlePageClick={handlePageClick} 
+        style={{ justifyContent: "center", marginBottom: "40px" }} />
+        
     </Container>
   );
 };
