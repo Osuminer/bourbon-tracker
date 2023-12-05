@@ -3,7 +3,7 @@ import { Card, ListGroup, ListGroupItem } from "react-bootstrap";
 import {Link} from 'react-router-dom'
 import './BourbonCard.css'
 
-const BourbonCard = ({ whisky }) => {
+const BourbonCard = ({ whisky }, {userId}) => {
   const {
     _id,
     Name,
@@ -13,10 +13,11 @@ const BourbonCard = ({ whisky }) => {
     ImageURL
   } = whisky
 
+  const urlLink = _id + "/" + userId
 
   return (
     <Card className="mx-auto mb-5" style={{ maxWidth: "24rem", minWidth: '20rem'}} bg="body">
-      <Link to={_id}>
+      <Link to={urlLink}>
         <Card.Img variant="top" src={ImageURL} alt={Name} className="card-image"/>
       </Link>
       <Card.Body>

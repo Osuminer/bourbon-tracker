@@ -1,8 +1,9 @@
-import { Card, ListGroup, ListGroupItem, Button, ButtonGroup } from "react-bootstrap"
+import { Card, ListGroup, ListGroupItem } from "react-bootstrap"
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
 import TagComponent from "../TagComponent/TagComponent";
 import BourbonLabelComponent from "./BourbonLabelComponent";
+import WishlistCollectionButtons from "./WishlistCollectionButtons"
 
 const BourbonCardComponent = ({ whisky }) => {
 
@@ -27,20 +28,7 @@ const BourbonCardComponent = ({ whisky }) => {
 				</ListGroupItem>
 				<BourbonLabelComponent whisky={whisky} />
 				<ListGroupItem>
-					<ButtonGroup className="d-flex justify-content-center">
-						<Button variant="danger">
-							<span>
-								<i class="bi bi-dash-lg" style={{paddingRight: '1rem'}}></i>
-								Remove from Wishlist
-							</span>
-						</Button>
-						<Button variant="dark">
-							<span>
-								<i class="bi bi-plus-lg" style={{paddingRight: '1rem'}}></i>
-								Add to Collection
-							</span>
-						</Button>
-					</ButtonGroup>
+						<WishlistCollectionButtons whisky={whisky} />
 				</ListGroupItem>
 			</ListGroup>
 		</Card>

@@ -53,6 +53,41 @@ const getWhiskyById = async (id) => {
   }
 };
 
+// Grab whether or not a whiskey is in a users collection/wishlist
+const getWhiskyByIdWithStatus = async (whiskyId, userId) => {
+  try {
+    // Find the whisky by _id
+    const whisky = await Whisky.findById(whiskyId);
+
+    // Find the user by _id
+    const user = await User.findById(userId);
+
+    if (!whisky || !user) {
+      return null; // Whisky or user not found
+    }
+
+    // Check if the whisky is in the user's collection
+    const inCollection = user.collection.some(
+      (item) => item.bourbonID.equals(whiskyId) && item.inCollection === true
+    );
+
+    // Check if the whisky is in the user's wishlist
+    const inWishlist = user.collection.some(
+      (item) => item.bourbonID.equals(whiskyId) && item.inWishlist === true
+    );
+
+    // Return the whisky with user status
+    return {
+      ...whisky.toObject(),
+      inCollection,
+      inWishlist,
+    };
+  } catch (error) {
+    console.error("Error fetching whisky with user status:", error);
+    throw error;
+  }
+};
+
 // Function to create a new bourbon
 const createWhisky = async (data) => {
   try {
@@ -69,5 +104,6 @@ module.exports = {
   createWhisky,
   searchWhiskies,
   getWhiskyById,
-  whiskiesCount
+  whiskiesCount,
+  getWhiskyByIdWithStatus
 };

@@ -9,14 +9,14 @@ import "./BourbonView.scss"
 
 
 const BourbonView = () => {
-	const { id } = useParams()
+	const { id, userId } = useParams()
 	const [whisky, setWhisky] = useState(null);
 
 	useEffect(() => {
 		// Function to fetch whisky by id
 		const fetchWhisky = async () => {
 			try {
-				const response = await fetch(`https://api.cstasnet.com/api/whiskies/${id}`);
+				const response = await fetch(`https://api.cstasnet.com/api/whiskies/${id}/${userId}`);
 				const data = await response.json();
 				setWhisky(data)
 			} catch (error) {
@@ -25,7 +25,7 @@ const BourbonView = () => {
 		};
 
 		fetchWhisky();
-	}, [id]);
+	}, [id, userId]);
 
 
 	if (whisky === null) {

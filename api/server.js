@@ -67,18 +67,33 @@ app.get("/api/whiskies/count", async (req, res) => {
 });
 
 // Route to get whisky by id
-app.get("/api/whiskies/:id", async (req, res) => {
+app.get("/api/whiskies/:id/:userId", async (req, res) => {
   try {
-    const { id } = req.params;
+    const { id, userId } = req.params;
 
     // Search db by id
-    const whisky = await whiskyController.getWhiskyById(id);
+    // const whisky = await whiskyController.getWhiskyById(id);
+    const whisky = await whiskyController.getWhiskyByIdWithStatus(id, userId)
 
     res.json(whisky);
   } catch (err) {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
+// Route to get whether or not a whiskey is in a users collection/wishlist
+// app.get("/api/checkStatus/:userId/:whiskyId", async (req, res) => {
+//   try {
+//     const { userId, whiskyId } = req.params;
+
+//     // Search db by id
+//     const response = await whiskyController.getWhiskyByIdWithStatus()
+
+//     res.json(whisky);
+//   } catch (err) {
+//     res.status(500).json({ error: "Internal Server Error" });
+//   }
+// });
 
 // Rroute to create a new whisky
 app.post("/api/whiskies", async (req, res) => {
