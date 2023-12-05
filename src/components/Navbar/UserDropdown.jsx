@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { Dropdown, DropdownButton } from "react-bootstrap";
 
-const UserDropdown = () => {
+const UserDropdown = ({currentUserId}) => {
 	const [userList, setUserList] = useState([])
+	const [title, setTitle] = useState('Select User');
 
 	useEffect(() => {
 		const fetchUsers = async () => {
@@ -19,9 +20,23 @@ const UserDropdown = () => {
 
 	}, [])
 
+	useEffect(() => {
+		if (currentUserId) {
+			// Find the user in the userList with the matching id
+			const user = userList.find((user) => user.id === currentUserId);
+	
+			if (user) {
+				setTitle(user.username);
+			} else {
+				// Keep the current title if user is not found
+				setTitle((prevTitle) => prevTitle || "Select User");
+			}
+		}
+	}, [userList, currentUserId]);
+	
 
 	return (
-		<DropdownButton title="Select User" style={{ paddingRight: '15px' }}>
+		<DropdownButton variant="dark" title={title} style={{ paddingRight: '15px' }}>
 			{userList.map((user) => {
 
 				const redirectURL = `/${user.id}`

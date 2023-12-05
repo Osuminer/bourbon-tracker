@@ -96,8 +96,6 @@ app.get("/api/whiskies/:id", async (req, res) => {
   try {
     const { id } = req.params;
 
-    console.log("here")
-
     const whisky = await whiskyController.getWhiskyById(id)
 
     res.json(whisky);

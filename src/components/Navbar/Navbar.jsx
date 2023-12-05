@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {useNavigate } from 'react-router-dom';
+import {useNavigate, useLocation } from 'react-router-dom';
 import {
   Navbar,
   Nav,
@@ -14,11 +14,49 @@ import "./Navbar.css";
 const MyNavbar = () => {
   const [searchTerm, setSearchTerm] = useState('')
   const navigate = useNavigate()
+  const location = useLocation();
+  const userId = location.pathname.split("/").filter(Boolean)[0];
 
+  // Handles when a button on the navbar is pressed
+  const handleLinkClick = (path) => {
+    
+    navigate(path);
+
+
+    // if (location.pathname !== path) {
+    //   let url = path;
+      
+    //   if (userId) {
+    //     url = `/${userId}${path}`;
+    //   }
+  
+      
+    //   if (searchTerm) {
+    //     url += `?q=${encodeURIComponent(searchTerm)}`;
+    //   }
+      
+    //   console.log(url)
+  
+    //   navigate(url);
+    // }
+
+  };
+
+  // Handles when the enter key is pressed
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
       e.preventDefault();
-      navigate(`/?q=${encodeURIComponent(searchTerm)}`);
+      let url = '/';
+  
+      if (userId) {
+        url += `${userId}/`;
+      }
+  
+      if (searchTerm) {
+        url += `?q=${encodeURIComponent(searchTerm)}`;
+      }
+  
+      navigate(url);
     }
   };
 
@@ -31,16 +69,16 @@ const MyNavbar = () => {
       collapseOnSelect
       expand="sm"
     >
-      <Navbar.Brand className="logo" onClick={() => {navigate('/?p=0')}}>Bourbon Tracker</Navbar.Brand>
+      <Navbar.Brand className="logo" onClick={() => handleLinkClick('/?p=0')}>Bourbon Tracker</Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="me-auto">
-          <Nav.Link onClick={() => {navigate('/?p=0')}}>Home</Nav.Link>
-          <Nav.Link onClick={() => {navigate('/wishlist')}}>My Wishlist</Nav.Link>
-          <Nav.Link onClick={() => {navigate('/collection')}}>My Collection</Nav.Link>
+          <Nav.Link onClick={() => handleLinkClick('/?p=0')}>Home</Nav.Link>
+          <Nav.Link onClick={() => handleLinkClick('/wishlist')}>My Wishlist</Nav.Link>
+          <Nav.Link onClick={() => handleLinkClick('/collection')}>My Collection</Nav.Link>
         </Nav>
 
-        <UserDropdown />
+        <UserDropdown currentUserId={userId} />
 
         <Form>
           <InputGroup>
