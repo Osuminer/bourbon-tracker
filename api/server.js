@@ -24,6 +24,18 @@ mongoose
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.log(err));
 
+
+
+app.get("/api/users", async (req, res) => {
+  try {
+    const users = await whiskyController.getUsers()
+
+    res.json(users)
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+})
+
 // Route to get all whiskies or search whiskies
 app.get("/api/whiskies", async (req, res) => {
   try {
@@ -80,20 +92,6 @@ app.get("/api/whiskies/:id/:userId", async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
-
-// Route to get whether or not a whiskey is in a users collection/wishlist
-// app.get("/api/checkStatus/:userId/:whiskyId", async (req, res) => {
-//   try {
-//     const { userId, whiskyId } = req.params;
-
-//     // Search db by id
-//     const response = await whiskyController.getWhiskyByIdWithStatus()
-
-//     res.json(whisky);
-//   } catch (err) {
-//     res.status(500).json({ error: "Internal Server Error" });
-//   }
-// });
 
 // Rroute to create a new whisky
 app.post("/api/whiskies", async (req, res) => {

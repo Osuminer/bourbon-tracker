@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Row, Col, Container } from 'react-bootstrap';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import BourbonCard from '../components/BourbonCard/BourbonCard';
 import PaginationComponent from '../components/PaginationComponent/PaginationComponent'
 
@@ -8,6 +8,8 @@ const BourbonList = ({ whiskies }) => {
   const navigate = useNavigate()
   const location = useLocation()
   const queryParams = new URLSearchParams(location.search)
+
+  const { userId } = useParams()
 
   const itemsPerPage = 24
   const searchParam = queryParams.get('q')
@@ -75,26 +77,26 @@ const BourbonList = ({ whiskies }) => {
 
   return (
     <Container>
-      <PaginationComponent 
-        currentPage={currentPage} 
-        totalPages={totalPages} 
-        handlePageClick={handlePageClick} 
+      <PaginationComponent
+        currentPage={currentPage}
+        totalPages={totalPages}
+        handlePageClick={handlePageClick}
         style={{ justifyContent: "center", marginTop: "40px" }} />
 
       <Row>
         {whiskies.map((whisky) => (
           <Col key={whisky._id}>
-            <BourbonCard whisky={whisky} />
+            <BourbonCard whisky={whisky} userId={userId} />
           </Col>
         ))}
       </Row>
 
-      <PaginationComponent 
-        currentPage={currentPage} 
-        totalPages={totalPages} 
-        handlePageClick={handlePageClick} 
+      <PaginationComponent
+        currentPage={currentPage}
+        totalPages={totalPages}
+        handlePageClick={handlePageClick}
         style={{ justifyContent: "center", marginBottom: "40px" }} />
-        
+
     </Container>
   );
 };

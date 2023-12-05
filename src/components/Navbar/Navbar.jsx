@@ -6,6 +6,9 @@ import {
   Form,
   InputGroup,
 } from "react-bootstrap";
+
+import UserDropdown from "./UserDropdown";
+
 import "./Navbar.css";
 
 const MyNavbar = () => {
@@ -36,6 +39,8 @@ const MyNavbar = () => {
           <Nav.Link onClick={() => {navigate('/wishlist')}}>My Wishlist</Nav.Link>
           <Nav.Link onClick={() => {navigate('/collection')}}>My Collection</Nav.Link>
         </Nav>
+
+        <UserDropdown />
 
         <Form>
           <InputGroup>

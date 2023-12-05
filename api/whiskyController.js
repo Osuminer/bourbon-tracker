@@ -2,6 +2,24 @@ const Whisky = require("./schemas/whiskySchema");
 const User = require("./schemas/userSchema")
 
 
+const getUsers = async () => {
+  try {
+    const users = await User.find({}, '_id username')
+
+    const usersArray = users.map(user => ({
+      id: user._id,
+      username: user.username
+    }))
+
+    return usersArray
+
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    throw error;
+  }
+}
+
+
 // Function to get all bourbons
 const getAllWhiskies = async (page, limit = 10) => {
   try {
@@ -100,6 +118,7 @@ const createWhisky = async (data) => {
 };
 
 module.exports = {
+  getUsers,
   getAllWhiskies,
   createWhisky,
   searchWhiskies,
