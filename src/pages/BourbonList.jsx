@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Row, Col, Container } from 'react-bootstrap';
-import { useNavigate, useLocation, useParams } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+
 import BourbonCard from '../components/BourbonCard/BourbonCard';
 import PaginationComponent from '../components/PaginationComponent/PaginationComponent'
 
@@ -9,9 +10,9 @@ const BourbonList = ({ whiskies }) => {
   const location = useLocation()
   const queryParams = new URLSearchParams(location.search)
 
-  const { userId } = useParams()
-
   const itemsPerPage = 24
+
+  const userId = queryParams.get('u')
   const searchParam = queryParams.get('q')
   let currentPage = queryParams.get('p')
   currentPage = currentPage ? parseInt(currentPage) : 0;
@@ -25,12 +26,10 @@ const BourbonList = ({ whiskies }) => {
     // Function to fetch total pages from your API
     const fetchTotalPages = async () => {
       try {
-        let url
+        let url = `${apiURL}/api/whiskies/count`
 
         if (searchParam) {
-          url = `${apiURL}/api/whiskies/count?q=${searchParam}`;
-        } else {
-          url = `${apiURL}/api/whiskies/count`;
+          url += `?q=${searchParam}`;
         }
 
         const response = await fetch(url)
@@ -45,18 +44,16 @@ const BourbonList = ({ whiskies }) => {
     fetchTotalPages();
   }, [searchParam, totalPages]);
 
-
+  // Handles the url's for the change page buttons based on what queries were provided
   const handlePageClick = (action) => {
-    let url = '/';
+    let url = '/?';
   
     if (userId) {
-      url += `${userId}/`;
+      url += `u=${userId}&`;
     }
   
     if (searchParam) {
-      url += `?q=${searchParam}&`;
-    } else {
-      url += '?';
+      url += `q=${searchParam}&`;
     }
   
     switch (action) {
