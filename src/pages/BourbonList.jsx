@@ -23,7 +23,7 @@ const BourbonList = ({ whiskies }) => {
 
 
   useEffect(() => {
-    // Function to fetch total pages from your API
+    // Function to fetch total pages from
     const fetchTotalPages = async () => {
       try {
         let url = `${apiURL}/api/whiskies/count`
@@ -40,7 +40,6 @@ const BourbonList = ({ whiskies }) => {
       }
     };
 
-    // Fetch total pages when the component mounts or when the searchParam changes
     fetchTotalPages();
   }, [searchParam, totalPages]);
 
