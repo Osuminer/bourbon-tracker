@@ -1,12 +1,22 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Badge } from 'react-bootstrap';
 import './TagComponent.css'
 
 const TagComponent = ({ tag }) => {
   const navigate = useNavigate();
+  const location = useLocation()
+
+  const userId = new URLSearchParams(location.search).get('u');
+
 
   const handleTagClick = () => {
-    navigate(`/?q=${encodeURIComponent(tag)}&p=0`);
+    let url = `/?q=${encodeURIComponent(tag)}&p=0`
+
+    if (userId) {
+      url += `&u=${userId}`
+    }
+
+    navigate(url);
   };
 
   return (
