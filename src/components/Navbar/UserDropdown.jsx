@@ -39,7 +39,7 @@ const UserDropdown = ({currentUserId}) => {
 		<DropdownButton variant="dark" title={title} style={{ paddingRight: '15px' }}>
 			{userList.map((user) => {
 
-				const redirectURL = `/${user.id}`
+				const redirectURL = `?u=${user.id}`
 
 				return (
 					<Dropdown.Item href={redirectURL} key={user.id}>{user.username}</Dropdown.Item>

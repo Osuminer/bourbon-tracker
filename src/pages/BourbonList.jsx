@@ -46,35 +46,37 @@ const BourbonList = ({ whiskies }) => {
   // Handles the url's for the change page buttons based on what queries were provided
   const handlePageClick = (action) => {
     let url = '/?';
-  
-    if (userId) {
-      url += `u=${userId}&`;
-    }
-  
+
+
     if (searchParam) {
       url += `q=${searchParam}&`;
     }
-  
+
     switch (action) {
       case 0:
-        url += `p=${0}`;
+        url += `p=${0}&`;
         break;
       case 1:
-        url += `p=${parseInt(currentPage) - 1}`;
+        url += `p=${parseInt(currentPage) - 1}&`;
         break;
       case 2:
-        url += `p=${parseInt(currentPage) + 1}`;
+        url += `p=${parseInt(currentPage) + 1}&`;
         break;
       case 3:
-        url += `p=${totalPages - 1}`;
+        url += `p=${totalPages - 1}&`;
         break;
       default:
         break;
     }
-  
+
+    if (userId) {
+      url += `u=${userId}`;
+    }
+
+
     navigate(url);
   };
-  
+
 
   return (
     <Container>
