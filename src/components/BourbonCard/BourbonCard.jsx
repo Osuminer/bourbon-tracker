@@ -13,7 +13,15 @@ const BourbonCard = ({ whisky, userId}) => {
     ImageURL
   } = whisky
 
-  const urlLink = "/" + _id + "/" + userId
+
+  let urlLink
+  
+  if (userId) {
+    urlLink = `/whiskies/${_id}/${userId}` 
+  } else {
+    urlLink = `/whiskies/${_id}`
+  }
+
 
   return (
     <Card className="mx-auto mb-5" style={{ maxWidth: "24rem", minWidth: '20rem'}} bg="body">

@@ -5,7 +5,7 @@ import TagComponent from "../TagComponent/TagComponent";
 import BourbonLabelComponent from "./BourbonLabelComponent";
 import WishlistCollectionButtons from "./WishlistCollectionButtons"
 
-const BourbonCardComponent = ({ whisky }) => {
+const BourbonCardComponent = ({ whisky, userId }) => {
 
 	// Replace single quotes with double quotes and remove square brackets
 	const cleanString = whisky.Tags[0].replace(/[[\]'"]/g, '').split(',').map(tag => `"${tag.trim()}"`).join(', ');
@@ -26,10 +26,13 @@ const BourbonCardComponent = ({ whisky }) => {
 						<TagComponent tag={tag} key={index} />
 					))}
 				</ListGroupItem>
+
 				<BourbonLabelComponent whisky={whisky} />
-				<ListGroupItem>
+				{(userId) && (
+					<ListGroupItem>
 						<WishlistCollectionButtons whisky={whisky} />
-				</ListGroupItem>
+					</ListGroupItem>
+				)}
 			</ListGroup>
 		</Card>
 	)

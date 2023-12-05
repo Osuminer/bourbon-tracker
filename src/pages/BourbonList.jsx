@@ -46,34 +46,39 @@ const BourbonList = ({ whiskies }) => {
   }, [searchParam, totalPages]);
 
 
-
   const handlePageClick = (action) => {
-    if (action === 0) {
-      if (searchParam) {
-        navigate(`/?q=${searchParam}&p=${0}`)
-      } else {
-        navigate(`/?p=${0}`)
-      }
-    } else if (action === 1) {
-      if (searchParam) {
-        navigate(`/?q=${searchParam}&p=${parseInt(currentPage) - 1}`)
-      } else {
-        navigate(`/?p=${parseInt(currentPage) - 1}`)
-      }
-    } else if (action === 2) {
-      if (searchParam) {
-        navigate(`/?q=${searchParam}&p=${parseInt(currentPage) + 1}`)
-      } else {
-        navigate(`/?p=${parseInt(currentPage) + 1}`)
-      }
-    } else if (action === 3) {
-      if (searchParam) {
-        navigate(`/?q=${searchParam}&p=${totalPages - 1}`)
-      } else {
-        navigate(`/?p=${totalPages - 1}`)
-      }
+    let url = '/';
+  
+    if (userId) {
+      url += `${userId}/`;
     }
-  }
+  
+    if (searchParam) {
+      url += `?q=${searchParam}&`;
+    } else {
+      url += '?';
+    }
+  
+    switch (action) {
+      case 0:
+        url += `p=${0}`;
+        break;
+      case 1:
+        url += `p=${parseInt(currentPage) - 1}`;
+        break;
+      case 2:
+        url += `p=${parseInt(currentPage) + 1}`;
+        break;
+      case 3:
+        url += `p=${totalPages - 1}`;
+        break;
+      default:
+        break;
+    }
+  
+    navigate(url);
+  };
+  
 
   return (
     <Container>

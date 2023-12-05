@@ -78,14 +78,27 @@ app.get("/api/whiskies/count", async (req, res) => {
   }
 });
 
-// Route to get whisky by id
+// Route to get whisky by user and id
 app.get("/api/whiskies/:id/:userId", async (req, res) => {
   try {
     const { id, userId } = req.params;
 
-    // Search db by id
-    // const whisky = await whiskyController.getWhiskyById(id);
     const whisky = await whiskyController.getWhiskyByIdWithStatus(id, userId)
+
+    res.json(whisky);
+  } catch (err) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+// Route to get whisky by id
+app.get("/api/whiskies/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    console.log("here")
+
+    const whisky = await whiskyController.getWhiskyById(id)
 
     res.json(whisky);
   } catch (err) {

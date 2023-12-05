@@ -15,8 +15,16 @@ const BourbonView = () => {
 	useEffect(() => {
 		// Function to fetch whisky by id
 		const fetchWhisky = async () => {
+			let url;
+
+			if (userId) {
+				url = `https://api.cstasnet.com/api/whiskies/${id}/${userId}`
+			} else {
+				url = `https://api.cstasnet.com/api/whiskies/${id}`
+			}
+
 			try {
-				const response = await fetch(`https://api.cstasnet.com/api/whiskies/${id}/${userId}`);
+				const response = await fetch(url);
 				const data = await response.json();
 				setWhisky(data)
 			} catch (error) {
@@ -41,7 +49,7 @@ const BourbonView = () => {
 	return (
 		<Container style={{ paddingBottom: '200px' }}>
 			<h1 className="whisky-name">{whisky.Name}</h1>
-			<BourbonCardComponent whisky={whisky} />
+			<BourbonCardComponent whisky={whisky} userId={userId} />
 
 			<BourbonReviewComponent whisky={whisky} />
 
