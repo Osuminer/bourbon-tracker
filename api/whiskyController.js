@@ -147,7 +147,7 @@ const getUserWishlistById = async (userId, page = 0, limit = 10) => {
 // Function to get length of wishlist
 const getWishlistCount = async (userId) => {
   try {
-    return await User.getWishlistItemCount(userId)
+    return await User.getWishlistItemCount(userId);
   } catch (error) {
     console.error("Error fetching count:", error);
     throw error;
@@ -184,14 +184,76 @@ const getUserCollectionById = async (userId, page = 0, limit = 10) => {
 // Function to get length of collection
 const getCollectionCount = async (userId) => {
   try {
-    return await User.getCollectionItemCount(userId)
+    return await User.getCollectionItemCount(userId);
   } catch (error) {
     console.error("Error fetching count:", error);
     throw error;
   }
 };
 
+const addToCollection = async (bourbonId, userId) => {
+  try {
+    // Find the user by ID
+    const user = await User.findById(userId);
 
+    // Check if the user exists
+    if (!user) {
+      console.error("User not found");
+      throw new Error("User not found");
+    }
+
+    // Check if the bourbonId is already in the collection
+    const existingBottle = user.collection.find((item) => item.bourbonId.equals(bourbonId));
+
+    if (existingBottle) {
+      // Toggle the inCollection value
+      existingBottle.inCollection = !existingBottle.inCollection;
+    } else {
+      // Add the bourbonId to the user's collection
+      user.collection.push({ bourbonId: bourbonId, inCollection: true, inWishlist: false });
+    }
+
+    // Save the updated user document
+    await user.save();
+
+    console.log("Bottle added to collection successfully");
+  } catch (error) {
+    console.error("Error adding bottle to collection: ", error);
+    throw error;
+  }
+};
+
+const addToWishlist = async (bourbonId, userId) => {
+  try {
+    // Find the user by ID
+    const user = await User.findById(userId);
+
+    // Check if the user exists
+    if (!user) {
+      console.error("User not found");
+      throw new Error("User not found");
+    }
+
+    // Check if the bourbonId is already in the collection
+    const existingBottle = user.collection.find((item) => item.bourbonId.equals(bourbonId));
+
+    if (existingBottle) {
+      // Toggle the inWishlist value
+      existingBottle.inWishlist = !existingBottle.inWishlist;
+    } else {
+      // Add the bourbonId to the user's wishlist
+      user.collection.push({ bourbonId: bourbonId, inWishlist: true });
+    }
+
+    // Save the updated user document
+    await user.save();
+
+    console.log("Bottle added to wishlist successfully");
+  } catch (error) {
+    console.error("Error adding bottle to wishlist: ", error);
+    throw error;
+  }
+};
 
 module.exports = {
   getUsers,
@@ -204,5 +266,7 @@ module.exports = {
   getUserWishlistById,
   getWishlistCount,
   getUserCollectionById,
-  getCollectionCount
+  getCollectionCount,
+  addToCollection,
+  addToWishlist,
 };

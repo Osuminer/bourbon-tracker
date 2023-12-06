@@ -41,9 +41,11 @@ const BourbonView = () => {
 
 	if (whisky === null) {
 		return (
-			<Spinner animation="border" role="status">
-				<span className="visually-hidden">Loading...</span>
-			</Spinner>
+			<div className="center-div">
+				<Spinner animation="border" role="status">
+					<span className="visually-hidden">Loading...</span>
+				</Spinner>
+			</div>
 		);
 	}
 

@@ -178,3 +178,43 @@ app.get("/api/collection/count/:userId", async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
+// Rroute to add bottle to wishlist
+app.post("/api/wishlist", async (req, res) => {
+  try {
+    const { bourbonId, userId } = req.body;
+
+    // Check if bourbonId and userId are provided in the request body
+    if (!bourbonId || !userId) {
+      return res.status(400).json({ error: "Bad Request: bourbonId and userId are required in the request body" });
+    }
+
+    // Call the addToWishlist function with bourbonId and userId
+    await whiskyController.addToWishlist(bourbonId, userId);
+
+    res.status(200).json({ result: "Successfully added bottle to wishlist" });
+  } catch (err) {
+    console.error("Error in /api/wishlist route:", err);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+// Rroute to add bottle to wishlist
+app.post("/api/collection", async (req, res) => {
+  try {
+    const { bourbonId, userId } = req.body;
+
+    // Check if bourbonId and userId are provided in the request body
+    if (!bourbonId || !userId) {
+      return res.status(400).json({ error: "Bad Request: bourbonId and userId are required in the request body" });
+    }
+
+    // Call the addToWishlist function with bourbonId and userId
+    await whiskyController.addToCollection(bourbonId, userId);
+
+    res.status(200).json({ result: "Successfully added bottle to colection" });
+  } catch (err) {
+    console.error("Error in /api/collection route:", err);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
