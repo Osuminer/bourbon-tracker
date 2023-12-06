@@ -51,11 +51,11 @@ const MyWishlist = () => {
 
 		fetchWishlistWiskies()
 		fetchTotalPages();
-	}, [searchParam, totalPages]);
+	}, [totalPages]);
 
 	// Handles the url's for the change page buttons based on what queries were provided
 	const handlePageClick = (action) => {
-		let url = '/?';
+		let url = '/wishlist?';
 
 		switch (action) {
 			case 0:
