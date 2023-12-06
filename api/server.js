@@ -13,7 +13,39 @@ const dbUrl = process.env.DB_URL;
 const app = express();
 const port = process.env.PORT || 5000;
 
+app.all('*', (req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Access-Control-Max-Age', '86400');
+  // res.header('Access-Control-Allow-Credentials', true);
+  res.setHeader('Content-Type', 'application/json; charset=utf-8')
+  next();
+});
+
+// app.options('*', (req, res, next) => {
+//   console.log("Options: ", req.url, req.headers)
+//   // res.status(204).send()
+//   next()
+// })
+// app.use((req, res, next) => {
+//   console.log('Middleware activated:', req.method, req.url);
+//   next();
+// })
+
+
+
 app.use(cors());
+
+
+// app.use(cors({
+//   origin: '*',
+//   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+//   preflightContinue: true,
+//   optionsSuccessStatus: 204,
+// }));
+
+
 
 // Body parser middleware
 app.use(bodyParser.json());
@@ -23,8 +55,6 @@ mongoose
   .connect(`mongodb+srv://${dbUser}:${dbPass}@${dbUrl}`)
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.log(err));
-
-
 
 app.get("/api/users", async (req, res) => {
   try {
@@ -179,14 +209,14 @@ app.get("/api/collection/count/:userId", async (req, res) => {
   }
 });
 
-// Rroute to add bottle to wishlist
-app.post("/api/wishlist", async (req, res) => {
+// Route to add bottle to wishlist
+app.get("/api/wishlist/toggle/:bourbonId/:userId", async (req, res) => {
   try {
-    const { bourbonId, userId } = req.body;
+    const { bourbonId, userId } = req.params;
 
     // Check if bourbonId and userId are provided in the request body
     if (!bourbonId || !userId) {
-      return res.status(400).json({ error: "Bad Request: bourbonId and userId are required in the request body" });
+      return res.status(400).json({ error: "Bad Request: bourbonId and userId are required in the request" });
     }
 
     // Call the addToWishlist function with bourbonId and userId
@@ -200,13 +230,13 @@ app.post("/api/wishlist", async (req, res) => {
 });
 
 // Rroute to add bottle to collection
-app.post("/api/collection", async (req, res) => {
+app.get("/api/collection/toggle/:bourbonId/:userId", async (req, res) => {
   try {
-    const { bourbonId, userId } = req.body;
+    const { bourbonId, userId } = req.params;
 
     // Check if bourbonId and userId are provided in the request body
     if (!bourbonId || !userId) {
-      return res.status(400).json({ error: "Bad Request: bourbonId and userId are required in the request body" });
+      return res.status(400).json({ error: "Bad Request: bourbonId and userId are required in the request" });
     }
 
     // Call the addToCollection function with bourbonId and userId
@@ -218,3 +248,4 @@ app.post("/api/collection", async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+

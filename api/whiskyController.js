@@ -215,8 +215,6 @@ const addToCollection = async (bourbonId, userId) => {
 
     // Save the updated user document
     await user.save();
-
-    console.log("Bottle added to collection successfully");
   } catch (error) {
     console.error("Error adding bottle to collection: ", error);
     throw error;
@@ -247,8 +245,6 @@ const addToWishlist = async (bourbonId, userId) => {
 
     // Save the updated user document
     await user.save();
-
-    console.log("Bottle added to wishlist successfully");
   } catch (error) {
     console.error("Error adding bottle to wishlist: ", error);
     throw error;
