@@ -199,7 +199,7 @@ app.post("/api/wishlist", async (req, res) => {
   }
 });
 
-// Rroute to add bottle to wishlist
+// Rroute to add bottle to collection
 app.post("/api/collection", async (req, res) => {
   try {
     const { bourbonId, userId } = req.body;
@@ -209,10 +209,10 @@ app.post("/api/collection", async (req, res) => {
       return res.status(400).json({ error: "Bad Request: bourbonId and userId are required in the request body" });
     }
 
-    // Call the addToWishlist function with bourbonId and userId
+    // Call the addToCollection function with bourbonId and userId
     await whiskyController.addToCollection(bourbonId, userId);
 
-    res.status(200).json({ result: "Successfully added bottle to colection" });
+    res.status(200).json({ result: "Successfully added bottle to collection" });
   } catch (err) {
     console.error("Error in /api/collection route:", err);
     res.status(500).json({ error: "Internal Server Error" });
