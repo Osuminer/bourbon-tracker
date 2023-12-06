@@ -136,6 +136,19 @@ app.get("/api/wishlist/:userId", async (req, res) => {
   }
 });
 
+// Route to get count of wishlist items
+app.get("/api/wishlist/count/:userId", async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    const num = await whiskyController.getWishlistCount(userId)
+
+    res.json(num);
+  } catch (err) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 // Route to get all wishlist items
 app.get("/api/collection/:userId", async (req, res) => {
   try {
@@ -149,3 +162,15 @@ app.get("/api/collection/:userId", async (req, res) => {
   }
 });
 
+// Route to get count of wishlist items
+app.get("/api/collection/count/:userId", async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    const num = await whiskyController.getCollectionCount(userId)
+
+    res.json(num);
+  } catch (err) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});

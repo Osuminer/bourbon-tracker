@@ -34,8 +34,6 @@ const MyNavbar = () => {
 
     const url = urlBuilder.join('&')
 
-    console.log(urlBuilder)
-
     navigate(url);
 
   };

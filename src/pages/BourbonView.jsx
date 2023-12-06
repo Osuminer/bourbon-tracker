@@ -26,8 +26,6 @@ const BourbonView = () => {
 				url = `https://api.cstasnet.com/api/whiskies/${id}`
 			}
 
-			console.log(url)
-
 			try {
 				const response = await fetch(url);
 				const data = await response.json();
@@ -48,8 +46,6 @@ const BourbonView = () => {
 			</Spinner>
 		);
 	}
-
-	// console.log(whisky)
 
 	// Render the whisky details
 	return (

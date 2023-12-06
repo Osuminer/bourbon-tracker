@@ -143,6 +143,16 @@ const getUserWishlistById = async (userId) => {
   }
 };
 
+// Function to get length of wishlist
+const getWishlistCount = async (userId) => {
+  try {
+    return await User.getWishlistItemCount(userId)
+  } catch (error) {
+    console.error("Error fetching count:", error);
+    throw error;
+  }
+};
+
 // Function to grab a user's collection of bourbons
 const getUserCollectionById = async (userId) => {
   try {
@@ -169,6 +179,16 @@ const getUserCollectionById = async (userId) => {
   }
 };
 
+// Function to get length of collection
+const getCollectionCount = async (userId) => {
+  try {
+    return await User.getCollectionItemCount(userId)
+  } catch (error) {
+    console.error("Error fetching count:", error);
+    throw error;
+  }
+};
+
 module.exports = {
   getUsers,
   getAllWhiskies,
@@ -178,5 +198,7 @@ module.exports = {
   whiskiesCount,
   getWhiskyByIdWithStatus,
   getUserWishlistById,
-  getUserCollectionById
+  getWishlistCount,
+  getUserCollectionById,
+  getCollectionCount
 };
