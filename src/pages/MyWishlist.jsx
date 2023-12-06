@@ -14,7 +14,6 @@ const MyWishlist = () => {
 	const itemsPerPage = 24
 
 	const userId = queryParams.get('u')
-	const searchParam = queryParams.get('q')
 	let currentPage = queryParams.get('p')
 	currentPage = currentPage ? parseInt(currentPage) : 0;
 
@@ -40,7 +39,7 @@ const MyWishlist = () => {
 		// Function to fetch total pages from
 		const fetchTotalPages = async () => {
 			try {
-				let url = `${apiURL}/api/whiskies/count`
+				let url = `${apiURL}/api/wishlist/count/${userId}`
 
 				const response = await fetch(url)
 				const data = await response.json();
@@ -83,10 +82,9 @@ const MyWishlist = () => {
 		navigate(url);
 	};
 
-	console.log(whiskies)
-
 	return (
 		<Container>
+			<h1>My Wishlist</h1>
 			<PaginationComponent
 				currentPage={currentPage}
 				totalPages={totalPages}

@@ -30,7 +30,7 @@ const getAllWhiskies = async (page, limit = 10) => {
 };
 
 // Function to search the database from a query
-const searchWhiskies = async (query, page, limit = 10) => {
+const searchWhiskies = async (query, page = 0, limit = 10) => {
   try {
     return await Whisky.find({
       $or: [
@@ -118,7 +118,7 @@ const createWhisky = async (data) => {
 };
 
 // Function to grab a user's wishlist of bourbons
-const getUserWishlistById = async (userId) => {
+const getUserWishlistById = async (userId, page = 0, limit = 10) => {
   try {
     // Find the user and then populate the bourbonId's with the bourbon data
     const user = await User.findOne({ _id: userId }).populate({
@@ -130,7 +130,8 @@ const getUserWishlistById = async (userId) => {
     if (user) {
       const wishlistBourbonIds = user.collection
         .filter((item) => item.inWishlist)
-        .map((item) => item.bourbonId);
+        .map((item) => item.bourbonId)
+        .slice(page * limit, (page + 1) * limit);
 
       return wishlistBourbonIds;
     } else {
@@ -154,7 +155,7 @@ const getWishlistCount = async (userId) => {
 };
 
 // Function to grab a user's collection of bourbons
-const getUserCollectionById = async (userId) => {
+const getUserCollectionById = async (userId, page = 0, limit = 10) => {
   try {
     // Find the user and then populate the bourbonId's with the bourbon data
     const user = await User.findOne({ _id: userId }).populate({
@@ -166,7 +167,8 @@ const getUserCollectionById = async (userId) => {
     if (user) {
       const collectionBourbonIds = user.collection
         .filter((item) => item.inCollection)
-        .map((item) => item.bourbonId);
+        .map((item) => item.bourbonId)
+        .slice(page * limit, (page + 1) * limit);
 
       return collectionBourbonIds;
     } else {

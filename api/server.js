@@ -127,8 +127,10 @@ app.listen(port, () => {
 app.get("/api/wishlist/:userId", async (req, res) => {
   try {
     const { userId } = req.params;
+    const page = req.query.p || 0
+    const itemsPerPage = 24
 
-    const whisky = await whiskyController.getUserWishlistById(userId)
+    const whisky = await whiskyController.getUserWishlistById(userId, page, itemsPerPage)
 
     res.json(whisky);
   } catch (err) {
@@ -153,8 +155,10 @@ app.get("/api/wishlist/count/:userId", async (req, res) => {
 app.get("/api/collection/:userId", async (req, res) => {
   try {
     const { userId } = req.params;
+    const page = req.query.p || 0
+    const itemsPerPage = 24
 
-    const whisky = await whiskyController.getUserCollectionById(userId)
+    const whisky = await whiskyController.getUserCollectionById(userId, page, itemsPerPage)
 
     res.json(whisky);
   } catch (err) {
