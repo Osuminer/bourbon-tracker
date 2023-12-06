@@ -1,29 +1,28 @@
 const Whisky = require("./schemas/whiskySchema");
-const User = require("./schemas/userSchema")
-
+const User = require("./schemas/userSchema");
 
 const getUsers = async () => {
   try {
-    const users = await User.find({}, '_id username')
+    const users = await User.find({}, "_id username");
 
-    const usersArray = users.map(user => ({
+    const usersArray = users.map((user) => ({
       id: user._id,
-      username: user.username
-    }))
+      username: user.username,
+    }));
 
-    return usersArray
-
+    return usersArray;
   } catch (error) {
     console.error("Error fetching users:", error);
     throw error;
   }
-}
-
+};
 
 // Function to get all bourbons
 const getAllWhiskies = async (page, limit = 10) => {
   try {
-    return await Whisky.find().skip(page * limit).limit(limit);
+    return await Whisky.find()
+      .skip(page * limit)
+      .limit(limit);
   } catch (error) {
     console.error("Error fetching whiskies:", error);
     throw error;
@@ -32,14 +31,15 @@ const getAllWhiskies = async (page, limit = 10) => {
 
 // Function to search the database from a query
 const searchWhiskies = async (query, page, limit = 10) => {
-
   try {
     return await Whisky.find({
       $or: [
-    { Name: { $regex: query, $options: 'i' } }, // Case-insensitive search for Name
-    { Tags: { $regex: query, $options: 'i' } }  // Case-insensitive search for Tags
-  ]
-    }).skip(page * limit).limit(limit);
+        { Name: { $regex: query, $options: "i" } }, // Case-insensitive search for Name
+        { Tags: { $regex: query, $options: "i" } }, // Case-insensitive search for Tags
+      ],
+    })
+      .skip(page * limit)
+      .limit(limit);
   } catch (error) {
     console.error("Error fetching whiskies:", error);
     throw error;
@@ -51,15 +51,15 @@ const whiskiesCount = async (query = "") => {
   try {
     return await Whisky.countDocuments({
       $or: [
-    { Name: { $regex: query, $options: 'i' } }, // Case-insensitive search for Name
-    { Tags: { $regex: query, $options: 'i' } }  // Case-insensitive search for Tags
-  ]
-    })
+        { Name: { $regex: query, $options: "i" } }, // Case-insensitive search for Name
+        { Tags: { $regex: query, $options: "i" } }, // Case-insensitive search for Tags
+      ],
+    });
   } catch (error) {
     console.error("Error fetching count:", error);
     throw error;
   }
-}
+};
 
 // Function to get whisky by _id
 const getWhiskyById = async (id) => {
@@ -86,12 +86,12 @@ const getWhiskyByIdWithStatus = async (whiskyId, userId) => {
 
     // Check if the whisky is in the user's collection
     const inCollection = user.collection.some(
-      (item) => item.bourbonID.equals(whiskyId) && item.inCollection === true
+      (item) => item.bourbonId.equals(whiskyId) && item.inCollection === true
     );
 
     // Check if the whisky is in the user's wishlist
     const inWishlist = user.collection.some(
-      (item) => item.bourbonID.equals(whiskyId) && item.inWishlist === true
+      (item) => item.bourbonId.equals(whiskyId) && item.inWishlist === true
     );
 
     // Return the whisky with user status
@@ -117,6 +117,58 @@ const createWhisky = async (data) => {
   }
 };
 
+// Function to grab a user's wishlist of bourbons
+const getUserWishlistById = async (userId) => {
+  try {
+    // Find the user and then populate the bourbonId's with the bourbon data
+    const user = await User.findOne({ _id: userId }).populate({
+      path: "collection.bourbonId",
+      model: "Whisky",
+    });
+
+    // Go into the collection object, filter by items that are inWishlist, map them only showing the bourbonId's(bourbon data)
+    if (user) {
+      const wishlistBourbonIds = user.collection
+        .filter((item) => item.inWishlist)
+        .map((item) => item.bourbonId);
+
+      return wishlistBourbonIds;
+    } else {
+      console.error("User not found:", error);
+      throw error;
+    }
+  } catch (error) {
+    console.error("Error fetching wishlist:", error);
+    throw error;
+  }
+};
+
+// Function to grab a user's collection of bourbons
+const getUserCollectionById = async (userId) => {
+  try {
+    // Find the user and then populate the bourbonId's with the bourbon data
+    const user = await User.findOne({ _id: userId }).populate({
+      path: "collection.bourbonId",
+      model: "Whisky",
+    });
+
+    // Go into the collection object, filter by items that are inCollection, map them only showing the bourbonId's(bourbon data)
+    if (user) {
+      const collectionBourbonIds = user.collection
+        .filter((item) => item.inCollection)
+        .map((item) => item.bourbonId);
+
+      return collectionBourbonIds;
+    } else {
+      console.error("User not found:", error);
+      throw error;
+    }
+  } catch (error) {
+    console.error("Error fetching collection:", error);
+    throw error;
+  }
+};
+
 module.exports = {
   getUsers,
   getAllWhiskies,
@@ -124,5 +176,7 @@ module.exports = {
   searchWhiskies,
   getWhiskyById,
   whiskiesCount,
-  getWhiskyByIdWithStatus
+  getWhiskyByIdWithStatus,
+  getUserWishlistById,
+  getUserCollectionById
 };

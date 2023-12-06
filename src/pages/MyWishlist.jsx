@@ -1,4 +1,9 @@
-const { Container } = require("react-bootstrap")
+import React, { useEffect, useState } from 'react';
+import { Row, Col, Container } from 'react-bootstrap';
+import { useNavigate, useLocation } from 'react-router-dom';
+
+import BourbonCard from '../components/BourbonCard/BourbonCard';
+import PaginationComponent from '../components/PaginationComponent/PaginationComponent'
 
 
 const MyWishlist = () => {
@@ -6,7 +11,7 @@ const MyWishlist = () => {
 
 
 	return (
-		<Container style={{minHeight: "100vh"}}>
+		<Container>
 			<h1>My Wishlist</h1>
 
 		</Container>

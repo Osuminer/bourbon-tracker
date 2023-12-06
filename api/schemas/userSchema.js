@@ -6,7 +6,7 @@ const userSchema = new mongoose.Schema(
     username: String,
     collection: [
       {
-        bourbonID: {
+        bourbonId: {
           type: mongoose.Schema.Types.ObjectId,
           ref: "Whisky",
           required: true,

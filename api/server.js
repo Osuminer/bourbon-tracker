@@ -122,3 +122,30 @@ if (process.env.NODE_ENV === "production") {
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
+
+// Route to get all wishlist items
+app.get("/api/wishlist/:userId", async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    const whisky = await whiskyController.getUserWishlistById(userId)
+
+    res.json(whisky);
+  } catch (err) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+// Route to get all wishlist items
+app.get("/api/collection/:userId", async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    const whisky = await whiskyController.getUserCollectionById(userId)
+
+    res.json(whisky);
+  } catch (err) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+

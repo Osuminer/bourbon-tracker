@@ -7,6 +7,8 @@ import WishlistCollectionButtons from "./WishlistCollectionButtons"
 
 const BourbonCardComponent = ({ whisky, userId }) => {
 
+	// console.log(whisky)
+
 	// Replace single quotes with double quotes and remove square brackets
 	const cleanString = whisky.Tags[0].replace(/[[\]'"]/g, '').split(',').map(tag => `"${tag.trim()}"`).join(', ');
 
