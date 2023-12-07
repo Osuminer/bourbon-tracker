@@ -19,7 +19,7 @@ const BourbonList = ({ whiskies }) => {
   currentPage = currentPage ? parseInt(currentPage) : 0;
 
   const [totalPages, setTotalPages] = useState(0)
-
+  const [isLoaded, setIsLoaded] = useState(false)
 
 
   useEffect(() => {
@@ -37,6 +37,8 @@ const BourbonList = ({ whiskies }) => {
         setTotalPages(Math.ceil(data / itemsPerPage));
       } catch (error) {
         console.error('Error fetching total pages:', error);
+      } finally {
+        setIsLoaded(true)
       }
     };
 
@@ -91,7 +93,7 @@ const BourbonList = ({ whiskies }) => {
       <Row>
         {whiskies.map((whisky) => (
           <Col key={whisky._id}>
-            <BourbonCard whisky={whisky} userId={userId} />
+            {isLoaded && <BourbonCard whisky={whisky} userId={userId} />}
           </Col>
         ))}
       </Row>

@@ -13,7 +13,7 @@ const BourbonCardComponent = ({ whisky, userId }) => {
 
 	useEffect(() => {
 		setShow(true)
-	})
+	}, [])
 
 
 	// Replace single quotes with double quotes and remove square brackets

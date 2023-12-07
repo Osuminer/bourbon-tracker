@@ -53,10 +53,8 @@ const App = () => {
       <div className="body">
         <MyNavbar onSearch={onSearch} />
         <div className="container mt-5">
-          <Routes>
+          <Routes location={location} key={location.pathname} exitBeforeEnter>
             <Route path="/" element={<BourbonList whiskies={whiskies} />} />
-            {/* <Route path="/:userId" element={<BourbonList whiskies={whiskies} />} />
-            <Route path="/whiskies/:id/:userId" element={<BourbonView />} /> */}
             <Route path="/whiskies/:id" element={<BourbonView />} />
             <Route path='/wishlist' element={<MyWishlist />} />
             <Route path='/collection' element={<MyCollection />} />

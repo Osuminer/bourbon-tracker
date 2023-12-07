@@ -18,7 +18,7 @@ const BourbonCard = ({ whisky, userId }) => {
 
   useEffect(() => {
     setShow(true)
-  })
+  }, [])
 
   let urlLink = `/whiskies/${_id}`
 
