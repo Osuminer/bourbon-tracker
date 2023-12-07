@@ -15,30 +15,26 @@ const MyNavbar = () => {
   const [searchTerm, setSearchTerm] = useState('')
   const navigate = useNavigate()
   const location = useLocation();
-  const userId = location.pathname.split("/").filter(Boolean)[0];
+  const userId = new URLSearchParams(location.search).get('u');
 
   // Handles when a button on the navbar is pressed
   const handleLinkClick = (path) => {
+    const urlBuilder = []
     
-    navigate(path);
+    if (!path.includes("?")) {
+      path += '?'  
+    }
 
+    urlBuilder.push(path);
 
-    // if (location.pathname !== path) {
-    //   let url = path;
-      
-    //   if (userId) {
-    //     url = `/${userId}${path}`;
-    //   }
-  
-      
-    //   if (searchTerm) {
-    //     url += `?q=${encodeURIComponent(searchTerm)}`;
-    //   }
-      
-    //   console.log(url)
-  
-    //   navigate(url);
-    // }
+    
+    if (userId) {
+      urlBuilder.push(`u=${userId}`);
+    }
+
+    const url = urlBuilder.join('&')
+
+    navigate(url);
 
   };
 
@@ -47,13 +43,17 @@ const MyNavbar = () => {
     if (e.key === 'Enter') {
       e.preventDefault();
       let url = '/';
+
+      if (userId || searchTerm) {
+        url += '?'
+      }
   
       if (userId) {
-        url += `${userId}/`;
+        url += `u=${userId}&`;
       }
   
       if (searchTerm) {
-        url += `?q=${encodeURIComponent(searchTerm)}`;
+        url += `q=${encodeURIComponent(searchTerm)}`;
       }
   
       navigate(url);

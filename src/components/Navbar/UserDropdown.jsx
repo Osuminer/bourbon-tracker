@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { Dropdown, DropdownButton } from "react-bootstrap";
+import { Dropdown, DropdownButton, DropdownHeader, Form } from "react-bootstrap";
 
-const UserDropdown = ({currentUserId}) => {
+const UserDropdown = ({ currentUserId }) => {
 	const [userList, setUserList] = useState([])
 	const [title, setTitle] = useState('Select User');
+	const [filterValue, setFilterValue] = useState('');
 
 	useEffect(() => {
 		const fetchUsers = async () => {
@@ -24,7 +25,7 @@ const UserDropdown = ({currentUserId}) => {
 		if (currentUserId) {
 			// Find the user in the userList with the matching id
 			const user = userList.find((user) => user.id === currentUserId);
-	
+
 			if (user) {
 				setTitle(user.username);
 			} else {
@@ -33,18 +34,28 @@ const UserDropdown = ({currentUserId}) => {
 			}
 		}
 	}, [userList, currentUserId]);
-	
+
 
 	return (
-		<DropdownButton variant="dark" title={title} style={{ paddingRight: '15px' }}>
+		<DropdownButton menuVariant="dark" variant="dark" title={title} style={{ paddingRight: '15px' }}>
+			<DropdownHeader>Select Account</DropdownHeader>
+			<Form.Control
+				autoFocus
+				className="mx-3 my-2 w-auto"
+				placeholder="Type to filter..."
+				onChange={(e) => setFilterValue(e.target.value)}
+				value={filterValue}
+			/>
 			{userList.map((user) => {
 
-				const redirectURL = `/${user.id}`
+				const redirectURL = `?u=${user.id}`
 
 				return (
-					<Dropdown.Item href={redirectURL} key={user.id}>{user.username}</Dropdown.Item>
+					<Dropdown.Item href={redirectURL} key={user.id} active={currentUserId === user.id} >{user.username}</Dropdown.Item>
 				)
-			})}
+			}).filter((child) =>
+				!filterValue || child.props.children.toLowerCase().startsWith(filterValue.toLowerCase()),
+			)}
 		</DropdownButton>
 	);
 }

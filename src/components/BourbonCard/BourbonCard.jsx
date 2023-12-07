@@ -14,12 +14,10 @@ const BourbonCard = ({ whisky, userId}) => {
   } = whisky
 
 
-  let urlLink
+  let urlLink = `/whiskies/${_id}`
   
   if (userId) {
-    urlLink = `/whiskies/${_id}/${userId}` 
-  } else {
-    urlLink = `/whiskies/${_id}`
+    urlLink += `?u=${userId}` 
   }
 
 

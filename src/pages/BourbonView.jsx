@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Container, Spinner} from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 
 import BourbonReviewComponent from "../components/BourbonViewComponents/BourbonReviewComponent";
 import BourbonCardComponent from "../components/BourbonViewComponents/BourbonCardComponent";
@@ -9,8 +9,11 @@ import "./BourbonView.scss"
 
 
 const BourbonView = () => {
-	const { id, userId } = useParams()
+	const location = useLocation()
+
+	const { id } = useParams()
 	const [whisky, setWhisky] = useState(null);
+	const userId = new URLSearchParams(location.search).get('u');
 
 	useEffect(() => {
 		// Function to fetch whisky by id
@@ -38,12 +41,13 @@ const BourbonView = () => {
 
 	if (whisky === null) {
 		return (
-			<Spinner animation="border" role="status">
-				<span className="visually-hidden">Loading...</span>
-			</Spinner>
+			<div className="center-div">
+				<Spinner animation="border" role="status">
+					<span className="visually-hidden">Loading...</span>
+				</Spinner>
+			</div>
 		);
 	}
-
 
 	// Render the whisky details
 	return (
