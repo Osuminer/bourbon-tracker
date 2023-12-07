@@ -38,7 +38,7 @@ const BourbonView = () => {
 		fetchWhisky();
 	}, [id, userId]);
 
-
+	// Loading spinner
 	if (whisky === null) {
 		return (
 			<div className="center-div">
@@ -53,7 +53,7 @@ const BourbonView = () => {
 	return (
 		<Container style={{ paddingBottom: '200px' }}>
 			<h1 className="whisky-name">{whisky.Name}</h1>
-			<BourbonCardComponent whisky={whisky} userId={userId} />
+			<BourbonCardComponent className="card-component" whisky={whisky} userId={userId} />
 
 			<BourbonReviewComponent whisky={whisky} />
 

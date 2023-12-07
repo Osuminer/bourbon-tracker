@@ -11,6 +11,7 @@ const BourbonList = ({ whiskies }) => {
   const queryParams = new URLSearchParams(location.search)
 
   const itemsPerPage = 24
+  const apiURL = 'https://api.cstasnet.com'
 
   const userId = queryParams.get('u')
   const searchParam = queryParams.get('q')
@@ -19,7 +20,6 @@ const BourbonList = ({ whiskies }) => {
 
   const [totalPages, setTotalPages] = useState(0)
 
-  const apiURL = 'https://api.cstasnet.com'
 
 
   useEffect(() => {
@@ -42,6 +42,8 @@ const BourbonList = ({ whiskies }) => {
 
     fetchTotalPages();
   }, [searchParam, totalPages]);
+
+
 
   // Handles the url's for the change page buttons based on what queries were provided
   const handlePageClick = (action) => {
