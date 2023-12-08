@@ -11,6 +11,7 @@ const UserDropdown = ({ currentUserId }) => {
 			try {
 				const response = await fetch(`https://api.cstasnet.com/api/users`);
 				const data = await response.json();
+				data.push({ id: 0, username: 'No User' })
 				setUserList(data)
 			} catch (error) {
 				console.error('Error fetching uesrs:', error);
@@ -25,6 +26,8 @@ const UserDropdown = ({ currentUserId }) => {
 		if (currentUserId) {
 			// Find the user in the userList with the matching id
 			const user = userList.find((user) => user.id === currentUserId);
+
+			console.log(userList)
 
 			if (user) {
 				setTitle(user.username);

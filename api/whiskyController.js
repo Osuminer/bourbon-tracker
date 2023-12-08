@@ -242,7 +242,6 @@ const addToWishlist = async (bourbonId, userId) => {
       // Add the bourbonId to the user's wishlist
       user.collection.push({ bourbonId: bourbonId, inWishlist: true });
     }
-
     // Save the updated user document
     await user.save();
   } catch (error) {

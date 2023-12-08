@@ -27,10 +27,13 @@ const MyCollection = () => {
 	useEffect(() => {
 		const fetchCollectionWiskies = async () => {
 			try {
-				const response = await fetch(`${apiURL}/api/collection/${userId}`)
-				const data = await response.json()
+				if (userId !== '0') {
+					const response = await fetch(`${apiURL}/api/collection/${userId}`)
+					const data = await response.json()
+	
+					setWhiskies(data)
+				}
 
-				setWhiskies(data)
 			} catch (error) {
 				console.error('Error fetching total pages:', error);
 			}
@@ -39,11 +42,14 @@ const MyCollection = () => {
 		// Function to fetch total pages from
 		const fetchTotalPages = async () => {
 			try {
-				let url = `${apiURL}/api/collection/count/${userId}`
+				if (userId !== '0') {
+					const url = `${apiURL}/api/collection/count/${userId}`
+					
+					const response = await fetch(url)
+					const data = await response.json();
+					setTotalPages(Math.ceil(data / itemsPerPage));
+				}
 
-				const response = await fetch(url)
-				const data = await response.json();
-				setTotalPages(Math.ceil(data / itemsPerPage));
 			} catch (error) {
 				console.error('Error fetching total pages:', error);
 			}
@@ -85,11 +91,14 @@ const MyCollection = () => {
 	return (
 		<Container>
 			<h1>My Collection</h1>
-			<PaginationComponent
+
+			{totalPages !== 0 && <PaginationComponent
 				currentPage={currentPage}
 				totalPages={totalPages}
 				handlePageClick={handlePageClick}
-				style={{ justifyContent: "center", marginTop: "40px" }} />
+				style={{ justifyContent: "center", marginTop: "40px" }} />}
+			
+			{totalPages === 0 && <h4 style={{textAlign: 'center'}}>Your collection is empty...</h4>}
 
 			<Row>
 				{whiskies.map((whisky) => (
@@ -99,11 +108,11 @@ const MyCollection = () => {
 				))}
 			</Row>
 
-			<PaginationComponent
+			{totalPages !== 0 && <PaginationComponent
 				currentPage={currentPage}
 				totalPages={totalPages}
 				handlePageClick={handlePageClick}
-				style={{ justifyContent: "center", marginBottom: "40px" }} />
+				style={{ justifyContent: "center", marginBottom: "40px" }} />}
 
 		</Container>
 	);
