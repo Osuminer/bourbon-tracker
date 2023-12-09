@@ -32,10 +32,17 @@ const getAllWhiskies = async (page, limit = 10) => {
 // Function to search the database from a query
 const searchWhiskies = async (query, page = 0, limit = 10) => {
   try {
+    // const cleanQuery = query.replace(/['"]/g, '');
+
     return await Whisky.find({
       $or: [
-        { Name: { $regex: query, $options: "i" } }, // Case-insensitive search for Name
-        { Tags: { $regex: query, $options: "i" } }, // Case-insensitive search for Tags
+        { Name: { $regex: query, $options: "i" } },
+        {
+          $or: [
+            { Tags: { $regex: query.slice(0, -1) + "'s", $options: "i" } },
+            { Tags: { $regex: query, $options: "i" } },
+          ],
+        },
       ],
     })
       .skip(page * limit)
@@ -46,13 +53,20 @@ const searchWhiskies = async (query, page = 0, limit = 10) => {
   }
 };
 
+
+
 // Function to take a search query and get the total amount of documents
 const whiskiesCount = async (query = "") => {
   try {
     return await Whisky.countDocuments({
       $or: [
-        { Name: { $regex: query, $options: "i" } }, // Case-insensitive search for Name
-        { Tags: { $regex: query, $options: "i" } }, // Case-insensitive search for Tags
+        { Name: { $regex: query, $options: "i" } },
+        {
+          $or: [
+            { Tags: { $regex: query.slice(0, -1) + "'s", $options: "i" } },
+            { Tags: { $regex: query, $options: "i" } },
+          ],
+        },
       ],
     });
   } catch (error) {

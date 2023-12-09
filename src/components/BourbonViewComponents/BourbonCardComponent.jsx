@@ -37,7 +37,7 @@ const BourbonCardComponent = ({ whisky, userId }) => {
 				</ListGroupItem>
 
 				<BourbonLabelComponent whisky={whisky} />
-				{(userId) && (
+				{(userId !== '0' && userId) && (
 					<ListGroupItem>
 						<WishlistCollectionButtons whisky={whisky} />
 					</ListGroupItem>

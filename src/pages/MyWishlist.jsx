@@ -27,7 +27,7 @@ const MyWishlist = () => {
 	useEffect(() => {
 		const fetchWishlistWiskies = async () => {
 			try {
-				if (userId !== '0') {
+				if (userId !== '0' && userId) {
 					const response = await fetch(`${apiURL}/api/wishlist/${userId}`)
 					const data = await response.json()
 
@@ -40,8 +40,10 @@ const MyWishlist = () => {
 
 		// Function to fetch total pages from
 		const fetchTotalPages = async () => {
+			console.log(userId)
+
 			try {
-				if (userId !== '0') {
+				if (userId !== '0' && userId) {
 					const url = `${apiURL}/api/wishlist/count/${userId}`
 
 					const response = await fetch(url)

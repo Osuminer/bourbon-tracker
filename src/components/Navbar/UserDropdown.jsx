@@ -27,8 +27,6 @@ const UserDropdown = ({ currentUserId }) => {
 			// Find the user in the userList with the matching id
 			const user = userList.find((user) => user.id === currentUserId);
 
-			console.log(userList)
-
 			if (user) {
 				setTitle(user.username);
 			} else {

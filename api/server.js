@@ -18,34 +18,11 @@ app.all('*', (req, res, next) => {
   res.setHeader('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   res.setHeader('Access-Control-Max-Age', '86400');
-  // res.header('Access-Control-Allow-Credentials', true);
   res.setHeader('Content-Type', 'application/json; charset=utf-8')
   next();
 });
 
-// app.options('*', (req, res, next) => {
-//   console.log("Options: ", req.url, req.headers)
-//   // res.status(204).send()
-//   next()
-// })
-// app.use((req, res, next) => {
-//   console.log('Middleware activated:', req.method, req.url);
-//   next();
-// })
-
-
-
 app.use(cors());
-
-
-// app.use(cors({
-//   origin: '*',
-//   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-//   preflightContinue: true,
-//   optionsSuccessStatus: 204,
-// }));
-
-
 
 // Body parser middleware
 app.use(bodyParser.json());

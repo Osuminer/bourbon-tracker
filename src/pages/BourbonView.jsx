@@ -20,7 +20,7 @@ const BourbonView = () => {
 		const fetchWhisky = async () => {
 			let url;
 
-			if (userId) {
+			if (userId !== '0' && userId) {
 				url = `https://api.cstasnet.com/api/whiskies/${id}/${userId}`
 			} else {
 				url = `https://api.cstasnet.com/api/whiskies/${id}`

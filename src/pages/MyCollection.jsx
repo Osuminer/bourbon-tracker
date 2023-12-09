@@ -27,7 +27,7 @@ const MyCollection = () => {
 	useEffect(() => {
 		const fetchCollectionWiskies = async () => {
 			try {
-				if (userId !== '0') {
+				if (userId !== '0' && userId) {
 					const response = await fetch(`${apiURL}/api/collection/${userId}`)
 					const data = await response.json()
 	
@@ -42,7 +42,7 @@ const MyCollection = () => {
 		// Function to fetch total pages from
 		const fetchTotalPages = async () => {
 			try {
-				if (userId !== '0') {
+				if (userId !== '0' && userId) {
 					const url = `${apiURL}/api/collection/count/${userId}`
 					
 					const response = await fetch(url)
