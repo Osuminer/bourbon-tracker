@@ -23,7 +23,7 @@ const BourbonCardComponent = ({ whisky, userId }) => {
 	const tagsArray = JSON.parse(`[${cleanString}]`);
 
 	return (
-		<Card className={`main-card mx-auto ${show ? 'fade-in' : ''}`}>
+		<Card className={`main-card mx-auto shadow ${show ? 'fade-in' : ''}`}>
 			<TransformWrapper>
 				<TransformComponent>
 					<Card.Img src={whisky.ImageURL}></Card.Img>

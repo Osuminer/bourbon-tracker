@@ -149,8 +149,7 @@ const getUserWishlistById = async (userId, page = 0, limit = 10) => {
 
       return wishlistBourbonIds;
     } else {
-      console.error("User not found:", error);
-      throw error;
+      console.error("User not found");
     }
   } catch (error) {
     console.error("Error fetching wishlist:", error);
@@ -186,8 +185,7 @@ const getUserCollectionById = async (userId, page = 0, limit = 10) => {
 
       return collectionBourbonIds;
     } else {
-      console.error("User not found:", error);
-      throw error;
+      console.error("User not found");
     }
   } catch (error) {
     console.error("Error fetching collection:", error);

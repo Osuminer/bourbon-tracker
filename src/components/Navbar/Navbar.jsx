@@ -9,7 +9,7 @@ import {
 } from "react-bootstrap";
 
 import UserDropdown from "./UserDropdown";
-import AddBottleModal from "./AddBottleModal";
+// import AddBottleModal from "./AddBottleModal";
 
 import "./Navbar.css";
 
@@ -20,10 +20,10 @@ const MyNavbar = () => {
   const userId = new URLSearchParams(location.search).get('u');
 
   // Modal code
-  const [show, setShow] = useState(false)
+  // const [show, setShow] = useState(false)
 
-  const handleModalClose = () => setShow(false)
-  const handleModalOpen = () => setShow(true)
+  // const handleModalClose = () => setShow(false)
+  // const handleModalOpen = () => setShow(true)
 
 
   // Handles when a button on the navbar is pressed
@@ -77,7 +77,7 @@ const MyNavbar = () => {
         className="p-4"
         sticky="top"
         collapseOnSelect
-        expand="sm"
+        expand="lg"
       >
         <Navbar.Brand className="logo" onClick={() => handleLinkClick('/?p=0')}>Bourbon Tracker</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -88,7 +88,7 @@ const MyNavbar = () => {
             <Nav.Link onClick={() => handleLinkClick('/collection')}>My Collection</Nav.Link>
           </Nav>
 
-          <Button variant="dark" style={{ marginRight: '15px' }} onClick={handleModalOpen}>
+          <Button variant="dark" style={{ marginRight: '15px' }} onClick={() => navigate('/add')}>
             <span>
               <i className="bi-plus-lg" style={{ paddingRight: '5px' }}></i>
             </span>
@@ -115,7 +115,7 @@ const MyNavbar = () => {
         </Navbar.Collapse>
       </Navbar>
 
-      <AddBottleModal show={show} handleModalClose={handleModalClose} />
+      {/* <AddBottleModal show={show} handleModalClose={handleModalClose} /> */}
     </>
   );
 };

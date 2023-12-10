@@ -7,6 +7,7 @@ import BourbonView from './BourbonView';
 import BourbonList from './BourbonList';
 import MyCollection from './MyCollection';
 import MyWishlist from './MyWishlist';
+import AddBottle from './AddBottle';
 
 import './App.scss';
 
@@ -58,6 +59,7 @@ const App = () => {
             <Route path="/whiskies/:id" element={<BourbonView />} />
             <Route path='/wishlist' element={<MyWishlist />} />
             <Route path='/collection' element={<MyCollection />} />
+            <Route path='/add' element={<AddBottle />} />
           </Routes>
         </div>
       </div>
