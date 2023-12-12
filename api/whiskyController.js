@@ -1,6 +1,17 @@
 const Whisky = require("./schemas/whiskySchema");
 const User = require("./schemas/userSchema");
 
+
+const getTypes = async () => {
+  try {
+    return await Whisky.distinct('Type')
+
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    throw error;
+  }
+}
+
 const getUsers = async () => {
   try {
     const users = await User.find({}, "_id username");
@@ -52,8 +63,6 @@ const searchWhiskies = async (query, page = 0, limit = 10) => {
     throw error;
   }
 };
-
-
 
 // Function to take a search query and get the total amount of documents
 const whiskiesCount = async (query = "") => {
@@ -215,14 +224,20 @@ const addToCollection = async (bourbonId, userId) => {
     }
 
     // Check if the bourbonId is already in the collection
-    const existingBottle = user.collection.find((item) => item.bourbonId.equals(bourbonId));
+    const existingBottle = user.collection.find((item) =>
+      item.bourbonId.equals(bourbonId)
+    );
 
     if (existingBottle) {
       // Toggle the inCollection value
       existingBottle.inCollection = !existingBottle.inCollection;
     } else {
       // Add the bourbonId to the user's collection
-      user.collection.push({ bourbonId: bourbonId, inCollection: true, inWishlist: false });
+      user.collection.push({
+        bourbonId: bourbonId,
+        inCollection: true,
+        inWishlist: false,
+      });
     }
 
     // Save the updated user document
@@ -245,7 +260,9 @@ const addToWishlist = async (bourbonId, userId) => {
     }
 
     // Check if the bourbonId is already in the collection
-    const existingBottle = user.collection.find((item) => item.bourbonId.equals(bourbonId));
+    const existingBottle = user.collection.find((item) =>
+      item.bourbonId.equals(bourbonId)
+    );
 
     if (existingBottle) {
       // Toggle the inWishlist value
@@ -263,6 +280,7 @@ const addToWishlist = async (bourbonId, userId) => {
 };
 
 module.exports = {
+  getTypes,
   getUsers,
   getAllWhiskies,
   createWhisky,

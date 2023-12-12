@@ -33,6 +33,17 @@ mongoose
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.log(err));
 
+
+app.get("/api/types", async (req, res) => {
+  try {
+    const types = await whiskyController.getTypes()
+
+    res.json(types)
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+})
+
 app.get("/api/users", async (req, res) => {
   try {
     const users = await whiskyController.getUsers()
