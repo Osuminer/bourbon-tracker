@@ -1,16 +1,36 @@
 import React, { useState } from "react"
-import { Container, Form, FloatingLabel, Row, Col, Image, Button, InputGroup } from "react-bootstrap"
+import { Container, Form, FloatingLabel, Row, Col, Image, Button, InputGroup, OverlayTrigger, Tooltip } from "react-bootstrap"
+
+import BottleInput from "../components/AddBottleComponents/BottleInput"
 
 import "./AddBottle.css"
 
 const AddBottle = () => {
-	const [url, setUrl] = useState("")
-	const [image, setImage] = useState("")
+	const [image, setImage] = useState('')
+	const [validated, setValidated] = useState(false);
 
+	// Form useState's
+	const [name, setName] = useState('')
+	const [type, setType] = useState('')
+	const [age, setAge] = useState('')
+	const [distiller, setDistiller] = useState('')
+	const [bottler, setBottler] = useState('')
+	const [abv, setABV] = useState('')
+	const [rating, setRating] = useState('')
+	const [intro, setIntro] = useState('')
+	const [nose, setNose] = useState('')
+	const [taste, setTaste] = useState('')
+	const [finish, setFinish] = useState('')
+	const [url, setUrl] = useState('')
+
+
+
+	// Handles search button
 	const handleSearch = () => {
 		setImage(url)
 	}
 
+	// Handles Enter key
 	const handleKeyDown = (e) => {
 		if (e.key === 'Enter') {
 			e.preventDefault();
@@ -19,77 +39,110 @@ const AddBottle = () => {
 		}
 	}
 
+	const handleSubmit = (e) => {
+		const form = e.currentTarget;
+		if (form.checkValidity() === false) {
+			e.preventDefault();
+			e.stopPropagation();
+		}
+
+		setValidated(true);
+	}
+
 	return (
 		<Container>
 			<h1>Add Bottle</h1>
-
-			<Form className="pb-5 needs-validation">
+			<Form className="pb-5" onSubmit={handleSubmit} noValidate validated={validated}>
 
 				{/* Row 1 */}
 				<Row className="mt-4">
-					<Form.Group as={Col} className="col-lg-7">
-						<Form.Label>Bottle Name</Form.Label>
-						<Form.Control placeholder="Enter bottle name..."></Form.Control>
-					</Form.Group>
-					<Form.Group as={Col}>
-						<Form.Label>Bottle Type</Form.Label>
-						<Form.Control placeholder="e.g. Bourbon, Gin"></Form.Control>
-					</Form.Group>
-					<Form.Group as={Col}>
-						<Form.Label>Age</Form.Label>
-						<Form.Control placeholder="e.g. 10 Years, 3 Years"></Form.Control>
-					</Form.Group>
+					<BottleInput
+						label="Bottle Name"
+						placeholder="Enter bottle name..."
+						className="col-12 col-md-7"
+						required={true}
+						onChange={(term) => setName(term)} />
+					<BottleInput
+						label="Bottle Type"
+						placeholder="Enter bottle type..."
+						className="col-12 col-md-3 mt-3 mt-md-0"
+						required={true}
+						onChange={(term) => setType(term)} />
+					<BottleInput
+						label="Age"
+						placeholder="e.g. 10 Years, 3 Years"
+						className="col-12 col-md-2 mt-3 mt-md-0"
+						onChange={(term) => setAge(term)} />
 				</Row>
 
-				{/* Row 2 */}
+				{/* Row 2
 				<Row className="mt-3">
 					<Form.Group as={Col} className="col-sm-12">
 						<span>
 							<Form.Label>Tags</Form.Label>
-							<i class="bi bi-info-circle-fill mx-2"></i>
+							<OverlayTrigger
+								placement="right"
+								overlay={
+									<Tooltip>Press the Enter key after typing to add tag</Tooltip>
+								}>
+								<i class="bi bi-info-circle-fill mx-2"></i>
+							</OverlayTrigger>
 						</span>
 						<Form.Control placeholder="e.g. Bourbon, Woodford Reserve, Eagle Rare"></Form.Control>
 					</Form.Group>
-				</Row>
+				</Row> */}
 
 				{/* Row 3 */}
 				<Row className="mt-3">
-					<Form.Group as={Col}>
-						<Form.Label>Distiller</Form.Label>
-						<Form.Control placeholder="Enter Distiller..."></Form.Control>
-					</Form.Group>
-					<Form.Group as={Col}>
-						<Form.Label>Bottler</Form.Label>
-						<Form.Control placeholder="Enter bottler..."></Form.Control>
-					</Form.Group>
-					<Form.Group as={Col} className="col-sm-2">
-						<Form.Label>ABV</Form.Label>
-						<Form.Control placeholder="Enter ABV..."></Form.Control>
-					</Form.Group>
-					<Form.Group as={Col} className="col-sm-2">
-						<Form.Label>Rating</Form.Label>
-						<Form.Control placeholder="Enter rating /100..."></Form.Control>
-					</Form.Group>
+					<BottleInput
+						label="Distiller"
+						placeholder="Enter Distiller..."
+						className="col-12 col-md-6 col-lg-3"
+						onChange={(term) => setDistiller(term)} />
+					<BottleInput
+						label="Bottler"
+						placeholder="Enter Bottler..."
+						className="col-12 col-md-6 col-lg-3 mt-3 mt-md-0"
+						onChange={(term) => setBottler(term)} />
+					<BottleInput
+						label="ABV"
+						placeholder="Enter ABV..."
+						className="col-12 col-md-6 col-lg-3 mt-3 mt-lg-0"
+						onChange={(term) => setABV(term)} />
+					<BottleInput
+						label="Rating"
+						placeholder="Enter rating /100..."
+						tooltip="Ratings are out of 100"
+						className="col-12 col-md-6 col-lg-3 mt-3 mt-lg-0"
+						onChange={(term) => setRating(term)} />
 				</Row>
 
 				{/* Row 4 */}
 				<Row className="mt-3">
-					<Form.Group as={Col}>
-						<Form.Label>Intro</Form.Label>
-						<Form.Control as="textarea" placeholder="Enter intro..."></Form.Control>
-					</Form.Group>
-					<Form.Group as={Col}>
-						<Form.Label>Nose</Form.Label>
-						<Form.Control as="textarea" placeholder="Enter nose..."></Form.Control>
-					</Form.Group>
-					<Form.Group as={Col}>
-						<Form.Label>Taste</Form.Label>
-						<Form.Control as="textarea" placeholder="Enter tase..."></Form.Control>
-					</Form.Group>
-					<Form.Group as={Col}>
-						<Form.Label>Finish</Form.Label>
-						<Form.Control as="textarea" placeholder="Enter finish..."></Form.Control>
-					</Form.Group>
+					<BottleInput
+						label="Intro"
+						placeholder="Enter intro..."
+						className="col-12 col-md-6"
+						type="textarea"
+						onChange={(term) => setIntro(term)} />
+					<BottleInput
+						label="Nose"
+						placeholder="Enter nose..."
+						className="col-12 col-md-6 mt-3 mt-md-0"
+						type="textarea"
+						onChange={(term) => setNose(term)} />
+					<BottleInput
+						label="Taste"
+						placeholder="Enter taste..."
+						className="col-12 col-md-6 mt-3"
+						type="textarea"
+						onChange={(term) => setTaste(term)} />
+					<BottleInput
+						label="Finish"
+						placeholder="Enter finish..."
+						className="col-12 col-md-6 mt-3"
+						type="textarea"
+						onChange={(term) => setFinish(term)} />
 				</Row>
 
 				<hr />
@@ -109,8 +162,6 @@ const AddBottle = () => {
 				</Row>
 
 			</Form>
-			)
-
 		</Container>
 	)
 }
