@@ -7,7 +7,27 @@ const getTypes = async () => {
     return await Whisky.distinct('Type')
 
   } catch (error) {
-    console.error("Error fetching users:", error);
+    console.error("Error fetching types:", error);
+    throw error;
+  }
+}
+
+const getDistillers = async () => {
+  try {
+    return await Whisky.distinct('Distiller')
+
+  } catch (error) {
+    console.error("Error fetching distillers:", error);
+    throw error;
+  }
+}
+
+const getBottlers = async () => {
+  try {
+    return await Whisky.distinct('Bottler')
+
+  } catch (error) {
+    console.error("Error fetching bottlers:", error);
     throw error;
   }
 }
@@ -281,6 +301,8 @@ const addToWishlist = async (bourbonId, userId) => {
 
 module.exports = {
   getTypes,
+  getDistillers,
+  getBottlers,
   getUsers,
   getAllWhiskies,
   createWhisky,

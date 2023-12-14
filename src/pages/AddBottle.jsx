@@ -11,6 +11,8 @@ import {
 
 import BottleInput from "../components/AddBottleComponents/BottleInput";
 import TypeDropdown from "../components/AddBottleComponents/TypeDropdown";
+import DistillerDropdown from "../components/AddBottleComponents/DistillerDropdown";
+import BottlerDropdown from "../components/AddBottleComponents/BottlerDropdown";
 
 import "./AddBottle.css";
 
@@ -105,18 +107,26 @@ const AddBottle = () => {
 
         {/* Row 3 */}
         <Row className="mt-3">
-          <BottleInput
+          {/* <BottleInput
             label="Distiller"
             placeholder="Enter Distiller..."
             className="col-12 col-md-6 col-lg-3"
             onChange={(term) => setDistiller(term)}
-          />
-          <BottleInput
+          /> */}
+					<DistillerDropdown
+						className="col-12 col-md-6 col-lg-3"
+						onChange={(term) => setDistiller(term)}
+						/>
+          {/* <BottleInput
             label="Bottler"
             placeholder="Enter Bottler..."
             className="col-12 col-md-6 col-lg-3 mt-3 mt-md-0"
             onChange={(term) => setBottler(term)}
-          />
+          /> */}
+					<BottlerDropdown
+						className="col-12 col-md-6 col-lg-3 mt-3 mt-md-0"
+						onChange={(term) => setBottler(term)}
+						/>
           <BottleInput
             label="ABV"
             placeholder="Enter ABV..."
