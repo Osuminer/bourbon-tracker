@@ -18,7 +18,7 @@ const whiskySchema = new mongoose.Schema({
   Taste: String,
   Finish: String,
   ImageURL: String,
-}, {collection: 'Gins'});
+}, {collection: 'Spirits'});
 
 // Create a Mongoose model based on the schema
 const Whisky = mongoose.model('Whisky', whiskySchema);

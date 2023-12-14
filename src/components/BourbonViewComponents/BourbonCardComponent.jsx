@@ -15,13 +15,6 @@ const BourbonCardComponent = ({ whisky, userId }) => {
 		setShow(true)
 	}, [])
 
-
-	// Replace single quotes with double quotes and remove square brackets
-	const cleanString = whisky.Tags[0].replace(/[[\]'"]/g, '').split(',').map(tag => `"${tag.trim()}"`).join(', ');
-
-	// Parse the string as JSON to obtain the array
-	const tagsArray = JSON.parse(`[${cleanString}]`);
-
 	return (
 		<Card className={`main-card mx-auto shadow ${show ? 'fade-in' : ''}`}>
 			<TransformWrapper>
@@ -31,7 +24,7 @@ const BourbonCardComponent = ({ whisky, userId }) => {
 			</TransformWrapper>
 			<ListGroup variant="flush">
 				<ListGroupItem>
-					{tagsArray.map((tag, index) => (
+					{whisky.Tags.map((tag, index) => (
 						<TagComponent tag={tag} key={index} />
 					))}
 				</ListGroupItem>
