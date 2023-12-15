@@ -27,7 +27,7 @@ const BourbonCard = ({ whisky, userId }) => {
   }
 
   return (
-    <Card className={`mx-auto mb-5 whisky-card ${show ? 'fade-in' : ''}`} style={{ maxWidth: "24rem", minWidth: '20rem' }} bg="body">
+    <Card className={`mx-auto mb-5 whisky-card shadow ${show ? 'fade-in' : ''}`} style={{ maxWidth: "24rem", minWidth: '20rem' }} bg="body">
       <Link to={urlLink}>
         <Card.Img variant="top" src={ImageURL} alt={Name} className="card-image" />
       </Link>

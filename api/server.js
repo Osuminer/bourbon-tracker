@@ -33,6 +33,37 @@ mongoose
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.log(err));
 
+
+app.get("/api/types", async (req, res) => {
+  try {
+    const types = await whiskyController.getTypes()
+
+    res.json(types)
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+})
+
+app.get("/api/distillers", async (req, res) => {
+  try {
+    const distillers = await whiskyController.getDistillers()
+
+    res.json(distillers)
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+})
+
+app.get("/api/bottlers", async (req, res) => {
+  try {
+    const bottlers = await whiskyController.getBottlers()
+
+    res.json(bottlers)
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+})
+
 app.get("/api/users", async (req, res) => {
   try {
     const users = await whiskyController.getUsers()
@@ -119,15 +150,6 @@ app.post("/api/whiskies", async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: "Internal Server Error" });
   }
-});
-
-// Serve static assets (React build) in production
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static("client/build"));
-}
-
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
 });
 
 // Route to get all wishlist items
@@ -226,3 +248,23 @@ app.get("/api/collection/toggle/:bourbonId/:userId", async (req, res) => {
   }
 });
 
+app.post("/api/testing", async (req, res) => {
+  try {
+    const postData = req.body;
+    console.log(req.body)
+    res.status(200).json(postData);
+  } catch (error) {
+    console.error("Error in /api/testing route:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+})
+
+
+// Serve static assets (React build) in production
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("client/build"));
+}
+
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});

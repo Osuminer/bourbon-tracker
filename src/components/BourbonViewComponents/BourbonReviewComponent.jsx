@@ -2,7 +2,7 @@ import { Accordion } from "react-bootstrap"
 
 const BourbonReviewComponent = ({whisky}) => {
 	return (
-		<Accordion className="tasting" defaultActiveKey="0">
+		<Accordion className="tasting shadow" defaultActiveKey="0">
 				<Accordion.Item eventKey="0">
 					<Accordion.Header>Intro</Accordion.Header>
 					<Accordion.Body>{whisky.Intro}</Accordion.Body>
