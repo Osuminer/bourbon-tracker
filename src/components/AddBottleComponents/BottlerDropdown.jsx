@@ -2,32 +2,57 @@ import { useEffect, useState } from "react";
 import Select from "react-select";
 import { Form, Col, OverlayTrigger, Tooltip } from "react-bootstrap";
 
-const BottlerDropdown = ({
-  required = false,
-  onChange,
-  className,
-  tooltip,
-}) => {
+const BottlerDropdown = ({ required = false, onChange, className, tooltip }) => {
   const [bottlersList, setBottlersList] = useState([]);
-  const [selectedBottler, setSelectedBottler] = useState({ label: "Select Bottler...", value: "Select Bottler..." });
+  const [selectedBottler, setSelectedBottler] = useState(null);
+  const [inputValue, setInputValue] = useState('');
+  const [initialBottlers, setInitialBottlers] = useState([])
 
   useEffect(() => {
-    onChange(selectedBottler.label);
-  });
+    if (selectedBottler) {
+      onChange(selectedBottler.label);
+    }
+  }, [selectedBottler, onChange]);
 
   useEffect(() => {
-    const fetchTypes = async () => {
+    const fetchBottlers = async () => {
       try {
         const response = await fetch(`https://api.cstasnet.com/api/bottlers`);
         const data = await response.json();
-        setBottlersList(data.map((type) => ({ label: type, value: type })));
+        const initialList = data.map((type) => ({ label: type, value: type }));
+        setBottlersList(initialList);
+        setInitialBottlers(initialList);
       } catch (error) {
-        console.error("Error fetching bottlers:", error);
+        console.error("Error fetching bottlers", error);
       }
     };
-
-    fetchTypes();
+  
+    fetchBottlers();
   }, []);
+  
+
+  const handleInputChange = (input) => {
+    setInputValue(input);
+  
+    if (input.trim() === '') {
+      // If the input is empty, reset to the initial list
+      setBottlersList(initialBottlers);
+      return;
+    }
+  
+    // Fetch bottlers that match the input
+    const filteredBottlers = initialBottlers.filter((option) =>
+      option.label.toLowerCase().includes(input.toLowerCase())
+    );
+  
+    // Add the input itself as an option
+    if (input.trim() !== '') {
+      filteredBottlers.push({ label: input, value: input });
+    }
+  
+    setBottlersList(filteredBottlers);
+  };
+  
 
   return (
     <Form.Group as={Col} className={className}>
@@ -38,7 +63,7 @@ const BottlerDropdown = ({
             placement="right"
             overlay={<Tooltip>{tooltip}</Tooltip>}
           >
-            <i class="bi bi-info-circle-fill mx-2"></i>
+            <i className="bi bi-info-circle-fill mx-2"></i>
           </OverlayTrigger>
         </span>
       ) : (
@@ -49,6 +74,8 @@ const BottlerDropdown = ({
         options={bottlersList}
         value={selectedBottler}
         onChange={(selectedOption) => setSelectedBottler(selectedOption)}
+        onInputChange={handleInputChange}
+        inputValue={inputValue}
         placeholder="Select Bottler..."
         isSearchable
       />

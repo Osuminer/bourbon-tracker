@@ -83,8 +83,7 @@ const whiskiesCount = async (query = "") => {
         { Name: { $regex: query, $options: "i" } },
         {
           $or: [
-            { Tags: { $regex: query.slice(0, -1) + "'s", $options: "i" } },
-            { Tags: { $regex: query, $options: "i" } },
+            { Tags: { $regex: query, $options: "i" } }
           ],
         },
       ],

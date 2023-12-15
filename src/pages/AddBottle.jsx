@@ -18,11 +18,11 @@ import BottlerDropdown from "../components/AddBottleComponents/BottlerDropdown";
 import "./AddBottle.css";
 
 const AddBottle = () => {
-	const navigate = useNavigate();
+  const navigate = useNavigate();
 
-	const [image, setImage] = useState("");
+  const [image, setImage] = useState("");
   const [validated, setValidated] = useState(false);
-	
+
   // Form useState's
   const [name, setName] = useState("");
   const [type, setType] = useState("");
@@ -36,7 +36,6 @@ const AddBottle = () => {
   const [taste, setTaste] = useState("");
   const [finish, setFinish] = useState("");
   const [url, setUrl] = useState("");
-
 
   const createTags = () => {
     const tagList = [type];
@@ -56,8 +55,8 @@ const AddBottle = () => {
     Name: name,
     Tags: createTags(),
     Type: type,
-    Distiller: distiller,
-    Bottler: bottler,
+    Distiller: distiller === "Select Distiller..." ? "" : distiller,
+    Bottler: bottler === "Select Bottler..." ? "" : bottler,
     ABV: abv,
     Age: age,
     Price: "",
@@ -87,34 +86,42 @@ const AddBottle = () => {
 
   const handleSubmit = async (e) => {
     const form = e.currentTarget;
-  if (form.checkValidity() === false) {
-    e.preventDefault();
-    e.stopPropagation();
-  } else {
-    e.preventDefault();
-    try {
-      const response = await fetch("https://api.cstasnet.com/api/whiskies", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(whiskyData),
-      });
 
-      if (!response.ok) {
-        console.error("Error:", response.statusText);
-        return;
+    if (form.checkValidity() === false) {
+      e.preventDefault();
+      e.stopPropagation();
+    } else {
+      e.preventDefault();
+      try {
+        const response = await fetch("https://api.cstasnet.com/api/whiskies", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(whiskyData),
+        });
+
+        if (!response.ok) {
+          console.error("Error:", response.statusText);
+          return;
+        }
+
+        const data = await response.json();
+
+        navigate(`/whiskies/${data._id}`);
+      } catch (error) {
+        console.error("Error:", error);
       }
-
-      const data = await response.json();
-
-      navigate(`/whiskies/${data._id}`);
-    } catch (error) {
-      console.error("Error:", error);
     }
-  }
 
-    setValidated(true);
+		console.log(e)
+
+		if (e.key === 'Enter') {
+      e.preventDefault();
+    } else {
+			setValidated(true);
+		}
+
   };
 
   return (

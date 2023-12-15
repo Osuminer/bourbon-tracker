@@ -2,32 +2,57 @@ import { useEffect, useState } from "react";
 import Select from "react-select";
 import { Form, Col, OverlayTrigger, Tooltip } from "react-bootstrap";
 
-const DistillerDropdown = ({
-  required = false,
-  onChange,
-  className,
-  tooltip,
-}) => {
+const DistillerDropdown = ({ required = false, onChange, className, tooltip }) => {
   const [distillersList, setDistillersList] = useState([]);
-  const [selectedDistiller, setSelectedDistiller] = useState({ label: "Select Distiller...", value: "Select Distiller..." });
+  const [selectedDistiller, setSelectedDistiller] = useState(null);
+  const [inputValue, setInputValue] = useState('');
+  const [initialDistillers, setInitialDistillers] = useState([])
 
   useEffect(() => {
-    onChange(selectedDistiller.label);
-  });
+    if (selectedDistiller) {
+      onChange(selectedDistiller.label);
+    }
+  }, [selectedDistiller, onChange]);
 
   useEffect(() => {
-    const fetchTypes = async () => {
+    const fetchDistillers = async () => {
       try {
         const response = await fetch(`https://api.cstasnet.com/api/distillers`);
         const data = await response.json();
-        setDistillersList(data.map((type) => ({ label: type, value: type })));
+        const initialList = data.map((type) => ({ label: type, value: type }));
+        setDistillersList(initialList);
+        setInitialDistillers(initialList);
       } catch (error) {
         console.error("Error fetching distillers", error);
       }
     };
-
-    fetchTypes();
+  
+    fetchDistillers();
   }, []);
+  
+
+  const handleInputChange = (input) => {
+    setInputValue(input);
+  
+    if (input.trim() === '') {
+      // If the input is empty, reset to the initial list
+      setDistillersList(initialDistillers);
+      return;
+    }
+  
+    // Fetch distillers that match the input
+    const filteredDistillers = initialDistillers.filter((option) =>
+      option.label.toLowerCase().includes(input.toLowerCase())
+    );
+  
+    // Add the input itself as an option
+    if (input.trim() !== '') {
+      filteredDistillers.push({ label: input, value: input });
+    }
+  
+    setDistillersList(filteredDistillers);
+  };
+  
 
   return (
     <Form.Group as={Col} className={className}>
@@ -38,7 +63,7 @@ const DistillerDropdown = ({
             placement="right"
             overlay={<Tooltip>{tooltip}</Tooltip>}
           >
-            <i class="bi bi-info-circle-fill mx-2"></i>
+            <i className="bi bi-info-circle-fill mx-2"></i>
           </OverlayTrigger>
         </span>
       ) : (
@@ -49,6 +74,8 @@ const DistillerDropdown = ({
         options={distillersList}
         value={selectedDistiller}
         onChange={(selectedOption) => setSelectedDistiller(selectedOption)}
+        onInputChange={handleInputChange}
+        inputValue={inputValue}
         placeholder="Select Distiller..."
         isSearchable
       />
