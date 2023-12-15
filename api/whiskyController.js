@@ -1,36 +1,32 @@
 const Whisky = require("./schemas/whiskySchema");
 const User = require("./schemas/userSchema");
 
-
 const getTypes = async () => {
   try {
-    return await Whisky.distinct('Type')
-
+    return await Whisky.distinct("Type");
   } catch (error) {
     console.error("Error fetching types:", error);
     throw error;
   }
-}
+};
 
 const getDistillers = async () => {
   try {
-    return await Whisky.distinct('Distiller')
-
+    return await Whisky.distinct("Distiller");
   } catch (error) {
     console.error("Error fetching distillers:", error);
     throw error;
   }
-}
+};
 
 const getBottlers = async () => {
   try {
-    return await Whisky.distinct('Bottler')
-
+    return await Whisky.distinct("Bottler");
   } catch (error) {
     console.error("Error fetching bottlers:", error);
     throw error;
   }
-}
+};
 
 const getUsers = async () => {
   try {
@@ -68,12 +64,7 @@ const searchWhiskies = async (query, page = 0, limit = 10) => {
     return await Whisky.find({
       $or: [
         { Name: { $regex: query, $options: "i" } },
-        {
-          $or: [
-            { Tags: { $regex: query.slice(0, -1) + "'s", $options: "i" } },
-            { Tags: { $regex: query, $options: "i" } },
-          ],
-        },
+        { Tags: { $regex: query, $options: "i" } },
       ],
     })
       .skip(page * limit)

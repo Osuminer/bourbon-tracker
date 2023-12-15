@@ -13,15 +13,6 @@ const dbUrl = process.env.DB_URL;
 const app = express();
 const port = process.env.PORT || 5000;
 
-app.all('*', (req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  res.setHeader('Access-Control-Max-Age', '86400');
-  res.setHeader('Content-Type', 'application/json; charset=utf-8')
-  next();
-});
-
 app.use(cors());
 
 // Body parser middleware
