@@ -9,7 +9,6 @@ import {
 } from "react-bootstrap";
 
 import UserDropdown from "./UserDropdown";
-// import AddBottleModal from "./AddBottleModal";
 
 import "./Navbar.css";
 
@@ -18,13 +17,6 @@ const MyNavbar = () => {
   const navigate = useNavigate()
   const location = useLocation();
   const userId = new URLSearchParams(location.search).get('u');
-
-  // Modal code
-  // const [show, setShow] = useState(false)
-
-  // const handleModalClose = () => setShow(false)
-  // const handleModalOpen = () => setShow(true)
-
 
   // Handles when a button on the navbar is pressed
   const handleLinkClick = (path) => {

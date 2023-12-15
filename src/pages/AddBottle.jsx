@@ -8,6 +8,7 @@ import {
   Button,
   InputGroup,
 } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 import BottleInput from "../components/AddBottleComponents/BottleInput";
 import TypeDropdown from "../components/AddBottleComponents/TypeDropdown";
@@ -17,9 +18,11 @@ import BottlerDropdown from "../components/AddBottleComponents/BottlerDropdown";
 import "./AddBottle.css";
 
 const AddBottle = () => {
-  const [image, setImage] = useState("");
-  const [validated, setValidated] = useState(false);
+	const navigate = useNavigate();
 
+	const [image, setImage] = useState("");
+  const [validated, setValidated] = useState(false);
+	
   // Form useState's
   const [name, setName] = useState("");
   const [type, setType] = useState("");
@@ -33,6 +36,40 @@ const AddBottle = () => {
   const [taste, setTaste] = useState("");
   const [finish, setFinish] = useState("");
   const [url, setUrl] = useState("");
+
+
+  const createTags = () => {
+    const tagList = [type];
+
+    if (distiller !== "Select Distiller...") {
+      tagList.push(distiller);
+    }
+
+    if (bottler !== distiller && bottler !== "Select Bottler...") {
+      tagList.push(bottler);
+    }
+
+    return tagList;
+  };
+
+  const whiskyData = {
+    Name: name,
+    Tags: createTags(),
+    Type: type,
+    Distiller: distiller,
+    Bottler: bottler,
+    ABV: abv,
+    Age: age,
+    Price: "",
+    Rating: rating,
+    "House Score": null,
+    Date: "",
+    Intro: intro,
+    Nose: nose,
+    Taste: taste,
+    Finish: finish,
+    ImageURL: url,
+  };
 
   // Handles search button
   const handleSearch = () => {
@@ -48,12 +85,34 @@ const AddBottle = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     const form = e.currentTarget;
-    if (form.checkValidity() === false) {
-      e.preventDefault();
-      e.stopPropagation();
+  if (form.checkValidity() === false) {
+    e.preventDefault();
+    e.stopPropagation();
+  } else {
+    e.preventDefault();
+    try {
+      const response = await fetch("https://api.cstasnet.com/api/whiskies", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(whiskyData),
+      });
+
+      if (!response.ok) {
+        console.error("Error:", response.statusText);
+        return;
+      }
+
+      const data = await response.json();
+
+      navigate(`/whiskies/${data._id}`);
+    } catch (error) {
+      console.error("Error:", error);
     }
+  }
 
     setValidated(true);
   };
@@ -107,26 +166,14 @@ const AddBottle = () => {
 
         {/* Row 3 */}
         <Row className="mt-3">
-          {/* <BottleInput
-            label="Distiller"
-            placeholder="Enter Distiller..."
+          <DistillerDropdown
             className="col-12 col-md-6 col-lg-3"
             onChange={(term) => setDistiller(term)}
-          /> */}
-					<DistillerDropdown
-						className="col-12 col-md-6 col-lg-3"
-						onChange={(term) => setDistiller(term)}
-						/>
-          {/* <BottleInput
-            label="Bottler"
-            placeholder="Enter Bottler..."
+          />
+          <BottlerDropdown
             className="col-12 col-md-6 col-lg-3 mt-3 mt-md-0"
             onChange={(term) => setBottler(term)}
-          /> */}
-					<BottlerDropdown
-						className="col-12 col-md-6 col-lg-3 mt-3 mt-md-0"
-						onChange={(term) => setBottler(term)}
-						/>
+          />
           <BottleInput
             label="ABV"
             placeholder="Enter ABV..."
