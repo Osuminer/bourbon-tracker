@@ -2,14 +2,22 @@ import { useEffect, useState } from "react";
 import Select from "react-select";
 import { Form, Col, OverlayTrigger, Tooltip } from "react-bootstrap";
 
-const TypeDropdown = ({ required = false, onChange, className, tooltip }) => {
+const TypeDropdown = ({ required = false, onChange, className, tooltip, value }) => {
+  const [initialTypes, setInitialTypes] = useState([]);
   const [typesList, setTypesList] = useState([]);
-  const [selectedType, setSelectedType] = useState(null);
+  const [selectedType, setSelectedType] = useState(value);
   const [inputValue, setInputValue] = useState('');
-  const [initialTypes, setInitialTypes] = useState([])
+
+  useEffect(() => {
+    // Set the initial state value
+    if (value) {
+      setSelectedType({label: value, value: value});
+    }
+  }, [value]);
 
   useEffect(() => {
     if (selectedType) {
+      // Trigger onChange with the label of the selected type
       onChange(selectedType.label);
     }
   }, [selectedType, onChange]);
@@ -29,7 +37,6 @@ const TypeDropdown = ({ required = false, onChange, className, tooltip }) => {
   
     fetchTypes();
   }, []);
-  
 
   const handleInputChange = (input) => {
     setInputValue(input);
@@ -52,7 +59,6 @@ const TypeDropdown = ({ required = false, onChange, className, tooltip }) => {
   
     setTypesList(filteredTypes);
   };
-  
 
   return (
     <Form.Group as={Col} className={className}>

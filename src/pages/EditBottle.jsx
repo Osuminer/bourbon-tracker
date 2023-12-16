@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Container,
   Form,
@@ -8,7 +8,7 @@ import {
   Button,
   InputGroup,
 } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 import BottleInput from "../components/AddBottleComponents/BottleInput";
 import TypeDropdown from "../components/AddBottleComponents/TypeDropdown";
@@ -17,11 +17,15 @@ import BottlerDropdown from "../components/AddBottleComponents/BottlerDropdown";
 
 import "./AddBottle.css";
 
-const AddBottle = () => {
+const EditBottle = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { id } = useParams();
+  const userId = new URLSearchParams(location.search).get("u");
 
   const [image, setImage] = useState("");
   const [validated, setValidated] = useState(false);
+  const [whisky, setWhisky] = useState("");
 
   // Form useState's
   const [name, setName] = useState("");
@@ -36,6 +40,47 @@ const AddBottle = () => {
   const [taste, setTaste] = useState("");
   const [finish, setFinish] = useState("");
   const [url, setUrl] = useState("");
+
+  useEffect(() => {
+    // Function to fetch whisky by id
+    const fetchWhisky = async () => {
+      let url;
+  
+      if (userId !== "0" && userId) {
+        url = `https://api.cstasnet.com/api/whiskies/${id}/${userId}`;
+      } else {
+        url = `https://api.cstasnet.com/api/whiskies/${id}`;
+      }
+      
+      try {
+        const response = await fetch(url);
+        const data = await response.json();
+
+        setWhisky(data)
+  
+      } catch (error) {
+        console.error("Error fetching whisky:", error);
+      }
+    };
+    
+    fetchWhisky();
+  }, [id, userId]);
+
+  useEffect(() => {
+    setName(whisky.Name)
+    setType(whisky.Type)
+    setDistiller(whisky.Distiller)
+    setBottler(whisky.Bottler)
+    setABV(whisky.ABV)
+    setAge(whisky.Age)
+    setRating(whisky.Rating)
+    setIntro(whisky.Intro)
+    setNose(whisky.Nose)
+    setTaste(whisky.Taste)
+    setFinish(whisky.Finish)
+    setUrl(whisky.ImageURL)
+
+  }, [whisky])
 
   // Function to create tags based on distiller and bottler
   const createTags = () => {
@@ -57,14 +102,14 @@ const AddBottle = () => {
     Name: name,
     Tags: createTags(),
     Type: type,
-    Distiller: distiller === "Select Distiller..." ? "" : distiller,
-    Bottler: bottler === "Select Bottler..." ? "" : bottler,
+    Distiller: (distiller === "Select Distiller..." ? "" : distiller),
+    Bottler: (bottler === "Select Bottler..." ? "" : bottler),
     ABV: abv,
     Age: age,
-    Price: "",
+    Price: null || whisky.Price,
     Rating: rating,
-    "House Score": null,
-    Date: "",
+    "House Score": null || whisky["House Score"],
+    Date: null || whisky.Date,
     Intro: intro,
     Nose: nose,
     Taste: taste,
@@ -86,6 +131,7 @@ const AddBottle = () => {
     }
   };
 
+  // Handles form submit
   const handleSubmit = async (e) => {
     const form = e.currentTarget;
 
@@ -95,8 +141,8 @@ const AddBottle = () => {
     } else {
       e.preventDefault();
       try {
-        const response = await fetch("https://api.cstasnet.com/api/whiskies", {
-          method: "POST",
+        const response = await fetch(`https://api.cstasnet.com/api/whiskies/${id}`, {
+          method: "PUT",
           headers: {
             "Content-Type": "application/json",
           },
@@ -108,12 +154,14 @@ const AddBottle = () => {
           return;
         }
 
-        const data = await response.json();
+        // const data = await response.json();
 
-        navigate(`/whiskies/${data._id}`);
+        navigate(`/whiskies/${id}`);
       } catch (error) {
         console.error("Error:", error);
       }
+
+      console.log(whiskyData)
     }
 
     if (e.key === "Enter") {
@@ -125,7 +173,7 @@ const AddBottle = () => {
 
   return (
     <Container>
-      <h1>Add Bottle</h1>
+      <h1>Edit Bottle</h1>
       <Form
         className="pb-5"
         onSubmit={handleSubmit}
@@ -138,17 +186,20 @@ const AddBottle = () => {
             label="Bottle Name"
             placeholder="Enter bottle name..."
             className="col-12 col-md-7"
-            required={true}
+            required={false}
+            value={name}
             onChange={(term) => setName(term)}
           />
           <TypeDropdown
             className="col-12 col-md-3 mt-3 mt-md-0"
+            value={type}
             onChange={(term) => setType(term)}
           />
           <BottleInput
             label="Age"
             placeholder="e.g. 10 Years, 3 Years"
             className="col-12 col-md-2 mt-3 mt-md-0"
+            value={age}
             onChange={(term) => setAge(term)}
           />
         </Row>
@@ -174,16 +225,19 @@ const AddBottle = () => {
         <Row className="mt-3">
           <DistillerDropdown
             className="col-12 col-md-6 col-lg-3"
+            value={distiller}
             onChange={(term) => setDistiller(term)}
           />
           <BottlerDropdown
             className="col-12 col-md-6 col-lg-3 mt-3 mt-md-0"
+            value={whisky.Bottler}
             onChange={(term) => setBottler(term)}
           />
           <BottleInput
             label="ABV"
             placeholder="Enter ABV..."
             className="col-12 col-md-6 col-lg-3 mt-3 mt-lg-0"
+            value={abv}
             onChange={(term) => setABV(term)}
           />
           <BottleInput
@@ -191,6 +245,7 @@ const AddBottle = () => {
             placeholder="Enter rating /100..."
             tooltip="Ratings are out of 100"
             className="col-12 col-md-6 col-lg-3 mt-3 mt-lg-0"
+            value={rating}
             onChange={(term) => setRating(term)}
           />
         </Row>
@@ -202,6 +257,7 @@ const AddBottle = () => {
             placeholder="Enter intro..."
             className="col-12 col-md-6"
             type="textarea"
+            value={intro}
             onChange={(term) => setIntro(term)}
           />
           <BottleInput
@@ -209,6 +265,7 @@ const AddBottle = () => {
             placeholder="Enter nose..."
             className="col-12 col-md-6 mt-3 mt-md-0"
             type="textarea"
+            value={nose}
             onChange={(term) => setNose(term)}
           />
           <BottleInput
@@ -216,6 +273,7 @@ const AddBottle = () => {
             placeholder="Enter taste..."
             className="col-12 col-md-6 mt-3"
             type="textarea"
+            value={taste}
             onChange={(term) => setTaste(term)}
           />
           <BottleInput
@@ -223,6 +281,7 @@ const AddBottle = () => {
             placeholder="Enter finish..."
             className="col-12 col-md-6 mt-3"
             type="textarea"
+            value={finish}
             onChange={(term) => setFinish(term)}
           />
         </Row>
@@ -234,6 +293,7 @@ const AddBottle = () => {
             <Form.Control
               type="url"
               placeholder=""
+              defaultValue={url}
               onChange={(e) => setUrl(e.target.value)}
               onKeyDown={handleKeyDown}
             ></Form.Control>
@@ -256,4 +316,4 @@ const AddBottle = () => {
   );
 };
 
-export default AddBottle;
+export default EditBottle;

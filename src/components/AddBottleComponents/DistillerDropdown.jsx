@@ -2,14 +2,22 @@ import { useEffect, useState } from "react";
 import Select from "react-select";
 import { Form, Col, OverlayTrigger, Tooltip } from "react-bootstrap";
 
-const DistillerDropdown = ({ required = false, onChange, className, tooltip }) => {
+const DistillerDropdown = ({ required = false, onChange, className, tooltip, value }) => {
+  const [initialDistillers, setInitialDistillers] = useState([]);
   const [distillersList, setDistillersList] = useState([]);
-  const [selectedDistiller, setSelectedDistiller] = useState(null);
+  const [selectedDistiller, setSelectedDistiller] = useState(value);
   const [inputValue, setInputValue] = useState('');
-  const [initialDistillers, setInitialDistillers] = useState([])
+
+  useEffect(() => {
+    // Set the initial state value
+    if (value) {
+      setSelectedDistiller({label: value, value: value});
+    }
+  }, [value]);
 
   useEffect(() => {
     if (selectedDistiller) {
+      // Trigger onChange with the label of the selected distiller
       onChange(selectedDistiller.label);
     }
   }, [selectedDistiller, onChange]);
@@ -29,7 +37,6 @@ const DistillerDropdown = ({ required = false, onChange, className, tooltip }) =
   
     fetchDistillers();
   }, []);
-  
 
   const handleInputChange = (input) => {
     setInputValue(input);
@@ -52,7 +59,6 @@ const DistillerDropdown = ({ required = false, onChange, className, tooltip }) =
   
     setDistillersList(filteredDistillers);
   };
-  
 
   return (
     <Form.Group as={Col} className={className}>

@@ -150,6 +150,28 @@ const createWhisky = async (data) => {
   }
 };
 
+// Function to update an existing whisky bottle
+const updateWhisky = async (id, data) => {
+  try {
+    // Find the whisky by its ID
+    const whisky = await Whisky.findById(id);
+
+    // If the whisky is not found, throw an error or handle it as needed
+    if (!whisky) {
+      throw new Error("Whisky not found");
+    }
+
+    // Update the whisky properties with the new data
+    Object.assign(whisky, data);
+
+    // Save the updated whisky
+    return await whisky.save();
+  } catch (error) {
+    console.error("Error updating whisky:", error);
+    throw error;
+  }
+};
+
 // Function to grab a user's wishlist of bourbons
 const getUserWishlistById = async (userId, page = 0, limit = 10) => {
   try {
@@ -296,6 +318,7 @@ module.exports = {
   getUsers,
   getAllWhiskies,
   createWhisky,
+  updateWhisky,
   searchWhiskies,
   getWhiskyById,
   whiskiesCount,

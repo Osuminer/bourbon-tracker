@@ -9,12 +9,14 @@ const BottleInput = ({
   className,
   tooltip,
   type = "input",
+  value,
 }) => {
-  const [textValue, setTextValue] = useState();
+  const [textValue, setTextValue] = useState(value);
 
   useEffect(() => {
-    onChange(textValue);
-  });
+    // Set the initial state value
+    setTextValue(value);
+  }, [value]);
 
   return (
     <Form.Group as={Col} className={className}>
@@ -35,9 +37,11 @@ const BottleInput = ({
       <Form.Control
         required={required}
         placeholder={placeholder}
+        defaultValue={textValue}
         as={type}
         onChange={(e) => setTextValue(e.target.value)}
-      ></Form.Control>
+        onBlur={() => onChange(textValue)}
+      />
     </Form.Group>
   );
 };

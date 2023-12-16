@@ -2,14 +2,22 @@ import { useEffect, useState } from "react";
 import Select from "react-select";
 import { Form, Col, OverlayTrigger, Tooltip } from "react-bootstrap";
 
-const BottlerDropdown = ({ required = false, onChange, className, tooltip }) => {
+const BottlerDropdown = ({ required = false, onChange, className, tooltip, value }) => {
+  const [initialBottlers, setInitialBottlers] = useState([]);
   const [bottlersList, setBottlersList] = useState([]);
-  const [selectedBottler, setSelectedBottler] = useState(null);
+  const [selectedBottler, setSelectedBottler] = useState(value);
   const [inputValue, setInputValue] = useState('');
-  const [initialBottlers, setInitialBottlers] = useState([])
+
+  useEffect(() => {
+    // Set the initial state value
+    if (value) {
+      setSelectedBottler({label: value, value: value});
+    }
+  }, [value]);
 
   useEffect(() => {
     if (selectedBottler) {
+      // Trigger onChange with the label of the selected bottler
       onChange(selectedBottler.label);
     }
   }, [selectedBottler, onChange]);
@@ -29,7 +37,6 @@ const BottlerDropdown = ({ required = false, onChange, className, tooltip }) => 
   
     fetchBottlers();
   }, []);
-  
 
   const handleInputChange = (input) => {
     setInputValue(input);
@@ -52,7 +59,6 @@ const BottlerDropdown = ({ required = false, onChange, className, tooltip }) => 
   
     setBottlersList(filteredBottlers);
   };
-  
 
   return (
     <Form.Group as={Col} className={className}>
