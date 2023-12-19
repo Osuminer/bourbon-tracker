@@ -5,6 +5,14 @@ import { Form, Col, OverlayTrigger, Tooltip } from "react-bootstrap";
 const BottlerDropdown = ({ required = false, onChange, className, tooltip, value }) => {
   const [bottlersList, setBottlersList] = useState([]);
   const [inputValue, setInputValue] = useState('');
+  const [selectedBottler, setSelectedBottler] = useState(value)
+
+  useEffect(() => {
+    // Set the initial state value
+    if (value) {
+      setSelectedBottler({ label: value, value: value });
+    }
+  }, [value]);
 
   useEffect(() => {
     const fetchBottlers = async () => {
@@ -22,11 +30,20 @@ const BottlerDropdown = ({ required = false, onChange, className, tooltip, value
   }, []);
 
   const handleChange = (selectedOption) => {
-    onChange(selectedOption.label);
+    if (selectedOption) {
+      setSelectedBottler(selectedOption);
+      onChange(selectedOption.label);
+    } else {
+      setSelectedBottler(null);
+      onChange(null);
+    }
   };
+  
 
   const handleCreate = (input) => {
-    setBottlersList([...bottlersList, { label: input, value: input }]);
+    const newOption = { label: input, value: input };
+    setSelectedBottler(newOption);
+    setBottlersList([...bottlersList, newOption]);
     onChange(input);
   };
 
@@ -47,12 +64,14 @@ const BottlerDropdown = ({ required = false, onChange, className, tooltip, value
       )}
 
       <CreatableSelect
+        isClearable
         options={bottlersList}
+        value={selectedBottler}
         onChange={handleChange}
         onCreateOption={handleCreate}
         inputValue={inputValue}
         onInputChange={(input) => setInputValue(input)}
-        placeholder="Select or create Bottler..."
+        placeholder="Select Bottler..."
         isSearchable
       />
     </Form.Group>

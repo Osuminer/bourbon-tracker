@@ -1,26 +1,18 @@
 import { useEffect, useState } from "react";
-import Select from "react-select";
+import CreatableSelect from "react-select/creatable";
 import { Form, Col, OverlayTrigger, Tooltip } from "react-bootstrap";
 
 const TypeDropdown = ({ required = false, onChange, className, tooltip, value }) => {
-  const [initialTypes, setInitialTypes] = useState([]);
   const [typesList, setTypesList] = useState([]);
-  const [selectedType, setSelectedType] = useState(value);
   const [inputValue, setInputValue] = useState('');
+  const [selectedType, setSelectedType] = useState(value)
 
   useEffect(() => {
     // Set the initial state value
     if (value) {
-      setSelectedType({label: value, value: value});
+      setSelectedType({ label: value, value: value });
     }
   }, [value]);
-
-  useEffect(() => {
-    if (selectedType) {
-      // Trigger onChange with the label of the selected type
-      onChange(selectedType.label);
-    }
-  }, [selectedType, onChange]);
 
   useEffect(() => {
     const fetchTypes = async () => {
@@ -29,35 +21,30 @@ const TypeDropdown = ({ required = false, onChange, className, tooltip, value })
         const data = await response.json();
         const initialList = data.map((type) => ({ label: type, value: type }));
         setTypesList(initialList);
-        setInitialTypes(initialList);
       } catch (error) {
         console.error("Error fetching types", error);
       }
     };
-  
+
     fetchTypes();
   }, []);
 
-  const handleInputChange = (input) => {
-    setInputValue(input);
-  
-    if (input.trim() === '') {
-      // If the input is empty, reset to the initial list
-      setTypesList(initialTypes);
-      return;
+  const handleChange = (selectedOption) => {
+    if (selectedOption) {
+      setSelectedType(selectedOption);
+      onChange(selectedOption.label);
+    } else {
+      setSelectedType(null);
+      onChange(null);
     }
+  };
   
-    // Fetch types that match the input
-    const filteredTypes = initialTypes.filter((option) =>
-      option.label.toLowerCase().includes(input.toLowerCase())
-    );
-  
-    // Add the input itself as an option
-    if (input.trim() !== '') {
-      filteredTypes.push({ label: input, value: input });
-    }
-  
-    setTypesList(filteredTypes);
+
+  const handleCreate = (input) => {
+    const newOption = { label: input, value: input };
+    setSelectedType(newOption);
+    setTypesList([...typesList, newOption]);
+    onChange(input);
   };
 
   return (
@@ -76,12 +63,14 @@ const TypeDropdown = ({ required = false, onChange, className, tooltip, value })
         <Form.Label>Type</Form.Label>
       )}
 
-      <Select
+      <CreatableSelect
+        isClearable
         options={typesList}
         value={selectedType}
-        onChange={(selectedOption) => setSelectedType(selectedOption)}
-        onInputChange={handleInputChange}
+        onChange={handleChange}
+        onCreateOption={handleCreate}
         inputValue={inputValue}
+        onInputChange={(input) => setInputValue(input)}
         placeholder="Select Type..."
         isSearchable
       />
