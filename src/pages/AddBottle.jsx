@@ -7,8 +7,9 @@ import {
   Image,
   Button,
   InputGroup,
+  Col,
 } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import BottleInput from "../components/AddBottleComponents/BottleInput";
 import TypeDropdown from "../components/AddBottleComponents/TypeDropdown";
@@ -19,6 +20,8 @@ import "./AddBottle.css";
 
 const AddBottle = () => {
   const navigate = useNavigate();
+  const location = useLocation()
+  const userId = new URLSearchParams(location.search).get('u')
 
   const [image, setImage] = useState("");
   const [validated, setValidated] = useState(false);
@@ -110,7 +113,9 @@ const AddBottle = () => {
 
         const data = await response.json();
 
-        navigate(`/whiskies/${data._id}`);
+        const url = userId ? `?u=${userId}` : ''
+
+        navigate(`/whiskies/${data._id}/${url}`);
       } catch (error) {
         console.error("Error:", error);
       }
@@ -153,22 +158,13 @@ const AddBottle = () => {
           />
         </Row>
 
-        {/* Row 2
+        {/* Row 2 */}
 				<Row className="mt-3">
 					<Form.Group as={Col} className="col-sm-12">
-						<span>
 							<Form.Label>Tags</Form.Label>
-							<OverlayTrigger
-								placement="right"
-								overlay={
-									<Tooltip>Press the Enter key after typing to add tag</Tooltip>
-								}>
-								<i class="bi bi-info-circle-fill mx-2"></i>
-							</OverlayTrigger>
-						</span>
 						<Form.Control placeholder="e.g. Bourbon, Woodford Reserve, Eagle Rare"></Form.Control>
 					</Form.Group>
-				</Row> */}
+				</Row>
 
         {/* Row 3 */}
         <Row className="mt-3">

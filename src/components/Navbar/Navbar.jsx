@@ -80,7 +80,10 @@ const MyNavbar = () => {
             <Nav.Link onClick={() => handleLinkClick('/collection')}>My Collection</Nav.Link>
           </Nav>
 
-          <Button variant="dark" style={{ marginRight: '15px' }} onClick={() => navigate('/add')}>
+          <Button variant="dark" style={{ marginRight: '15px' }} onClick={() => {
+            const url = userId ? `?u=${userId}` : ''
+            navigate(`/add/${url}`)
+            }}>
             <span>
               <i className="bi-plus-lg" style={{ paddingRight: '5px' }}></i>
             </span>
