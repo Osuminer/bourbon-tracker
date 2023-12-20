@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Form, Col, OverlayTrigger, Tooltip } from "react-bootstrap";
 
 const BottleInput = ({
@@ -11,13 +11,6 @@ const BottleInput = ({
   type = "input",
   value,
 }) => {
-  const [textValue, setTextValue] = useState(value);
-
-  useEffect(() => {
-    // Set the initial state value
-    setTextValue(value);
-  }, [value]);
-
   return (
     <Form.Group as={Col} className={className}>
       {tooltip ? (
@@ -27,7 +20,7 @@ const BottleInput = ({
             placement="right"
             overlay={<Tooltip>{tooltip}</Tooltip>}
           >
-            <i class="bi bi-info-circle-fill mx-2"></i>
+            <i className="bi bi-info-circle-fill mx-2"></i>
           </OverlayTrigger>
         </span>
       ) : (
@@ -37,10 +30,9 @@ const BottleInput = ({
       <Form.Control
         required={required}
         placeholder={placeholder}
-        defaultValue={textValue}
+        value={value}
         as={type}
-        onChange={(e) => setTextValue(e.target.value)}
-        onBlur={() => onChange(textValue)}
+        onChange={(e) => onChange(e.target.value)}
       />
     </Form.Group>
   );

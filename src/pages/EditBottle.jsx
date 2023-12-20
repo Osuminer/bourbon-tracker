@@ -140,26 +140,26 @@ const EditBottle = () => {
       e.stopPropagation();
     } else {
       e.preventDefault();
-      try {
-        const response = await fetch(`https://api.cstasnet.com/api/whiskies/${id}`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(whiskyData),
-        });
+      // try {
+      //   const response = await fetch(`https://api.cstasnet.com/api/whiskies/${id}`, {
+      //     method: "PUT",
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //     },
+      //     body: JSON.stringify(whiskyData),
+      //   });
 
-        if (!response.ok) {
-          console.error("Error:", response.statusText);
-          return;
-        }
+      //   if (!response.ok) {
+      //     console.error("Error:", response.statusText);
+      //     return;
+      //   }
 
-        // const data = await response.json();
+      //   // const data = await response.json();
 
-        navigate(`/whiskies/${id}`);
-      } catch (error) {
-        console.error("Error:", error);
-      }
+      //   navigate(`/whiskies/${id}`);
+      // } catch (error) {
+      //   console.error("Error:", error);
+      // }
 
       console.log(whiskyData)
     }
@@ -200,7 +200,10 @@ const EditBottle = () => {
             placeholder="e.g. 10 Years, 3 Years"
             className="col-12 col-md-2 mt-3 mt-md-0"
             value={age}
-            onChange={(term) => setAge(term)}
+            onChange={(term) => {
+              console.log(term)
+              setAge(term)
+            }}
           />
         </Row>
 

@@ -65,6 +65,7 @@ const TypeDropdown = ({ required = false, onChange, className, tooltip, value })
 
       <CreatableSelect
         isClearable
+        isSearchable
         options={typesList}
         value={selectedType}
         onChange={handleChange}
@@ -72,7 +73,7 @@ const TypeDropdown = ({ required = false, onChange, className, tooltip, value })
         inputValue={inputValue}
         onInputChange={(input) => setInputValue(input)}
         placeholder="Select Type..."
-        isSearchable
+        // className="form-select"
       />
     </Form.Group>
   );

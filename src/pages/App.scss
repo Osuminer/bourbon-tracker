@@ -13,9 +13,11 @@ $body: $lightest-color;
 $light: $lightest-color;
 $dark: $dark-color;
 
+
 .body {
 	background-color: $body;
 	min-height: 100vh
 }
 
-@import '~bootstrap/scss/bootstrap';
+@import '../../node_modules/bootstrap/scss/bootstrap.scss';
+

@@ -7,7 +7,6 @@ import {
   Image,
   Button,
   InputGroup,
-  Col,
 } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -100,28 +99,28 @@ const AddBottle = () => {
     } else {
       e.preventDefault();
       console.log(whiskyData)
-      // try {
-      //   const response = await fetch("https://api.cstasnet.com/api/whiskies", {
-      //     method: "POST",
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //     },
-      //     body: JSON.stringify(whiskyData),
-      //   });
+      try {
+        const response = await fetch("https://api.cstasnet.com/api/whiskies", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(whiskyData),
+        });
 
-      //   if (!response.ok) {
-      //     console.error("Error:", response.statusText);
-      //     return;
-      //   }
+        if (!response.ok) {
+          console.error("Error:", response.statusText);
+          return;
+        }
 
-      //   const data = await response.json();
+        const data = await response.json();
 
-      //   const url = userId ? `?u=${userId}` : ''
+        const url = userId ? `?u=${userId}` : ''
 
-      //   navigate(`/whiskies/${data._id}/${url}`);
-      // } catch (error) {
-      //   console.error("Error:", error);
-      // }
+        navigate(`/whiskies/${data._id}/${url}`);
+      } catch (error) {
+        console.error("Error:", error);
+      }
     }
 
     if (e.key === "Enter") {
@@ -162,12 +161,12 @@ const AddBottle = () => {
         </Row>
 
         {/* Row 2 */}
-        <Row className="mt-3">
+        {/* <Row className="mt-3">
           <TagInput
             label="Tags"
             placeholder="e.g. Bourbon, Woodford Reserve, Eagle Rare" 
             onChange={(term) => setTags(term)}/>
-        </Row>
+        </Row> */}
 
         {/* Row 3 */}
         <Row className="mt-3">
