@@ -1,26 +1,18 @@
 import { useEffect, useState } from "react";
-import Select from "react-select";
+import CreatableSelect from "react-select/creatable";
 import { Form, Col, OverlayTrigger, Tooltip } from "react-bootstrap";
 
 const DistillerDropdown = ({ required = false, onChange, className, tooltip, value }) => {
-  const [initialDistillers, setInitialDistillers] = useState([]);
   const [distillersList, setDistillersList] = useState([]);
-  const [selectedDistiller, setSelectedDistiller] = useState(value);
   const [inputValue, setInputValue] = useState('');
+  const [selectedDistiller, setSelectedDistiller] = useState(value)
 
   useEffect(() => {
     // Set the initial state value
     if (value) {
-      setSelectedDistiller({label: value, value: value});
+      setSelectedDistiller({ label: value, value: value });
     }
   }, [value]);
-
-  useEffect(() => {
-    if (selectedDistiller) {
-      // Trigger onChange with the label of the selected distiller
-      onChange(selectedDistiller.label);
-    }
-  }, [selectedDistiller, onChange]);
 
   useEffect(() => {
     const fetchDistillers = async () => {
@@ -29,35 +21,30 @@ const DistillerDropdown = ({ required = false, onChange, className, tooltip, val
         const data = await response.json();
         const initialList = data.map((type) => ({ label: type, value: type }));
         setDistillersList(initialList);
-        setInitialDistillers(initialList);
       } catch (error) {
         console.error("Error fetching distillers", error);
       }
     };
-  
+
     fetchDistillers();
   }, []);
 
-  const handleInputChange = (input) => {
-    setInputValue(input);
-  
-    if (input.trim() === '') {
-      // If the input is empty, reset to the initial list
-      setDistillersList(initialDistillers);
-      return;
+  const handleChange = (selectedOption) => {
+    if (selectedOption) {
+      setSelectedDistiller(selectedOption);
+      onChange(selectedOption.label);
+    } else {
+      setSelectedDistiller(null);
+      onChange(null);
     }
+  };
   
-    // Fetch distillers that match the input
-    const filteredDistillers = initialDistillers.filter((option) =>
-      option.label.toLowerCase().includes(input.toLowerCase())
-    );
-  
-    // Add the input itself as an option
-    if (input.trim() !== '') {
-      filteredDistillers.push({ label: input, value: input });
-    }
-  
-    setDistillersList(filteredDistillers);
+
+  const handleCreate = (input) => {
+    const newOption = { label: input, value: input };
+    setSelectedDistiller(newOption);
+    setDistillersList([...distillersList, newOption]);
+    onChange(input);
   };
 
   return (
@@ -76,12 +63,14 @@ const DistillerDropdown = ({ required = false, onChange, className, tooltip, val
         <Form.Label>Distiller</Form.Label>
       )}
 
-      <Select
+      <CreatableSelect
+        isClearable
         options={distillersList}
         value={selectedDistiller}
-        onChange={(selectedOption) => setSelectedDistiller(selectedOption)}
-        onInputChange={handleInputChange}
+        onChange={handleChange}
+        onCreateOption={handleCreate}
         inputValue={inputValue}
+        onInputChange={(input) => setInputValue(input)}
         placeholder="Select Distiller..."
         isSearchable
       />

@@ -1,26 +1,18 @@
 import { useEffect, useState } from "react";
-import Select from "react-select";
+import CreatableSelect from "react-select/creatable";
 import { Form, Col, OverlayTrigger, Tooltip } from "react-bootstrap";
 
 const BottlerDropdown = ({ required = false, onChange, className, tooltip, value }) => {
-  const [initialBottlers, setInitialBottlers] = useState([]);
   const [bottlersList, setBottlersList] = useState([]);
-  const [selectedBottler, setSelectedBottler] = useState(value);
   const [inputValue, setInputValue] = useState('');
+  const [selectedBottler, setSelectedBottler] = useState(value)
 
   useEffect(() => {
     // Set the initial state value
     if (value) {
-      setSelectedBottler({label: value, value: value});
+      setSelectedBottler({ label: value, value: value });
     }
   }, [value]);
-
-  useEffect(() => {
-    if (selectedBottler) {
-      // Trigger onChange with the label of the selected bottler
-      onChange(selectedBottler.label);
-    }
-  }, [selectedBottler, onChange]);
 
   useEffect(() => {
     const fetchBottlers = async () => {
@@ -29,35 +21,30 @@ const BottlerDropdown = ({ required = false, onChange, className, tooltip, value
         const data = await response.json();
         const initialList = data.map((type) => ({ label: type, value: type }));
         setBottlersList(initialList);
-        setInitialBottlers(initialList);
       } catch (error) {
         console.error("Error fetching bottlers", error);
       }
     };
-  
+
     fetchBottlers();
   }, []);
 
-  const handleInputChange = (input) => {
-    setInputValue(input);
-  
-    if (input.trim() === '') {
-      // If the input is empty, reset to the initial list
-      setBottlersList(initialBottlers);
-      return;
+  const handleChange = (selectedOption) => {
+    if (selectedOption) {
+      setSelectedBottler(selectedOption);
+      onChange(selectedOption.label);
+    } else {
+      setSelectedBottler(null);
+      onChange(null);
     }
+  };
   
-    // Fetch bottlers that match the input
-    const filteredBottlers = initialBottlers.filter((option) =>
-      option.label.toLowerCase().includes(input.toLowerCase())
-    );
-  
-    // Add the input itself as an option
-    if (input.trim() !== '') {
-      filteredBottlers.push({ label: input, value: input });
-    }
-  
-    setBottlersList(filteredBottlers);
+
+  const handleCreate = (input) => {
+    const newOption = { label: input, value: input };
+    setSelectedBottler(newOption);
+    setBottlersList([...bottlersList, newOption]);
+    onChange(input);
   };
 
   return (
@@ -76,12 +63,14 @@ const BottlerDropdown = ({ required = false, onChange, className, tooltip, value
         <Form.Label>Bottler</Form.Label>
       )}
 
-      <Select
+      <CreatableSelect
+        isClearable
         options={bottlersList}
         value={selectedBottler}
-        onChange={(selectedOption) => setSelectedBottler(selectedOption)}
-        onInputChange={handleInputChange}
+        onChange={handleChange}
+        onCreateOption={handleCreate}
         inputValue={inputValue}
+        onInputChange={(input) => setInputValue(input)}
         placeholder="Select Bottler..."
         isSearchable
       />

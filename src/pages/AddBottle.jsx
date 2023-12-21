@@ -7,11 +7,11 @@ import {
   Image,
   Button,
   InputGroup,
-  Col,
 } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import BottleInput from "../components/AddBottleComponents/BottleInput";
+import TagInput from "../components/AddBottleComponents/TagInput";
 import TypeDropdown from "../components/AddBottleComponents/TypeDropdown";
 import DistillerDropdown from "../components/AddBottleComponents/DistillerDropdown";
 import BottlerDropdown from "../components/AddBottleComponents/BottlerDropdown";
@@ -29,6 +29,7 @@ const AddBottle = () => {
   // Form useState's
   const [name, setName] = useState("");
   const [type, setType] = useState("");
+  const [tags, setTags] = useState("");
   const [age, setAge] = useState("");
   const [distiller, setDistiller] = useState("");
   const [bottler, setBottler] = useState("");
@@ -97,6 +98,7 @@ const AddBottle = () => {
       e.stopPropagation();
     } else {
       e.preventDefault();
+      console.log(whiskyData)
       try {
         const response = await fetch("https://api.cstasnet.com/api/whiskies", {
           method: "POST",
@@ -159,12 +161,12 @@ const AddBottle = () => {
         </Row>
 
         {/* Row 2 */}
-				<Row className="mt-3">
-					<Form.Group as={Col} className="col-sm-12">
-							<Form.Label>Tags</Form.Label>
-						<Form.Control placeholder="e.g. Bourbon, Woodford Reserve, Eagle Rare"></Form.Control>
-					</Form.Group>
-				</Row>
+        {/* <Row className="mt-3">
+          <TagInput
+            label="Tags"
+            placeholder="e.g. Bourbon, Woodford Reserve, Eagle Rare" 
+            onChange={(term) => setTags(term)}/>
+        </Row> */}
 
         {/* Row 3 */}
         <Row className="mt-3">

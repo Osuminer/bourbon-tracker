@@ -45,24 +45,24 @@ const EditBottle = () => {
     // Function to fetch whisky by id
     const fetchWhisky = async () => {
       let url;
-  
+
       if (userId !== "0" && userId) {
         url = `https://api.cstasnet.com/api/whiskies/${id}/${userId}`;
       } else {
         url = `https://api.cstasnet.com/api/whiskies/${id}`;
       }
-      
+
       try {
         const response = await fetch(url);
         const data = await response.json();
 
         setWhisky(data)
-  
+
       } catch (error) {
         console.error("Error fetching whisky:", error);
       }
     };
-    
+
     fetchWhisky();
   }, [id, userId]);
 
@@ -160,8 +160,6 @@ const EditBottle = () => {
       } catch (error) {
         console.error("Error:", error);
       }
-
-      console.log(whiskyData)
     }
 
     if (e.key === "Enter") {
