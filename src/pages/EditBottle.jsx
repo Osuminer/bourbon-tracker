@@ -45,24 +45,24 @@ const EditBottle = () => {
     // Function to fetch whisky by id
     const fetchWhisky = async () => {
       let url;
-  
+
       if (userId !== "0" && userId) {
         url = `https://api.cstasnet.com/api/whiskies/${id}/${userId}`;
       } else {
         url = `https://api.cstasnet.com/api/whiskies/${id}`;
       }
-      
+
       try {
         const response = await fetch(url);
         const data = await response.json();
 
         setWhisky(data)
-  
+
       } catch (error) {
         console.error("Error fetching whisky:", error);
       }
     };
-    
+
     fetchWhisky();
   }, [id, userId]);
 
@@ -140,28 +140,26 @@ const EditBottle = () => {
       e.stopPropagation();
     } else {
       e.preventDefault();
-      // try {
-      //   const response = await fetch(`https://api.cstasnet.com/api/whiskies/${id}`, {
-      //     method: "PUT",
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //     },
-      //     body: JSON.stringify(whiskyData),
-      //   });
+      try {
+        const response = await fetch(`https://api.cstasnet.com/api/whiskies/${id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(whiskyData),
+        });
 
-      //   if (!response.ok) {
-      //     console.error("Error:", response.statusText);
-      //     return;
-      //   }
+        if (!response.ok) {
+          console.error("Error:", response.statusText);
+          return;
+        }
 
-      //   // const data = await response.json();
+        // const data = await response.json();
 
-      //   navigate(`/whiskies/${id}`);
-      // } catch (error) {
-      //   console.error("Error:", error);
-      // }
-
-      console.log(whiskyData)
+        navigate(`/whiskies/${id}`);
+      } catch (error) {
+        console.error("Error:", error);
+      }
     }
 
     if (e.key === "Enter") {
@@ -200,10 +198,7 @@ const EditBottle = () => {
             placeholder="e.g. 10 Years, 3 Years"
             className="col-12 col-md-2 mt-3 mt-md-0"
             value={age}
-            onChange={(term) => {
-              console.log(term)
-              setAge(term)
-            }}
+            onChange={(term) => setAge(term)}
           />
         </Row>
 
