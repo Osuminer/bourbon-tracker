@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Card, ListGroup, ListGroupItem } from "react-bootstrap";
 import { Link } from 'react-router-dom'
 
+import TagComponent from "../TagComponent/TagComponent";
+
 import './BourbonCard.css'
 
 const BourbonCard = ({ whisky, userId }) => {
@@ -35,8 +37,10 @@ const BourbonCard = ({ whisky, userId }) => {
         <Card.Title>{Name}</Card.Title>
       </Card.Body>
       <ListGroup variant="flush">
-        <ListGroupItem>
-          <strong>Age:</strong> {Age}
+        <ListGroupItem style={{paddingTop: "2px", paddingBottom: "2px"}}>
+          {whisky.Tags.map((tag, index) => (
+            <TagComponent tag={tag} key={index} />
+          ))}
         </ListGroupItem>
         <ListGroupItem>
           <strong>APV:</strong> {ABV}
