@@ -13,7 +13,6 @@ const BourbonCard = ({ whisky, userId }) => {
     _id,
     Name,
     ABV,
-    Age,
     Rating,
     ImageURL
   } = whisky
