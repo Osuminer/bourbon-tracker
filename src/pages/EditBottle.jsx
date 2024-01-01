@@ -86,19 +86,19 @@ const EditBottle = () => {
   }, [whisky])
 
   // Function to create tags based on distiller and bottler
-  const createTags = () => {
-    const tagList = [type];
+  // const createTags = () => {
+  //   const tagList = [type];
 
-    if (distiller !== "Select Distiller...") {
-      tagList.push(distiller);
-    }
+  //   if (distiller !== "Select Distiller...") {
+  //     tagList.push(distiller);
+  //   }
 
-    if (bottler !== distiller && bottler !== "Select Bottler...") {
-      tagList.push(bottler);
-    }
+  //   if (bottler !== distiller && bottler !== "Select Bottler...") {
+  //     tagList.push(bottler);
+  //   }
 
-    return tagList;
-  };
+  //   return tagList;
+  // };
 
   // Whisky bottle object
   const whiskyData = {
@@ -212,7 +212,7 @@ const EditBottle = () => {
           />
           <BottlerDropdown
             className="col-12 col-md-6 col-lg-3 mt-3 mt-md-0"
-            value={whisky.Bottler}
+            value={bottler}
             onChange={(term) => setBottler(term)}
           />
           <BottleInput
@@ -237,7 +237,7 @@ const EditBottle = () => {
           <TagInput
             label="Tags"
             placeholder="e.g. Bourbon, Woodford Reserve, Eagle Rare" 
-            value={whisky.Tags}
+            value={tags}
             onChange={(term) => setTags(term)}/>
         </Row>
 
