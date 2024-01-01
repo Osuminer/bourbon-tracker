@@ -11,6 +11,7 @@ import {
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 import BottleInput from "../components/AddBottleComponents/BottleInput";
+import TagInput from "../components/AddBottleComponents/TagInput";
 import TypeDropdown from "../components/AddBottleComponents/TypeDropdown";
 import DistillerDropdown from "../components/AddBottleComponents/DistillerDropdown";
 import BottlerDropdown from "../components/AddBottleComponents/BottlerDropdown";
@@ -30,6 +31,7 @@ const EditBottle = () => {
   // Form useState's
   const [name, setName] = useState("");
   const [type, setType] = useState("");
+  const [tags, setTags] = useState("");
   const [age, setAge] = useState("");
   const [distiller, setDistiller] = useState("");
   const [bottler, setBottler] = useState("");
@@ -69,6 +71,7 @@ const EditBottle = () => {
   useEffect(() => {
     setName(whisky.Name)
     setType(whisky.Type)
+    setTags(whisky.Tags)
     setDistiller(whisky.Distiller)
     setBottler(whisky.Bottler)
     setABV(whisky.ABV)
@@ -100,7 +103,7 @@ const EditBottle = () => {
   // Whisky bottle object
   const whiskyData = {
     Name: name,
-    Tags: createTags(),
+    Tags: tags,
     Type: type,
     Distiller: (distiller === "Select Distiller..." ? "" : distiller),
     Bottler: (bottler === "Select Bottler..." ? "" : bottler),
@@ -154,8 +157,6 @@ const EditBottle = () => {
           return;
         }
 
-        // const data = await response.json();
-
         navigate(`/whiskies/${id}`);
       } catch (error) {
         console.error("Error:", error);
@@ -202,24 +203,7 @@ const EditBottle = () => {
           />
         </Row>
 
-        {/* Row 2
-				<Row className="mt-3">
-					<Form.Group as={Col} className="col-sm-12">
-						<span>
-							<Form.Label>Tags</Form.Label>
-							<OverlayTrigger
-								placement="right"
-								overlay={
-									<Tooltip>Press the Enter key after typing to add tag</Tooltip>
-								}>
-								<i class="bi bi-info-circle-fill mx-2"></i>
-							</OverlayTrigger>
-						</span>
-						<Form.Control placeholder="e.g. Bourbon, Woodford Reserve, Eagle Rare"></Form.Control>
-					</Form.Group>
-				</Row> */}
-
-        {/* Row 3 */}
+        {/* Row 2 */}
         <Row className="mt-3">
           <DistillerDropdown
             className="col-12 col-md-6 col-lg-3"
@@ -246,6 +230,15 @@ const EditBottle = () => {
             value={rating}
             onChange={(term) => setRating(term)}
           />
+        </Row>
+
+        {/* Row 3 */}
+        <Row className="mt-3">
+          <TagInput
+            label="Tags"
+            placeholder="e.g. Bourbon, Woodford Reserve, Eagle Rare" 
+            value={whisky.Tags}
+            onChange={(term) => setTags(term)}/>
         </Row>
 
         {/* Row 4 */}

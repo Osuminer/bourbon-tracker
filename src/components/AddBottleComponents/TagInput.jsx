@@ -17,7 +17,7 @@ const TagInput = ({
   useEffect(() => {
     // Set the initial state value
     if (value) {
-      setSelectedTags([value]);
+      setSelectedTags(value.map((tag) => ({ label: tag, value: tag })));
     }
   }, [value]);
 
@@ -26,7 +26,7 @@ const TagInput = ({
       try {
         const response = await fetch(`https://api.cstasnet.com/api/tags`);
         const data = await response.json();
-        const initialList = data.map((type) => ({ label: type, value: type }));
+        const initialList = data.map((tag) => ({ label: tag, value: tag }));
         setTagsList(initialList);
       } catch (error) {
         console.error("Error fetching tags", error);
