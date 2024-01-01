@@ -59,7 +59,8 @@ const AddBottle = () => {
   // Whisky bottle object
   const whiskyData = {
     Name: name,
-    Tags: createTags(),
+    // Tags: createTags(),
+    Tags: tags,
     Type: type,
     Distiller: distiller === "Select Distiller..." ? "" : distiller,
     Bottler: bottler === "Select Bottler..." ? "" : bottler,
@@ -161,14 +162,6 @@ const AddBottle = () => {
         </Row>
 
         {/* Row 2 */}
-        {/* <Row className="mt-3">
-          <TagInput
-            label="Tags"
-            placeholder="e.g. Bourbon, Woodford Reserve, Eagle Rare" 
-            onChange={(term) => setTags(term)}/>
-        </Row> */}
-
-        {/* Row 3 */}
         <Row className="mt-3">
           <DistillerDropdown
             className="col-12 col-md-6 col-lg-3"
@@ -191,6 +184,14 @@ const AddBottle = () => {
             className="col-12 col-md-6 col-lg-3 mt-3 mt-lg-0"
             onChange={(term) => setRating(term)}
           />
+        </Row>
+
+        {/* Row 3 */}
+        <Row className="mt-3">
+          <TagInput
+            label="Tags"
+            placeholder="e.g. Bourbon, Woodford Reserve, Eagle Rare" 
+            onChange={(term) => setTags(term)}/>
         </Row>
 
         {/* Row 4 */}
