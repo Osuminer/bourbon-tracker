@@ -41,25 +41,9 @@ const AddBottle = () => {
   const [finish, setFinish] = useState("");
   const [url, setUrl] = useState("");
 
-  // Function to create tags based on distiller and bottler
-  // const createTags = () => {
-  //   const tagList = [type];
-
-  //   if (distiller !== "Select Distiller...") {
-  //     tagList.push(distiller);
-  //   }
-
-  //   if (bottler !== distiller && bottler !== "Select Bottler...") {
-  //     tagList.push(bottler);
-  //   }
-
-  //   return tagList;
-  // };
-
   // Whisky bottle object
   const whiskyData = {
     Name: name,
-    // Tags: createTags(),
     Tags: tags,
     Type: type,
     Distiller: distiller === "Select Distiller..." ? "" : distiller,
@@ -116,9 +100,9 @@ const AddBottle = () => {
 
         const data = await response.json();
 
-        const url = userId ? `?u=${userId}` : ''
+        const userIdURL = userId ? `?u=${userId}` : ''
 
-        navigate(`/whiskies/${data._id}/${url}`);
+        navigate(`/whiskies/${data._id}/${userIdURL}`);
       } catch (error) {
         console.error("Error:", error);
       }

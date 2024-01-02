@@ -85,21 +85,6 @@ const EditBottle = () => {
 
   }, [whisky])
 
-  // Function to create tags based on distiller and bottler
-  // const createTags = () => {
-  //   const tagList = [type];
-
-  //   if (distiller !== "Select Distiller...") {
-  //     tagList.push(distiller);
-  //   }
-
-  //   if (bottler !== distiller && bottler !== "Select Bottler...") {
-  //     tagList.push(bottler);
-  //   }
-
-  //   return tagList;
-  // };
-
   // Whisky bottle object
   const whiskyData = {
     Name: name,
@@ -157,7 +142,9 @@ const EditBottle = () => {
           return;
         }
 
-        navigate(`/whiskies/${id}`);
+        const userIdURL = userId ? `?u=${userId}` : ''
+
+        navigate(`/whiskies/${id}/${userIdURL}`);
       } catch (error) {
         console.error("Error:", error);
       }
