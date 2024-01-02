@@ -41,25 +41,10 @@ const AddBottle = () => {
   const [finish, setFinish] = useState("");
   const [url, setUrl] = useState("");
 
-  // Function to create tags based on distiller and bottler
-  const createTags = () => {
-    const tagList = [type];
-
-    if (distiller !== "Select Distiller...") {
-      tagList.push(distiller);
-    }
-
-    if (bottler !== distiller && bottler !== "Select Bottler...") {
-      tagList.push(bottler);
-    }
-
-    return tagList;
-  };
-
   // Whisky bottle object
   const whiskyData = {
     Name: name,
-    Tags: createTags(),
+    Tags: tags,
     Type: type,
     Distiller: distiller === "Select Distiller..." ? "" : distiller,
     Bottler: bottler === "Select Bottler..." ? "" : bottler,
@@ -115,9 +100,9 @@ const AddBottle = () => {
 
         const data = await response.json();
 
-        const url = userId ? `?u=${userId}` : ''
+        const userIdURL = userId ? `?u=${userId}` : ''
 
-        navigate(`/whiskies/${data._id}/${url}`);
+        navigate(`/whiskies/${data._id}/${userIdURL}`);
       } catch (error) {
         console.error("Error:", error);
       }
@@ -161,14 +146,6 @@ const AddBottle = () => {
         </Row>
 
         {/* Row 2 */}
-        {/* <Row className="mt-3">
-          <TagInput
-            label="Tags"
-            placeholder="e.g. Bourbon, Woodford Reserve, Eagle Rare" 
-            onChange={(term) => setTags(term)}/>
-        </Row> */}
-
-        {/* Row 3 */}
         <Row className="mt-3">
           <DistillerDropdown
             className="col-12 col-md-6 col-lg-3"
@@ -191,6 +168,14 @@ const AddBottle = () => {
             className="col-12 col-md-6 col-lg-3 mt-3 mt-lg-0"
             onChange={(term) => setRating(term)}
           />
+        </Row>
+
+        {/* Row 3 */}
+        <Row className="mt-3">
+          <TagInput
+            label="Tags"
+            placeholder="e.g. Bourbon, Woodford Reserve, Eagle Rare" 
+            onChange={(term) => setTags(term)}/>
         </Row>
 
         {/* Row 4 */}

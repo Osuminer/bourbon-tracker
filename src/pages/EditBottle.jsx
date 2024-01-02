@@ -11,6 +11,7 @@ import {
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 import BottleInput from "../components/AddBottleComponents/BottleInput";
+import TagInput from "../components/AddBottleComponents/TagInput";
 import TypeDropdown from "../components/AddBottleComponents/TypeDropdown";
 import DistillerDropdown from "../components/AddBottleComponents/DistillerDropdown";
 import BottlerDropdown from "../components/AddBottleComponents/BottlerDropdown";
@@ -30,6 +31,7 @@ const EditBottle = () => {
   // Form useState's
   const [name, setName] = useState("");
   const [type, setType] = useState("");
+  const [tags, setTags] = useState("");
   const [age, setAge] = useState("");
   const [distiller, setDistiller] = useState("");
   const [bottler, setBottler] = useState("");
@@ -69,6 +71,7 @@ const EditBottle = () => {
   useEffect(() => {
     setName(whisky.Name)
     setType(whisky.Type)
+    setTags(whisky.Tags)
     setDistiller(whisky.Distiller)
     setBottler(whisky.Bottler)
     setABV(whisky.ABV)
@@ -82,25 +85,10 @@ const EditBottle = () => {
 
   }, [whisky])
 
-  // Function to create tags based on distiller and bottler
-  const createTags = () => {
-    const tagList = [type];
-
-    if (distiller !== "Select Distiller...") {
-      tagList.push(distiller);
-    }
-
-    if (bottler !== distiller && bottler !== "Select Bottler...") {
-      tagList.push(bottler);
-    }
-
-    return tagList;
-  };
-
   // Whisky bottle object
   const whiskyData = {
     Name: name,
-    Tags: createTags(),
+    Tags: tags,
     Type: type,
     Distiller: (distiller === "Select Distiller..." ? "" : distiller),
     Bottler: (bottler === "Select Bottler..." ? "" : bottler),
@@ -154,9 +142,9 @@ const EditBottle = () => {
           return;
         }
 
-        // const data = await response.json();
+        const userIdURL = userId ? `?u=${userId}` : ''
 
-        navigate(`/whiskies/${id}`);
+        navigate(`/whiskies/${id}/${userIdURL}`);
       } catch (error) {
         console.error("Error:", error);
       }
@@ -202,24 +190,7 @@ const EditBottle = () => {
           />
         </Row>
 
-        {/* Row 2
-				<Row className="mt-3">
-					<Form.Group as={Col} className="col-sm-12">
-						<span>
-							<Form.Label>Tags</Form.Label>
-							<OverlayTrigger
-								placement="right"
-								overlay={
-									<Tooltip>Press the Enter key after typing to add tag</Tooltip>
-								}>
-								<i class="bi bi-info-circle-fill mx-2"></i>
-							</OverlayTrigger>
-						</span>
-						<Form.Control placeholder="e.g. Bourbon, Woodford Reserve, Eagle Rare"></Form.Control>
-					</Form.Group>
-				</Row> */}
-
-        {/* Row 3 */}
+        {/* Row 2 */}
         <Row className="mt-3">
           <DistillerDropdown
             className="col-12 col-md-6 col-lg-3"
@@ -228,7 +199,7 @@ const EditBottle = () => {
           />
           <BottlerDropdown
             className="col-12 col-md-6 col-lg-3 mt-3 mt-md-0"
-            value={whisky.Bottler}
+            value={bottler}
             onChange={(term) => setBottler(term)}
           />
           <BottleInput
@@ -246,6 +217,15 @@ const EditBottle = () => {
             value={rating}
             onChange={(term) => setRating(term)}
           />
+        </Row>
+
+        {/* Row 3 */}
+        <Row className="mt-3">
+          <TagInput
+            label="Tags"
+            placeholder="e.g. Bourbon, Woodford Reserve, Eagle Rare" 
+            value={tags}
+            onChange={(term) => setTags(term)}/>
         </Row>
 
         {/* Row 4 */}

@@ -28,6 +28,25 @@ const getBottlers = async () => {
   }
 };
 
+const getTags = async () => {
+  try {
+    const result = await Whisky.aggregate([
+      { $unwind: '$Tags' }, // Unwind the array of tags
+      { $group: { _id: null, tags: { $addToSet: '$Tags' } } }, // Group by null and create an array of unique tags
+      { $project: { _id: 0, tags: 1 } }, // Project the result to include only the tags
+    ]);
+
+    if (result.length > 0) {
+      return result[0].tags;
+    } else {
+      return [];
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    throw error;
+  }
+};
+
 const getUsers = async () => {
   try {
     const users = await User.find({}, "_id username");
@@ -315,6 +334,7 @@ module.exports = {
   getTypes,
   getDistillers,
   getBottlers,
+  getTags,
   getUsers,
   getAllWhiskies,
   createWhisky,

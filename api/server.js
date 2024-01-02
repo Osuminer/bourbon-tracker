@@ -58,6 +58,16 @@ app.get("/api/bottlers", async (req, res) => {
   }
 });
 
+app.get("/api/tags", async (req, res) => {
+  try {
+    const tags = await whiskyController.getTags();
+
+    res.json(tags);
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 app.get("/api/users", async (req, res) => {
   try {
     const users = await whiskyController.getUsers();
