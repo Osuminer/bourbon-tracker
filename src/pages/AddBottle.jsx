@@ -7,6 +7,7 @@ import {
   Image,
   Button,
   InputGroup,
+  Col,
 } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -20,8 +21,8 @@ import "./AddBottle.css";
 
 const AddBottle = () => {
   const navigate = useNavigate();
-  const location = useLocation()
-  const userId = new URLSearchParams(location.search).get('u')
+  const location = useLocation();
+  const userId = new URLSearchParams(location.search).get("u");
 
   const [image, setImage] = useState("");
   const [validated, setValidated] = useState(false);
@@ -83,7 +84,7 @@ const AddBottle = () => {
       e.stopPropagation();
     } else {
       e.preventDefault();
-      console.log(whiskyData)
+      console.log(whiskyData);
       try {
         const response = await fetch("https://api.cstasnet.com/api/whiskies", {
           method: "POST",
@@ -100,7 +101,7 @@ const AddBottle = () => {
 
         const data = await response.json();
 
-        const userIdURL = userId ? `?u=${userId}` : ''
+        const userIdURL = userId ? `?u=${userId}` : "";
 
         navigate(`/whiskies/${data._id}/${userIdURL}`);
       } catch (error) {
@@ -174,8 +175,9 @@ const AddBottle = () => {
         <Row className="mt-3">
           <TagInput
             label="Tags"
-            placeholder="e.g. Bourbon, Woodford Reserve, Eagle Rare" 
-            onChange={(term) => setTags(term)}/>
+            placeholder="e.g. Bourbon, Woodford Reserve, Eagle Rare"
+            onChange={(term) => setTags(term)}
+          />
         </Row>
 
         {/* Row 4 */}
@@ -212,19 +214,29 @@ const AddBottle = () => {
 
         <hr />
 
-        <InputGroup className="mt-3">
-          <FloatingLabel label="Image URL">
-            <Form.Control
-              type="url"
-              placeholder=""
-              onChange={(e) => setUrl(e.target.value)}
-              onKeyDown={handleKeyDown}
-            ></Form.Control>
-          </FloatingLabel>
-          <Button className="px-4" onClick={() => handleSearch(image)}>
-            <i className="bi bi-search"></i>
-          </Button>
-        </InputGroup>
+        <Row className="mt-3">
+          <Col className="col-12 col-md-5">
+            <InputGroup>
+              <Form.Control
+                type="url"
+                placeholder="Image URL"
+                onChange={(e) => setUrl(e.target.value)}
+                onKeyDown={handleKeyDown}
+              ></Form.Control>
+
+              <Button className="px-4" onClick={() => handleSearch(image)}>
+                <i className="bi bi-search"></i>
+              </Button>
+            </InputGroup>
+          </Col>
+          <Col className="col-12 col-md-2 my-3 my-md-0" style={{ textAlign: "center" }}>
+            Or
+          </Col>
+          <Col className="col-12 col-md-5">
+            <Form.Control type="file"></Form.Control>
+          </Col>
+        </Row>
+
         <Image
           rounded
           src={image}
