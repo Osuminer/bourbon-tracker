@@ -26,7 +26,7 @@ const AddBottle = () => {
   const [image, setImage] = useState("");
   const [validated, setValidated] = useState(false);
 
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedFile, setSelectedFile] = useState();
 
   // Form useState's
   const [name, setName] = useState("");

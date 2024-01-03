@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import {
   Container,
   Form,
-  FloatingLabel,
   Row,
+  Col,
   Image,
   Button,
   InputGroup,
@@ -27,6 +27,8 @@ const EditBottle = () => {
   const [image, setImage] = useState("");
   const [validated, setValidated] = useState(false);
   const [whisky, setWhisky] = useState("");
+
+  const [selectedFile, setSelectedFile] = useState();
 
   // Form useState's
   const [name, setName] = useState("");
@@ -58,8 +60,7 @@ const EditBottle = () => {
         const response = await fetch(url);
         const data = await response.json();
 
-        setWhisky(data)
-
+        setWhisky(data);
       } catch (error) {
         console.error("Error fetching whisky:", error);
       }
@@ -69,29 +70,28 @@ const EditBottle = () => {
   }, [id, userId]);
 
   useEffect(() => {
-    setName(whisky.Name)
-    setType(whisky.Type)
-    setTags(whisky.Tags)
-    setDistiller(whisky.Distiller)
-    setBottler(whisky.Bottler)
-    setABV(whisky.ABV)
-    setAge(whisky.Age)
-    setRating(whisky.Rating)
-    setIntro(whisky.Intro)
-    setNose(whisky.Nose)
-    setTaste(whisky.Taste)
-    setFinish(whisky.Finish)
-    setUrl(whisky.ImageURL)
-
-  }, [whisky])
+    setName(whisky.Name);
+    setType(whisky.Type);
+    setTags(whisky.Tags);
+    setDistiller(whisky.Distiller);
+    setBottler(whisky.Bottler);
+    setABV(whisky.ABV);
+    setAge(whisky.Age);
+    setRating(whisky.Rating);
+    setIntro(whisky.Intro);
+    setNose(whisky.Nose);
+    setTaste(whisky.Taste);
+    setFinish(whisky.Finish);
+    setUrl(whisky.ImageURL);
+  }, [whisky]);
 
   // Whisky bottle object
   const whiskyData = {
     Name: name,
     Tags: tags,
     Type: type,
-    Distiller: (distiller === "Select Distiller..." ? "" : distiller),
-    Bottler: (bottler === "Select Bottler..." ? "" : bottler),
+    Distiller: distiller === "Select Distiller..." ? "" : distiller,
+    Bottler: bottler === "Select Bottler..." ? "" : bottler,
     ABV: abv,
     Age: age,
     Price: null || whisky.Price,
@@ -129,20 +129,23 @@ const EditBottle = () => {
     } else {
       e.preventDefault();
       try {
-        const response = await fetch(`https://api.cstasnet.com/api/whiskies/${id}`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(whiskyData),
-        });
+        const response = await fetch(
+          `https://api.cstasnet.com/api/whiskies/${id}`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(whiskyData),
+          }
+        );
 
         if (!response.ok) {
           console.error("Error:", response.statusText);
           return;
         }
 
-        const userIdURL = userId ? `?u=${userId}` : ''
+        const userIdURL = userId ? `?u=${userId}` : "";
 
         navigate(`/whiskies/${id}/${userIdURL}`);
       } catch (error) {
@@ -154,6 +157,39 @@ const EditBottle = () => {
       e.preventDefault();
     } else {
       setValidated(true);
+    }
+  };
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    setSelectedFile(file);
+  };
+
+  const handleUpload = async () => {
+    if (!selectedFile) {
+      console.error("No file selected");
+      return;
+    }
+
+    try {
+      const formData = new FormData();
+      formData.append("file", selectedFile);
+
+      const response = await fetch("https://cdn.cstasnet.com/", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        console.log("File uploaded successfully:", result.filename);
+        setUrl(`https://cdn.cstasnet.com/${result.filename}`);
+        setImage(`https://cdn.cstasnet.com/${result.filename}`);
+      } else {
+        console.error("Failed to upload file");
+      }
+    } catch (error) {
+      console.error("Error uploading file:", error);
     }
   };
 
@@ -223,9 +259,10 @@ const EditBottle = () => {
         <Row className="mt-3">
           <TagInput
             label="Tags"
-            placeholder="e.g. Bourbon, Woodford Reserve, Eagle Rare" 
+            placeholder="e.g. Bourbon, Woodford Reserve, Eagle Rare"
             value={tags}
-            onChange={(term) => setTags(term)}/>
+            onChange={(term) => setTags(term)}
+          />
         </Row>
 
         {/* Row 4 */}
@@ -266,20 +303,45 @@ const EditBottle = () => {
 
         <hr />
 
-        <InputGroup className="mt-3">
-          <FloatingLabel label="Image URL">
-            <Form.Control
-              type="url"
-              placeholder=""
-              defaultValue={url}
-              onChange={(e) => setUrl(e.target.value)}
-              onKeyDown={handleKeyDown}
-            ></Form.Control>
-          </FloatingLabel>
-          <Button className="px-4" onClick={() => handleSearch(image)}>
-            <i className="bi bi-search"></i>
-          </Button>
-        </InputGroup>
+        <Row className="mt-3">
+          {/* URL Box */}
+          <Col className="col-12 col-md-5">
+            <InputGroup>
+              <Form.Control
+                type="url"
+                placeholder="Image URL"
+                value={url}
+                onChange={(e) => setUrl(e.target.value)}
+                onKeyDown={handleKeyDown}
+              ></Form.Control>
+              <Button className="px-4" variant="dark" onClick={() => handleSearch(image)}>
+                <i className="bi bi-search"></i>
+              </Button>
+            </InputGroup>
+          </Col>
+
+          {/* OR */}
+          <Col
+            className="col-12 col-md-2 my-3 my-md-0"
+            style={{ textAlign: "center" }}
+          >
+            Or
+          </Col>
+
+          {/* Upload Image Box */}
+          <Col className="col-12 col-md-5">
+            <InputGroup>
+              <Form.Control type="file" onChange={handleFileChange}></Form.Control>
+              <Button variant="dark" onClick={handleUpload}>
+                <span>
+                  <i className="bi bi-upload" style={{paddingRight: "10px"}}></i>
+                  Upload
+                </span>
+              </Button>
+            </InputGroup>
+          </Col>
+        </Row>
+
         <Image
           rounded
           src={image}
