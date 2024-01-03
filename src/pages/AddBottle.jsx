@@ -85,7 +85,7 @@ const AddBottle = () => {
       e.stopPropagation();
     } else {
       e.preventDefault();
-      console.log(whiskyData)
+      console.log(whiskyData);
 
       try {
         const response = await fetch("https://api.cstasnet.com/api/whiskies", {
@@ -141,8 +141,8 @@ const AddBottle = () => {
       if (response.ok) {
         const result = await response.json();
         console.log("File uploaded successfully:", result.filename);
-        setUrl(`https://cdn.cstasnet.com/${result.filename}`)
-        setImage(`https://cdn.cstasnet.com/${result.filename}`)
+        setUrl(`https://cdn.cstasnet.com/${result.filename}`);
+        setImage(`https://cdn.cstasnet.com/${result.filename}`);
       } else {
         console.error("Failed to upload file");
       }
@@ -150,7 +150,6 @@ const AddBottle = () => {
       console.error("Error uploading file:", error);
     }
   };
-
 
   return (
     <Container>
@@ -260,7 +259,11 @@ const AddBottle = () => {
                 onChange={(e) => setUrl(e.target.value)}
                 onKeyDown={handleKeyDown}
               ></Form.Control>
-              <Button className="px-4" variant="dark" onClick={() => handleSearch(image)}>
+              <Button
+                className="px-4"
+                variant="dark"
+                onClick={() => handleSearch(image)}
+              >
                 <i className="bi bi-search"></i>
               </Button>
             </InputGroup>
@@ -277,10 +280,17 @@ const AddBottle = () => {
           {/* Upload Image Box */}
           <Col className="col-12 col-md-5">
             <InputGroup>
-              <Form.Control type="file" accept=".jpg, .png, .heic" onChange={handleFileChange}></Form.Control>
+              <Form.Control
+                type="file"
+                accept=".jpg, .png, .heic, .bmp, .webp"
+                onChange={handleFileChange}
+              ></Form.Control>
               <Button variant="dark" onClick={handleUpload}>
                 <span>
-                  <i className="bi bi-upload" style={{paddingRight: "10px"}}></i>
+                  <i
+                    className="bi bi-upload"
+                    style={{ paddingRight: "10px" }}
+                  ></i>
                   Upload
                 </span>
               </Button>

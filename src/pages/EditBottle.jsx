@@ -314,7 +314,11 @@ const EditBottle = () => {
                 onChange={(e) => setUrl(e.target.value)}
                 onKeyDown={handleKeyDown}
               ></Form.Control>
-              <Button className="px-4" variant="dark" onClick={() => handleSearch(image)}>
+              <Button
+                className="px-4"
+                variant="dark"
+                onClick={() => handleSearch(image)}
+              >
                 <i className="bi bi-search"></i>
               </Button>
             </InputGroup>
@@ -331,10 +335,17 @@ const EditBottle = () => {
           {/* Upload Image Box */}
           <Col className="col-12 col-md-5">
             <InputGroup>
-              <Form.Control type="file" accept=".jpg, .png, .heic" onChange={handleFileChange}></Form.Control>
+              <Form.Control
+                type="file"
+                accept=".jpg, .png, .heic, .bmp, .webp"
+                onChange={handleFileChange}
+              ></Form.Control>
               <Button variant="dark" onClick={handleUpload}>
                 <span>
-                  <i className="bi bi-upload" style={{paddingRight: "10px"}}></i>
+                  <i
+                    className="bi bi-upload"
+                    style={{ paddingRight: "10px" }}
+                  ></i>
                   Upload
                 </span>
               </Button>
