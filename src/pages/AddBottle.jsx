@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import {
   Container,
   Form,
-  FloatingLabel,
   Row,
   Image,
   Button,
@@ -87,7 +86,7 @@ const AddBottle = () => {
     } else {
       e.preventDefault();
       console.log(whiskyData)
-      
+
       try {
         const response = await fetch("https://api.cstasnet.com/api/whiskies", {
           method: "POST",
