@@ -277,7 +277,7 @@ const AddBottle = () => {
           {/* Upload Image Box */}
           <Col className="col-12 col-md-5">
             <InputGroup>
-              <Form.Control type="file" onChange={handleFileChange}></Form.Control>
+              <Form.Control type="file" accept=".jpg, .png, .heic" onChange={handleFileChange}></Form.Control>
               <Button variant="dark" onClick={handleUpload}>
                 <span>
                   <i className="bi bi-upload" style={{paddingRight: "10px"}}></i>
